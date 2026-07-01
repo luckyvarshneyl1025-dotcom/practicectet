@@ -142,6 +142,150 @@ let currentSessionQuestions=[], currentIndex=0, userAnswers=[], score=0;
 let student="", timerInterval=null, totalSeconds=1200, startTime=0;
 let practiceMode=false, muted=false;
 
+function shuffle(arr){
+  let a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function getRandomQuestions(){
+  const shuffled=shuffle(questionBank);
+  const used=new Set();
+  const selected=[];
+  for(const q of shuffled){
+    if(!used.has(q.id)){
+      selected.push(q);
+      used.add(q.id);
+    }
+    if(selected.length===15) break;
+  }
+  return selected;
+}
+
+function beep(type="click"){
+  if(muted)return;
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value=type==="correct"?700:type==="wrong"?220:type==="finish"?900:440;
+  gain.gain.value=.08;
+  osc.start();
+  setTimeout(()=>{osc.stop();ctx.close()},120);
+}
+
+function startQuiz(customQuestions=null){
+  student=document.getElementById("studentName").value.trim()||"Student";
+  document.getElementById("showName").innerText=student;
+  currentSessionQuestions=customQuestions||getRandomQuestions();
+  currentIndex=0; score=0;
+  userAnswers=new Array(currentSessionQuestions.length).fill(null);
+  totalSeconds=1200; startTime=Date.now();
+  document.getElementById("startScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+  clearInterval(timerInterval);
+  timerInterval=setInterval(updateTimer,1000);
+  renderQuestion();
+}
+
+function updateTimer(){
+  totalSeconds--;
+  let m=Math.floor(totalSeconds/60),s=totalSeconds%60;
+  document.getElementById("timer").innerText=`${m}:${s<10?"0":""}${s}`;
+  if(totalSeconds<=0) finishQuiz();
+}
+
+function renderQuestion(){
+  const q=currentSessionQuestions[currentIndex];
+  document.getElementById("qCounter").innerText=`${currentIndex+1}/${currentSessionQuestions.length}`;
+  document.getElementById("progressBar").style.width=((currentIndex+1)/currentSessionQuestions.length*100)+"%";
+  document.getElementById("questionText").innerText=q.q;
+  document.getElementById("scoreBox").innerText=score;
+  const box=document.getElementById("optionsBox");
+  const fb=document.getElementById("feedbackBox");
+  box.innerHTML=""; fb.classList.add("hidden"); fb.innerHTML="";
+
+  q.o.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.innerText=opt;
+    btn.onclick=()=>selectAnswer(opt);
+    if(userAnswers[currentIndex]){
+      btn.disabled=true;
+      if(opt===q.a) btn.classList.add("correct");
+      if(opt===userAnswers[currentIndex].selected && opt!==q.a) btn.classList.add("wrong");
+    }
+    box.appendChild(btn);
+  });
+
+  if(userAnswers[currentIndex]) showFeedback();
+}
+
+function selectAnswer(opt){
+  if(userAnswers[currentIndex]) return;
+  const q=currentSessionQuestions[currentIndex];
+  const correct=opt===q.a;
+  userAnswers[currentIndex]={selected:opt,correct,skipped:false};
+  if(correct){score++;beep("correct")}else beep("wrong");
+  renderQuestion();
+}
+
+function showFeedback(){
+  const q=currentSessionQuestions[currentIndex];
+  const ans=userAnswers[currentIndex];
+  const fb=document.getElementById("feedbackBox");
+  fb.classList.remove("hidden");
+  if(ans.skipped){
+    fb.innerHTML=`<b>Skipped</b><br>Correct Answer: <b>${q.a}</b><br>${q.rule}<br>Tip: ${q.trick}`;
+  }else if(ans.correct){
+    fb.innerHTML=`✅ <b>Correct</b><br>${q.rule}<br>Tip: ${q.trick}`;
+  }else{
+    fb.innerHTML=`❌ <b>Wrong</b><br>Your Answer: <b>${ans.selected}</b><br>Correct Answer: <b>${q.a}</b><br><br><b>Mistake:</b> Tumne tense clue ko ignore kiya.<br><b>Why wrong:</b> Selected tense sentence ke time expression se match nahi karta.<br><b>Rule:</b> ${q.rule}<br><b>Trick:</b> ${q.trick}`;
+  }
+}
+
+function nextQuestion(){
+  beep();
+  if({id:31,q:"He ____ when the phone rang.",o:["slept","was sleeping","has slept","sleeps"],a:"was sleeping",topic:"Past Continuous",d:"Medium",rule:"Phone rang ke time action chal raha tha.",trick:"Rang = was V-ing"},
+{id:32,q:"Choose Future Continuous.",o:["I will go.","I will be going.","I have gone.","I went."],a:"I will be going.",topic:"Future Continuous",d:"Medium",rule:"Will be + V-ing = Future Continuous.",trick:"Will be going"},
+{id:33,q:"By the time you arrive, I ____.",o:["leave","left","will have left","am leaving"],a:"will have left",topic:"Future Perfect",d:"Hard",rule:"Future ke ek time se pehle action complete.",trick:"By the time = perfect"},
+{id:34,q:"He ____ in this school since 2018.",o:["works","worked","has been working","is working"],a:"has been working",topic:"Present Perfect Continuous",d:"Medium",rule:"Since 2018 + continue.",trick:"Since year = has been"},
+{id:35,q:"Identify tense: 'She is writing a letter.'",o:["Present Simple","Present Continuous","Past Continuous","Future Continuous"],a:"Present Continuous",topic:"Tense Identification",d:"Easy",rule:"Is/am/are + V-ing.",trick:"Is writing"},
+{id:36,q:"I ____ my keys. I cannot find them.",o:["lost","have lost","am losing","lose"],a:"have lost",topic:"Present Perfect",d:"Medium",rule:"Past action ka present result hai.",trick:"Present result = have V3"},
+{id:37,q:"She ____ TV at 9 PM yesterday.",o:["watches","watched","was watching","has watched"],a:"was watching",topic:"Past Continuous",d:"Medium",rule:"Specific past time par action chal raha tha.",trick:"At 9 yesterday = was V-ing"},
+{id:38,q:"He ____ to Jaipur next Sunday.",o:["go","went","will go","has gone"],a:"will go",topic:"Future Simple",d:"Easy",rule:"Next Sunday future time.",trick:"Next = will"},
+{id:39,q:"Choose correct: 'I ____ my work before dinner yesterday.'",o:["finish","finished","had finished","have finished"],a:"had finished",topic:"Past Perfect",d:"Medium",rule:"Dinner se pehle ka action.",trick:"Before another past = had V3"},
+{id:40,q:"They ____ cricket every evening.",o:["plays","play","played","playing"],a:"play",topic:"Present Simple",d:"Easy",rule:"They ke sath base verb.",trick:"They play"},
+{id:41,q:"She ____ now.",o:["dance","dances","is dancing","danced"],a:"is dancing",topic:"Present Continuous",d:"Easy",rule:"Now = is/am/are + V-ing.",trick:"Now = dancing"},
+{id:42,q:"We ____ our project by Monday.",o:["complete","completed","will have completed","are complete"],a:"will have completed",topic:"Future Perfect",d:"Hard",rule:"By Monday future deadline.",trick:"By + future = will have V3"},
+{id:43,q:"Error: 'They was playing.'",o:["They","was","playing","No error"],a:"was",topic:"Error Spotting",d:"Easy",rule:"They ke sath were hoga.",trick:"They were"},
+{id:44,q:"I ____ here since 10 AM.",o:["am sitting","sat","have been sitting","sit"],a:"have been sitting",topic:"Present Perfect Continuous",d:"Medium",rule:"Since + starting time.",trick:"Since 10 AM"},
+{id:45,q:"He ____ the letter before I reached.",o:["writes","wrote","had written","has written"],a:"had written",topic:"Past Perfect",d:"Medium",rule:"Mere pahunchne se pehle action complete.",trick:"Before I reached"},
+{id:46,q:"She ____ a song tomorrow.",o:["sing","sang","will sing","sung"],a:"will sing",topic:"Future Simple",d:"Easy",rule:"Tomorrow = future.",trick:"Tomorrow = will"},
+{id:47,q:"Choose Present Perfect.",o:["He eats.","He is eating.","He has eaten.","He ate."],a:"He has eaten.",topic:"Present Perfect",d:"Easy",rule:"Has + V3 = Present Perfect.",trick:"Has eaten"},
+{id:48,q:"I ____ when you called.",o:["drive","drove","was driving","have driven"],a:"was driving",topic:"Past Continuous",d:"Medium",rule:"Call ke time action chal raha tha.",trick:"When called = was V-ing"},
+{id:49,q:"She ____ the exam last year.",o:["passes","passed","has passed","is passing"],a:"passed",topic:"Past Simple",d:"Easy",rule:"Last year finished time.",trick:"Last year = V2"},
+{id:50,q:"We ____ to the market now.",o:["go","went","are going","gone"],a:"are going",topic:"Present Continuous",d:"Easy",rule:"Now ongoing action.",trick:"Now = are going"},
+{id:51,q:"He ____ for the bus for 30 minutes when it arrived.",o:["waited","was waiting","had been waiting","has waited"],a:"had been waiting",topic:"Past Perfect Continuous",d:"Hard",rule:"Past me kisi point se pehle duration tak action.",trick:"For + when arrived"},
+{id:52,q:"Identify: 'I will be studying at 8 PM.'",o:["Future Simple","Future Continuous","Future Perfect","Present Continuous"],a:"Future Continuous",topic:"Tense Identification",d:"Medium",rule:"Will be + V-ing.",trick:"Will be studying"},
+{id:53,q:"He ____ not like coffee.",o:["do","does","is","has"],a:"does",topic:"Present Simple Negative",d:"Easy",rule:"He ke sath does not + V1.",trick:"He does not"},
+{id:54,q:"They ____ not completed the task yet.",o:["has","have","are","were"],a:"have",topic:"Present Perfect",d:"Easy",rule:"They ke sath have + V3.",trick:"They have"},
+{id:55,q:"I ____ not go there yesterday.",o:["do","does","did","had"],a:"did",topic:"Past Simple Negative",d:"Easy",rule:"Past negative me did not + V1.",trick:"Did not go"},
+{id:56,q:"She ____ reading for two hours.",o:["is","has been","was","will"],a:"has been",topic:"Present Perfect Continuous",d:"Medium",rule:"For two hours + continue.",trick:"Has been reading"},
+{id:57,q:"By 2027, he ____ his degree.",o:["gets","got","will have got","has got"],a:"will have got",topic:"Future Perfect",d:"Hard",rule:"By future year = will have + V3.",trick:"By 2027"},
+{id:58,q:"Choose correct tense: 'Listen! Someone ____ at the door.'",o:["knocks","knocked","is knocking","has knocked"],a:"is knocking",topic:"Present Continuous",d:"Easy",rule:"Listen! current action clue hai.",trick:"Listen = now"},
+{id:59,q:"He ____ a book when I saw him.",o:["reads","read","was reading","has read"],a:"was reading",topic:"Past Continuous",d:"Medium",rule:"Saw him ke time action chal raha tha.",trick:"When I saw"},
+{id:60,q:"She ____ in Agra in 2019.",o:["lives","has lived","lived","is living"],a:"lived",topic:"Past Simple",d:"Easy",rule:"2019 finished past time.",trick:"Past year = V2"}
+];
+
+let currentSessionQuestions=[], currentIndex=0, userAnswers=[], score=0;
+let student="", timerInterval=null, totalSeconds=1200, startTime=0;
+let practiceMode=false, muted=false;
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CTET Tenses Master Quiz</title><meta charset="UTF-8">
