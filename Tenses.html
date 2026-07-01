@@ -1,116 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTET Tenses Master Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif}
+body{min-height:100vh;background:linear-gradient(135deg,#1e3c72,#7b2ff7);color:#fff;padding:20px}
+.container{max-width:950px;margin:auto}
+.card{background:rgba(255,255,255,.13);backdrop-filter:blur(15px);border-radius:22px;padding:25px;box-shadow:0 20px 50px rgba(0,0,0,.25);margin-bottom:20px}
+h1,h2,h3{text-align:center;margin-bottom:15px}
+input{width:100%;padding:15px;border:none;border-radius:14px;font-size:18px;margin:15px 0}
+button{border:none;border-radius:14px;padding:13px 18px;font-size:16px;font-weight:bold;cursor:pointer;margin:6px;background:#fff;color:#312e81;transition:.2s}
+button:hover{transform:scale(1.04)}
+.btn-primary{background:#ffd166;color:#111}
+.btn-danger{background:#ff6b6b;color:#fff}
+.btn-success{background:#06d6a0;color:#111}
+.option{display:block;width:100%;text-align:left;background:rgba(255,255,255,.9);color:#111;margin:10px 0;padding:15px;border-radius:14px}
+.option.correct{background:#06d6a0;color:#111}
+.option.wrong{background:#ff6b6b;color:#fff}
+.option:disabled{cursor:not-allowed}
+.topbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.badge{background:rgba(255,255,255,.2);padding:10px 14px;border-radius:14px}
+.progress{height:13px;background:rgba(255,255,255,.25);border-radius:50px;overflow:hidden;margin:15px 0}
+.progress span{display:block;height:100%;width:0;background:#ffd166}
+.feedback{margin-top:15px;padding:15px;border-radius:15px;background:rgba(0,0,0,.22)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px}
+.stat{background:rgba(255,255,255,.16);border-radius:18px;padding:18px;text-align:center}
+.stat b{font-size:28px;display:block}
+.review{background:rgba(0,0,0,.22);border-radius:18px;padding:18px;margin:15px 0}
+.hidden{display:none}
+.light{background:linear-gradient(135deg,#dbeafe,#ede9fe);color:#111}
+.light .card{background:rgba(255,255,255,.75);color:#111}
+.light .badge,.light .stat,.light .review,.light .feedback{background:rgba(0,0,0,.08)}
+@media(max-width:600px){body{padding:10px}.card{padding:18px}button{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<section id="startScreen" class="card">
+<h1>CTET Tenses Master Quiz</h1>
+<p style="text-align:center">15 Questions Per Session • Random Questions • Full Mistake Analysis</p>
+<input id="studentName" placeholder="Apna naam likho">
+<button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+<button onclick="toggleTheme()">Light / Dark Mode</button>
+</section>
+
+<section id="quizScreen" class="card hidden">
+<div class="topbar">
+<div class="badge">Name: <b id="showName"></b></div>
+<div class="badge">Score: <b id="scoreBox">0</b></div>
+<div class="badge">Time: <b id="timer">20:00</b></div>
+<div class="badge">Q: <b id="qCounter">1/15</b></div>
+</div>
+
+<div class="progress"><span id="progressBar"></span></div>
+
+<h2 id="questionText"></h2>
+<div id="optionsBox"></div>
+<div id="feedbackBox" class="feedback hidden"></div>
+
+<div style="text-align:center;margin-top:15px">
+<button onclick="prevQuestion()">Previous</button>
+<button onclick="skipQuestion()">Skip</button>
+<button onclick="nextQuestion()">Next</button>
+<button class="btn-danger" onclick="finishQuiz()">Finish Quiz</button>
+</div>
+</section>
+
+<section id="resultScreen" class="card hidden"></section>
+
+</div>
+
+<script>
+const questionBank = [
+{id:1,q:"She ____ tea every morning.",o:["drink","drinks","drinking","drank"],a:"drinks",topic:"Present Simple",d:"Easy",rule:"He/She/It ke sath verb me s/es lagta hai.",trick:"She/He/It = verb+s"},
+{id:2,q:"They ____ football now.",o:["play","plays","are playing","played"],a:"are playing",topic:"Present Continuous",d:"Easy",rule:"Now ke liye is/am/are + V-ing.",trick:"Now = Continuous"},
+{id:3,q:"I ____ my homework yesterday.",o:["do","does","did","done"],a:"did",topic:"Past Simple",d:"Easy",rule:"Yesterday completed past time hai, V2 use hota hai.",trick:"Yesterday = V2"},
+{id:4,q:"He ____ already finished the work.",o:["has","have","is","was"],a:"has",topic:"Present Perfect",d:"Easy",rule:"He ke sath has + V3.",trick:"He/She/It = has"},
+{id:5,q:"We ____ in Delhi since 2020.",o:["live","lived","have been living","has lived"],a:"have been living",topic:"Present Perfect Continuous",d:"Medium",rule:"Since/for + continuing action = have/has been + V-ing.",trick:"Since + continue = Perfect Continuous"},
+{id:6,q:"When I reached, the train ____.",o:["left","has left","had left","leaves"],a:"had left",topic:"Past Perfect",d:"Medium",rule:"Past me do actions: jo pehle hua uske liye had + V3.",trick:"Earlier past = had V3"},
+{id:7,q:"Choose the correct sentence.",o:["He go to school.","He goes to school.","He going school.","He gone school."],a:"He goes to school.",topic:"Present Simple",d:"Easy",rule:"He ke sath goes.",trick:"He + goes"},
+{id:8,q:"She ____ cooking when I called her.",o:["is","was","has","will"],a:"was",topic:"Past Continuous",d:"Easy",rule:"Past time me action chal raha tha: was/were + V-ing.",trick:"When I called = past continuous possible"},
+{id:9,q:"By next year, I ____ this course.",o:["complete","completed","will have completed","am completing"],a:"will have completed",topic:"Future Perfect",d:"Hard",rule:"By future time = will have + V3.",trick:"By next year = Future Perfect"},
+{id:10,q:"He ____ for two hours before you arrived.",o:["waited","has waited","had been waiting","is waiting"],a:"had been waiting",topic:"Past Perfect Continuous",d:"Hard",rule:"Past se pehle duration tak action chal raha tha.",trick:"For + before past = had been V-ing"},
+{id:11,q:"I ____ to Mumbai tomorrow.",o:["go","went","am going","gone"],a:"am going",topic:"Future Arrangement",d:"Medium",rule:"Fixed future plan ke liye present continuous use hota hai.",trick:"Tomorrow plan = am going"},
+{id:12,q:"The sun ____ in the east.",o:["rise","rises","rose","is rising"],a:"rises",topic:"Present Simple",d:"Easy",rule:"Universal truth ke liye Present Simple.",trick:"Facts = Simple Present"},
+{id:13,q:"She ____ English for five years.",o:["studies","studied","has been studying","is study"],a:"has been studying",topic:"Present Perfect Continuous",d:"Medium",rule:"For duration + abhi tak continue = has been V-ing.",trick:"For five years = has been studying"},
+{id:14,q:"Identify the tense: 'They had completed the task.'",o:["Present Perfect","Past Perfect","Past Simple","Future Perfect"],a:"Past Perfect",topic:"Tense Identification",d:"Easy",rule:"Had + V3 = Past Perfect.",trick:"Had V3 = Past Perfect"},
+{id:15,q:"He ____ here since morning.",o:["is waiting","waited","has been waiting","waits"],a:"has been waiting",topic:"Present Perfect Continuous",d:"Medium",rule:"Since morning + action continuing.",trick:"Since + V-ing"},
+{id:16,q:"I ____ you tomorrow.",o:["call","called","will call","calling"],a:"will call",topic:"Future Simple",d:"Easy",rule:"Tomorrow future time hai.",trick:"Tomorrow = will"},
+{id:17,q:"Choose the wrong sentence.",o:["She is reading.","They are playing.","He are eating.","I am writing."],a:"He are eating.",topic:"Error Spotting",d:"Easy",rule:"He ke sath is aata hai, are nahi.",trick:"He is"},
+{id:18,q:"When we arrived, it ____ raining.",o:["is","was","has","will"],a:"was",topic:"Past Continuous",d:"Easy",rule:"Past background action = was/were + V-ing.",trick:"Arrived = past"},
+{id:19,q:"She ____ never seen snow.",o:["have","has","is","was"],a:"has",topic:"Present Perfect",d:"Easy",rule:"She + has + V3.",trick:"She has seen"},
+{id:20,q:"By 8 PM, they ____ dinner.",o:["finish","finished","will have finished","are finishing"],a:"will have finished",topic:"Future Perfect",d:"Hard",rule:"By + future time = Future Perfect.",trick:"By 8 PM = will have V3"},
+{id:21,q:"He usually ____ early.",o:["wake","wakes","waking","woke"],a:"wakes",topic:"Present Simple",d:"Easy",rule:"Usually habit batata hai.",trick:"Usually = Present Simple"},
+{id:22,q:"Look! The baby ____.",o:["cry","cries","is crying","cried"],a:"is crying",topic:"Present Continuous",d:"Easy",rule:"Look! ke sath action abhi ho raha hai.",trick:"Look = now"},
+{id:23,q:"I ____ him last week.",o:["meet","meets","met","have met"],a:"met",topic:"Past Simple",d:"Easy",rule:"Last week finished past time.",trick:"Last = V2"},
+{id:24,q:"She ____ before the teacher came.",o:["left","has left","had left","leaves"],a:"had left",topic:"Past Perfect",d:"Medium",rule:"Teacher ke aane se pehle action complete.",trick:"Before past = had V3"},
+{id:25,q:"They ____ a house next month.",o:["buy","bought","will buy","has bought"],a:"will buy",topic:"Future Simple",d:"Easy",rule:"Next month future time.",trick:"Next = future"},
+{id:26,q:"Error: 'He have completed his work.'",o:["He","have","completed","work"],a:"have",topic:"Error Spotting",d:"Easy",rule:"He ke sath has hoga.",trick:"He has"},
+{id:27,q:"I ____ lunch when he came.",o:["was having","have","had","has"],a:"was having",topic:"Past Continuous",d:"Medium",rule:"Ek past action ke dauran doosra action hua.",trick:"When came = was V-ing"},
+{id:28,q:"She ____ to school every day.",o:["go","goes","went","going"],a:"goes",topic:"Present Simple",d:"Easy",rule:"Daily habit = Present Simple.",trick:"Every day = simple present"},
+{id:29,q:"They ____ here for three hours.",o:["wait","waited","have been waiting","waits"],a:"have been waiting",topic:"Present Perfect Continuous",d:"Medium",rule:"For three hours + continue.",trick:"For + continue"},
+{id:30,q:"I ____ the movie already.",o:["saw","see","have seen","am seeing"],a:"have seen",topic:"Present Perfect",d:"Medium",rule:"Already ke sath present perfect common hai.",trick:"Already = have/has V3"},
+{id:31,q:"He ____ when the phone rang.",o:["slept","was sleeping","has slept","sleeps"],a:"was sleeping",topic:"Past Continuous",d:"Medium",rule:"Phone rang ke time action chal raha tha.",trick:"Rang = was V-ing"},
+{id:32,q:"Choose Future Continuous.",o:["I will go.","I will be going.","I have gone.","I went."],a:"I will be going.",topic:"Future Continuous",d:"Medium",rule:"Will be + V-ing = Future Continuous.",trick:"Will be going"},
+{id:33,q:"By the time you arrive, I ____.",o:["leave","left","will have left","am leaving"],a:"will have left",topic:"Future Perfect",d:"Hard",rule:"Future ke ek time se pehle action complete.",trick:"By the time = perfect"},
+{id:34,q:"He ____ in this school since 2018.",o:["works","worked","has been working","is working"],a:"has been working",topic:"Present Perfect Continuous",d:"Medium",rule:"Since 2018 + continue.",trick:"Since year = has been"},
+{id:35,q:"Identify tense: 'She is writing a letter.'",o:["Present Simple","Present Continuous","Past Continuous","Future Continuous"],a:"Present Continuous",topic:"Tense Identification",d:"Easy",rule:"Is/am/are + V-ing.",trick:"Is writing"},
+{id:36,q:"I ____ my keys. I cannot find them.",o:["lost","have lost","am losing","lose"],a:"have lost",topic:"Present Perfect",d:"Medium",rule:"Past action ka present result hai.",trick:"Present result = have V3"},
+{id:37,q:"She ____ TV at 9 PM yesterday.",o:["watches","watched","was watching","has watched"],a:"was watching",topic:"Past Continuous",d:"Medium",rule:"Specific past time par action chal raha tha.",trick:"At 9 yesterday = was V-ing"},
+{id:38,q:"He ____ to Jaipur next Sunday.",o:["go","went","will go","has gone"],a:"will go",topic:"Future Simple",d:"Easy",rule:"Next Sunday future time.",trick:"Next = will"},
+{id:39,q:"Choose correct: 'I ____ my work before dinner yesterday.'",o:["finish","finished","had finished","have finished"],a:"had finished",topic:"Past Perfect",d:"Medium",rule:"Dinner se pehle ka action.",trick:"Before another past = had V3"},
+{id:40,q:"They ____ cricket every evening.",o:["plays","play","played","playing"],a:"play",topic:"Present Simple",d:"Easy",rule:"They ke sath base verb.",trick:"They play"},
+{id:41,q:"She ____ now.",o:["dance","dances","is dancing","danced"],a:"is dancing",topic:"Present Continuous",d:"Easy",rule:"Now = is/am/are + V-ing.",trick:"Now = dancing"},
+{id:42,q:"We ____ our project by Monday.",o:["complete","completed","will have completed","are complete"],a:"will have completed",topic:"Future Perfect",d:"Hard",rule:"By Monday future deadline.",trick:"By + future = will have V3"},
+{id:43,q:"Error: 'They was playing.'",o:["They","was","playing","No error"],a:"was",topic:"Error Spotting",d:"Easy",rule:"They ke sath were hoga.",trick:"They were"},
+{id:44,q:"I ____ here since 10 AM.",o:["am sitting","sat","have been sitting","sit"],a:"have been sitting",topic:"Present Perfect Continuous",d:"Medium",rule:"Since + starting time.",trick:"Since 10 AM"},
+{id:45,q:"He ____ the letter before I reached.",o:["writes","wrote","had written","has written"],a:"had written",topic:"Past Perfect",d:"Medium",rule:"Mere pahunchne se pehle action complete.",trick:"Before I reached"},
+{id:46,q:"She ____ a song tomorrow.",o:["sing","sang","will sing","sung"],a:"will sing",topic:"Future Simple",d:"Easy",rule:"Tomorrow = future.",trick:"Tomorrow = will"},
+{id:47,q:"Choose Present Perfect.",o:["He eats.","He is eating.","He has eaten.","He ate."],a:"He has eaten.",topic:"Present Perfect",d:"Easy",rule:"Has + V3 = Present Perfect.",trick:"Has eaten"},
+{id:48,q:"I ____ when you called.",o:["drive","drove","was driving","have driven"],a:"was driving",topic:"Past Continuous",d:"Medium",rule:"Call ke time action chal raha tha.",trick:"When called = was V-ing"},
+{id:49,q:"She ____ the exam last year.",o:["passes","passed","has passed","is passing"],a:"passed",topic:"Past Simple",d:"Easy",rule:"Last year finished time.",trick:"Last year = V2"},
+{id:50,q:"We ____ to the market now.",o:["go","went","are going","gone"],a:"are going",topic:"Present Continuous",d:"Easy",rule:"Now ongoing action.",trick:"Now = are going"},
+{id:51,q:"He ____ for the bus for 30 minutes when it arrived.",o:["waited","was waiting","had been waiting","has waited"],a:"had been waiting",topic:"Past Perfect Continuous",d:"Hard",rule:"Past me kisi point se pehle duration tak action.",trick:"For + when arrived"},
+{id:52,q:"Identify: 'I will be studying at 8 PM.'",o:["Future Simple","Future Continuous","Future Perfect","Present Continuous"],a:"Future Continuous",topic:"Tense Identification",d:"Medium",rule:"Will be + V-ing.",trick:"Will be studying"},
+{id:53,q:"He ____ not like coffee.",o:["do","does","is","has"],a:"does",topic:"Present Simple Negative",d:"Easy",rule:"He ke sath does not + V1.",trick:"He does not"},
+{id:54,q:"They ____ not completed the task yet.",o:["has","have","are","were"],a:"have",topic:"Present Perfect",d:"Easy",rule:"They ke sath have + V3.",trick:"They have"},
+{id:55,q:"I ____ not go there yesterday.",o:["do","does","did","had"],a:"did",topic:"Past Simple Negative",d:"Easy",rule:"Past negative me did not + V1.",trick:"Did not go"},
+{id:56,q:"She ____ reading for two hours.",o:["is","has been","was","will"],a:"has been",topic:"Present Perfect Continuous",d:"Medium",rule:"For two hours + continue.",trick:"Has been reading"},
+{id:57,q:"By 2027, he ____ his degree.",o:["gets","got","will have got","has got"],a:"will have got",topic:"Future Perfect",d:"Hard",rule:"By future year = will have + V3.",trick:"By 2027"},
+{id:58,q:"Choose correct tense: 'Listen! Someone ____ at the door.'",o:["knocks","knocked","is knocking","has knocked"],a:"is knocking",topic:"Present Continuous",d:"Easy",rule:"Listen! current action clue hai.",trick:"Listen = now"},
+{id:59,q:"He ____ a book when I saw him.",o:["reads","read","was reading","has read"],a:"was reading",topic:"Past Continuous",d:"Medium",rule:"Saw him ke time action chal raha tha.",trick:"When I saw"},
+{id:60,q:"She ____ in Agra in 2019.",o:["lives","has lived","lived","is living"],a:"lived",topic:"Past Simple",d:"Easy",rule:"2019 finished past time.",trick:"Past year = V2"}
+];
+
+let currentSessionQuestions=[], currentIndex=0, userAnswers=[], score=0;
+let student="", timerInterval=null, totalSeconds=1200, startTime=0;
+let practiceMode=false, muted=false;
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CTET Tenses Master Quiz</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome for Premium Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              800: '#3730a3',
-              900: '#312e81',
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .glass {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .dark .glass {
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    /* Smooth transition animations */
-    .fade-in {
-      animation: fadeIn 0.4s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #818cf8;
-      border-radius: 10px;
-    }
-    /* Pulse glow */
-    .active-glow {
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
-    }
-  </style>
+  <title>CTET Tenses Master Quiz</title><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTET Tenses Master Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif}
+body{min-height:100vh;background:linear-gradient(135deg,#1e3c72,#7b2ff7);color:#fff;padding:20px}
+.container{max-width:950px;margin:auto}
+.card{background:rgba(255,255,255,.13);backdrop-filter:blur(15px);border-radius:22px;padding:25px;box-shadow:0 20px 50px rgba(0,0,0,.25);margin-bottom:20px}
+h1,h2,h3{text-align:center;margin-bottom:15px}
+input{width:100%;padding:15px;border:none;border-radius:14px;font-size:18px;margin:15px 0}
+button{border:none;border-radius:14px;padding:13px 18px;font-size:16px;font-weight:bold;cursor:pointer;margin:6px;background:#fff;color:#312e81;transition:.2s}
+button:hover{transform:scale(1.04)}
+.btn-primary{background:#ffd166;color:#111}
+.btn-danger{background:#ff6b6b;color:#fff}
+.btn-success{background:#06d6a0;color:#111}
+.option{display:block;width:100%;text-align:left;background:rgba(255,255,255,.9);color:#111;margin:10px 0;padding:15px;border-radius:14px}
+.option.correct{background:#06d6a0;color:#111}
+.option.wrong{background:#ff6b6b;color:#fff}
+.option:disabled{cursor:not-allowed}
+.topbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.badge{background:rgba(255,255,255,.2);padding:10px 14px;border-radius:14px}
+.progress{height:13px;background:rgba(255,255,255,.25);border-radius:50px;overflow:hidden;margin:15px 0}
+.progress span{display:block;height:100%;width:0;background:#ffd166}
+.feedback{margin-top:15px;padding:15px;border-radius:15px;background:rgba(0,0,0,.22)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px}
+.stat{background:rgba(255,255,255,.16);border-radius:18px;padding:18px;text-align:center}
+.stat b{font-size:28px;display:block}
+.review{background:rgba(0,0,0,.22);border-radius:18px;padding:18px;margin:15px 0}
+.hidden{display:none}
+.light{background:linear-gradient(135deg,#dbeafe,#ede9fe);color:#111}
+.light .card{background:rgba(255,255,255,.75);color:#111}
+.light .badge,.light .stat,.light .review,.light .feedback{background:rgba(0,0,0,.08)}
+@media(max-width:600px){body{padding:10px}.card{padding:18px}button{width:100%}}
+</style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 min-h-screen text-slate-800 dark:text-slate-100 flex flex-col transition-all duration-300">
+<body>
 
-  <!-- Header Banner -->
-  <header class="w-full border-b border-indigo-100 dark:border-slate-800 glass sticky top-0 z-50 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="p-2.5 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-xl text-white shadow-md active-glow">
-          <i class="fa-solid fa-graduation-cap text-xl"></i>
-        </div>
-        <div>
-          <h1 class="font-extrabold text-lg sm:text-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-300 dark:to-purple-400 bg-clip-text text-transparent">
-            CTET Tenses Master
-          </h1>
-          <p class="text-[10px] sm:text-xs text-indigo-600 dark:text-indigo-400 font-semibold tracking-wider uppercase">English Grammar Chapter-Wise Prep</p>
-        </div>
-      </div>
-      
-      <!-- Action Controls -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Sound Toggle -->
-        <button id="soundToggle" onclick="toggleMute()" class="p-2.5 rounded-xl bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-slate-700 transition" title="Toggle Sound Effects">
-          <i id="soundIcon" class="fa-solid fa-volume-high text-sm sm:text-base"></i>
-        </button>
-        <!-- Theme Toggle -->
-        <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-slate-700 transition" title="Toggle Dark/Light Mode">
-          <i id="themeIcon" class="fa-solid fa-moon text-sm sm:text-base"></i>
-        </button>
-        <!-- Stats Button -->
-        <button onclick="showStatsModal()" class="hidden md:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-medium hover:brightness-110 shadow-sm transition">
-          <i class="fa-solid fa-chart-line"></i>
-          <span>View Progress</span>
-        </button>
-      </div>
-    </div>
-  </header>
+<div class="container">
 
-  <main class="flex-grow max-w-7xl w-full mx-auto p-4 flex flex-col justify-start md:justify-center relative">
-    
-    <!-- SECTION 1: REGISTRATION / USER SETUP SCREEN -->
+<section id="startScreen" class="card">
+<h1>CTET Tenses Master Quiz</h1>
+<p style="text-align:center">15 Questions Per Session • Random Questions • Full Mistake Analysis</p>
+<input id="studentName" placeholder="Apna naam likho">
+<button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+<button onclick="toggleTheme()">Light / Dark Mode</button>
+</section>
+
+<section id="quizScreen" class="card hidden">
+<div class="topbar">
+<div class="badge">Name: <b id="showName"></b></div>
+<div class="badge">Score: <b id="scoreBox">0</b></div>
+<div class="badge">Time: <b id="timer">20:00</b></div>
+<div class="badge">Q: <b id="qCounter">1/15</b></div>
+</div>
+
+<div class="progress"><span id="progressBar"></span></div>
+
+<h2 id="questionText"></h2>
+<div id="optionsBox"></div>
+<div id="feedbackBox" class="feedback hidden"></div>
+
+<div style="text-align:center;margin-top:15px">
+<button onclick="prevQuestion()">Previous</button>
+<button onclick="skipQuestion()">Skip</button>
+<button onclick="nextQuestion()">Next</button>
+<button class="btn-danger" onclick="finishQuiz()">Finish Quiz</button>
+</div>
+</section>
+
+<section id="resultScreen" class="card hidden"></section>
+
+</div>
+
+<script>
+const questionBank = [
+{id:1,q:"She ____ tea every morning.",o:["drink","drinks","drinking","drank"],a:"drinks",topic:"Present Simple",d:"Easy",rule:"He/She/It ke sath verb me s/es lagta hai.",trick:"She/He/It = verb+s"},
+{id:2,q:"They ____ football now.",o:["play","plays","are playing","played"],a:"are playing",topic:"Present Continuous",d:"Easy",rule:"Now ke liye is/am/are + V-ing.",trick:"Now = Continuous"},
+{id:3,q:"I ____ my homework yesterday.",o:["do","does","did","done"],a:"did",topic:"Past Simple",d:"Easy",rule:"Yesterday completed past time hai, V2 use hota hai.",trick:"Yesterday = V2"},
+{id:4,q:"He ____ already finished the work.",o:["has","have","is","was"],a:"has",topic:"Present Perfect",d:"Easy",rule:"He ke sath has + V3.",trick:"He/She/It = has"},
+{id:5,q:"We ____ in Delhi since 2020.",o:["live","lived","have been living","has lived"],a:"have been living",topic:"Present Perfect Continuous",d:"Medium",rule:"Since/for + continuing action = have/has been + V-ing.",trick:"Since + continue = Perfect Continuous"},
+{id:6,q:"When I reached, the train ____.",o:["left","has left","had left","leaves"],a:"had left",topic:"Past Perfect",d:"Medium",rule:"Past me do actions: jo pehle hua uske liye had + V3.",trick:"Earlier past = had V3"},
+{id:7,q:"Choose the correct sentence.",o:["He go to school.","He goes to school.","He going school.","He gone school."],a:"He goes to school.",topic:"Present Simple",d:"Easy",rule:"He ke sath goes.",trick:"He + goes"},
+{id:8,q:"She ____ cooking when I called her.",o:["is","was","has","will"],a:"was",topic:"Past Continuous",d:"Easy",rule:"Past time me action chal raha tha: was/were + V-ing.",trick:"When I called = past continuous possible"},
+{id:9,q:"By next year, I ____ this course.",o:["complete","completed","will have completed","am completing"],a:"will have completed",topic:"Future Perfect",d:"Hard",rule:"By future time = will have + V3.",trick:"By next year = Future Perfect"},
+{id:10,q:"He ____ for two hours before you arrived.",o:["waited","has waited","had been waiting","is waiting"],a:"had been waiting",topic:"Past Perfect Continuous",d:"Hard",rule:"Past se pehle duration tak action chal raha tha.",trick:"For + before past = had been V-ing"},
+{id:11,q:"I ____ to Mumbai tomorrow.",o:["go","went","am going","gone"],a:"am going",topic:"Future Arrangement",d:"Medium",rule:"Fixed future plan ke liye present continuous use hota hai.",trick:"Tomorrow plan = am going"},
+{id:12,q:"The sun ____ in the east.",o:["rise","rises","rose","is rising"],a:"rises",topic:"Present Simple",d:"Easy",rule:"Universal truth ke liye Present Simple.",trick:"Facts = Simple Present"},
+{id:13,q:"She ____ English for five years.",o:["studies","studied","has been studying","is study"],a:"has been studying",topic:"Present Perfect Continuous",d:"Medium",rule:"For duration + abhi tak continue = has been V-ing.",trick:"For five years = has been studying"},
+{id:14,q:"Identify the tense: 'They had completed the task.'",o:["Present Perfect","Past Perfect","Past Simple","Future Perfect"],a:"Past Perfect",topic:"Tense Identification",d:"Easy",rule:"Had + V3 = Past Perfect.",trick:"Had V3 = Past Perfect"},
+{id:15,q:"He ____ here since morning.",o:["is waiting","waited","has been waiting","waits"],a:"has been waiting",topic:"Present Perfect Continuous",d:"Medium",rule:"Since morning + action continuing.",trick:"Since + V-ing"},
+{id:16,q:"I ____ you tomorrow.",o:["call","called","will call","calling"],a:"will call",topic:"Future Simple",d:"Easy",rule:"Tomorrow future time hai.",trick:"Tomorrow = will"},
+{id:17,q:"Choose the wrong sentence.",o:["She is reading.","They are playing.","He are eating.","I am writing."],a:"He are eating.",topic:"Error Spotting",d:"Easy",rule:"He ke sath is aata hai, are nahi.",trick:"He is"},
+{id:18,q:"When we arrived, it ____ raining.",o:["is","was","has","will"],a:"was",topic:"Past Continuous",d:"Easy",rule:"Past background action = was/were + V-ing.",trick:"Arrived = past"},
+{id:19,q:"She ____ never seen snow.",o:["have","has","is","was"],a:"has",topic:"Present Perfect",d:"Easy",rule:"She + has + V3.",trick:"She has seen"},
+{id:20,q:"By 8 PM, they ____ dinner.",o:["finish","finished","will have finished","are finishing"],a:"will have finished",topic:"Future Perfect",d:"Hard",rule:"By + future time = Future Perfect.",trick:"By 8 PM = will have V3"},
+{id:21,q:"He usually ____ early.",o:["wake","wakes","waking","woke"],a:"wakes",topic:"Present Simple",d:"Easy",rule:"Usually habit batata hai.",trick:"Usually = Present Simple"},
+{id:22,q:"Look! The baby ____.",o:["cry","cries","is crying","cried"],a:"is crying",topic:"Present Continuous",d:"Easy",rule:"Look! ke sath action abhi ho raha hai.",trick:"Look = now"},
+{id:23,q:"I ____ him last week.",o:["meet","meets","met","have met"],a:"met",topic:"Past Simple",d:"Easy",rule:"Last week finished past time.",trick:"Last = V2"},
+{id:24,q:"She ____ before the teacher came.",o:["left","has left","had left","leaves"],a:"had left",topic:"Past Perfect",d:"Medium",rule:"Teacher ke aane se pehle action complete.",trick:"Before past = had V3"},
+{id:25,q:"They ____ a house next month.",o:["buy","bought","will buy","has bought"],a:"will buy",topic:"Future Simple",d:"Easy",rule:"Next month future time.",trick:"Next = future"},
+{id:26,q:"Error: 'He have completed his work.'",o:["He","have","completed","work"],a:"have",topic:"Error Spotting",d:"Easy",rule:"He ke sath has hoga.",trick:"He has"},
+{id:27,q:"I ____ lunch when he came.",o:["was having","have","had","has"],a:"was having",topic:"Past Continuous",d:"Medium",rule:"Ek past action ke dauran doosra action hua.",trick:"When came = was V-ing"},
+{id:28,q:"She ____ to school every day.",o:["go","goes","went","going"],a:"goes",topic:"Present Simple",d:"Easy",rule:"Daily habit = Present Simple.",trick:"Every day = simple present"},
+{id:29,q:"They ____ here for three hours.",o:["wait","waited","have been waiting","waits"],a:"have been waiting",topic:"Present Perfect Continuous",d:"Medium",rule:"For three hours + continue.",trick:"For + continue"},
+{id:30,q:"I ____ the movie already.",o:["saw","see","have seen","am seeing"],a:"have seen",topic:"Present Perfect",d:"Medium",rule:"Already ke sath present perfect common hai.",trick:"Already = have/has V3"},
+{id:31,q:"He ____ when the phone rang.",o:["slept","was sleeping","has slept","sleeps"],a:"was sleeping",topic:"Past Continuous",d:"Medium",rule:"Phone rang ke time action chal raha tha.",trick:"Rang = was V-ing"},
+{id:32,q:"Choose Future Continuous.",o:["I will go.","I will be going.","I have gone.","I went."],a:"I will be going.",topic:"Future Continuous",d:"Medium",rule:"Will be + V-ing = Future Continuous.",trick:"Will be going"},
+{id:33,q:"By the time you arrive, I ____.",o:["leave","left","will have left","am leaving"],a:"will have left",topic:"Future Perfect",d:"Hard",rule:"Future ke ek time se pehle action complete.",trick:"By the time = perfect"},
+{id:34,q:"He ____ in this school since 2018.",o:["works","worked","has been working","is working"],a:"has been working",topic:"Present Perfect Continuous",d:"Medium",rule:"Since 2018 + continue.",trick:"Since year = has been"},
+{id:35,q:"Identify tense: 'She is writing a letter.'",o:["Present Simple","Present Continuous","Past Continuous","Future Continuous"],a:"Present Continuous",topic:"Tense Identification",d:"Easy",rule:"Is/am/are + V-ing.",trick:"Is writing"},
+{id:36,q:"I ____ my keys. I cannot find them.",o:["lost","have lost","am losing","lose"],a:"have lost",topic:"Present Perfect",d:"Medium",rule:"Past action ka present result hai.",trick:"Present result = have V3"},
+{id:37,q:"She ____ TV at 9 PM yesterday.",o:["watches","watched","was watching","has watched"],a:"was watching",topic:"Past Continuous",d:"Medium",rule:"Specific past time par action chal raha tha.",trick:"At 9 yesterday = was V-ing"},
+{id:38,q:"He ____ to Jaipur next Sunday.",o:["go","went","will go","has gone"],a:"will go",topic:"Future Simple",d:"Easy",rule:"Next Sunday future time.",trick:"Next = will"},
+{id:39,q:"Choose correct: 'I ____ my work before dinner yesterday.'",o:["finish","finished","had finished","have finished"],a:"had finished",topic:"Past Perfect",d:"Medium",rule:"Dinner se pehle ka action.",trick:"Before another past = had V3"},
+{id:40,q:"They ____ cricket every evening.",o:["plays","play","played","playing"],a:"play",topic:"Present Simple",d:"Easy",rule:"They ke sath base verb.",trick:"They play"},
+{id:41,q:"She ____ now.",o:["dance","dances","is dancing","danced"],a:"is dancing",topic:"Present Continuous",d:"Easy",rule:"Now = is/am/are + V-ing.",trick:"Now = dancing"},
+{id:42,q:"We ____ our project by Monday.",o:["complete","completed","will have completed","are complete"],a:"will have completed",topic:"Future Perfect",d:"Hard",rule:"By Monday future deadline.",trick:"By + future = will have V3"},
+{id:43,q:"Error: 'They was playing.'",o:["They","was","playing","No error"],a:"was",topic:"Error Spotting",d:"Easy",rule:"They ke sath were hoga.",trick:"They were"},
+{id:44,q:"I ____ here since 10 AM.",o:["am sitting","sat","have been sitting","sit"],a:"have been sitting",topic:"Present Perfect Continuous",d:"Medium",rule:"Since + starting time.",trick:"Since 10 AM"},
+{id:45,q:"He ____ the letter before I reached.",o:["writes","wrote","had written","has written"],a:"had written",topic:"Past Perfect",d:"Medium",rule:"Mere pahunchne se pehle action complete.",trick:"Before I reached"},
+{id:46,q:"She ____ a song tomorrow.",o:["sing","sang","will sing","sung"],a:"will sing",topic:"Future Simple",d:"Easy",rule:"Tomorrow = future.",trick:"Tomorrow = will"},
+{id:47,q:"Choose Present Perfect.",o:["He eats.","He is eating.","He has eaten.","He ate."],a:"He has eaten.",topic:"Present Perfect",d:"Easy",rule:"Has + V3 = Present Perfect.",trick:"Has eaten"},
+{id:48,q:"I ____ when you called.",o:["drive","drove","was driving","have driven"],a:"was driving",topic:"Past Continuous",d:"Medium",rule:"Call ke time action chal raha tha.",trick:"When called = was V-ing"},
+{id:49,q:"She ____ the exam last year.",o:["passes","passed","has passed","is passing"],a:"passed",topic:"Past Simple",d:"Easy",rule:"Last year finished time.",trick:"Last year = V2"},
+{id:50,q:"We ____ to the market now.",o:["go","went","are going","gone"],a:"are going",topic:"Present Continuous",d:"Easy",rule:"Now ongoing action.",trick:"Now = are going"},
+{id:51,q:"He ____ for the bus for 30 minutes when it arrived.",o:["waited","was waiting","had been waiting","has waited"],a:"had been waiting",topic:"Past Perfect Continuous",d:"Hard",rule:"Past me kisi point se pehle duration tak action.",trick:"For + when arrived"},
+{id:52,q:"Identify: 'I will be studying at 8 PM.'",o:["Future Simple","Future Continuous","Future Perfect","Present Continuous"],a:"Future Continuous",topic:"Tense Identification",d:"Medium",rule:"Will be + V-ing.",trick:"Will be studying"},
+{id:53,q:"He ____ not like coffee.",o:["do","does","is","has"],a:"does",topic:"Present Simple Negative",d:"Easy",rule:"He ke sath does not + V1.",trick:"He does not"},
+{id:54,q:"They ____ not completed the task yet.",o:["has","have","are","were"],a:"have",topic:"Present Perfect",d:"Easy",rule:"They ke sath have + V3.",trick:"They have"},
+{id:55,q:"I ____ not go there yesterday.",o:["do","does","did","had"],a:"did",topic:"Past Simple Negative",d:"Easy",rule:"Past negative me did not + V1.",trick:"Did not go"},
+{id:56,q:"She ____ reading for two hours.",o:["is","has been","was","will"],a:"has been",topic:"Present Perfect Continuous",d:"Medium",rule:"For two hours + continue.",trick:"Has been reading"},
+{id:57,q:"By 2027, he ____ his degree.",o:["gets","got","will have got","has got"],a:"will have got",topic:"Future Perfect",d:"Hard",rule:"By future year = will have + V3.",trick:"By 2027"},
+{id:58,q:"Choose correct tense: 'Listen! Someone ____ at the door.'",o:["knocks","knocked","is knocking","has knocked"],a:"is knocking",topic:"Present Continuous",d:"Easy",rule:"Listen! current action clue hai.",trick:"Listen = now"},
+{id:59,q:"He ____ a book when I saw him.",o:["reads","read","was reading","has read"],a:"was reading",topic:"Past Continuous",d:"Medium",rule:"Saw him ke time action chal raha tha.",trick:"When I saw"},
+{id:60,q:"She ____ in Agra in 2019.",o:["lives","has lived","lived","is living"],a:"lived",topic:"Past Simple",d:"Easy",rule:"2019 finished past time.",trick:"Past year = V2"}
+];
+
+let currentSessionQuestions=[], currentIndex=0, userAnswers=[], score=0;
+let student="", timerInterval=null, totalSeconds=1200, startTime=0;
+let practiceMode=false, muted=false;
+
+function shuffle(arr){
+  let a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function getRandomQuestions(){
+  const shuffled=shuffle(questionBank);
+  const used=new Set();
+  const selected=[];
+  for(const q of shuffled){
+    if(!used.has(q.id)){
+      selected.push(q);
+      used.add(q.id);
+    }
+    if(selected.length===15) break;
+  }
+  return selected;
+}
+
+function beep(type="click"){
+  if(muted)return;
+  const ctx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value=type==="correct"?700:type==="wrong"?220:type==="finish"?900:440;
+  gain.gain.value=.08;
+  osc.start();
+  setTimeout(()=>{osc.stop();ctx.close()},120);
+}
+
+function startQuiz(customQuestions=null){
+  student=document.getElementById("studentName").value.trim()||"Student";
+  document.getElementById("showName").innerText=student;
+  currentSessionQuestions=customQuestions||getRandomQuestions();
+  currentIndex=0; score=0;
+  userAnswers=new Array(currentSessionQuestions.length).fill(null);
+  totalSeconds=1200; startTime=Date.now();
+  document.getElementById("startScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+  clearInterval(timerInterval);
+  timerInterval=setInterval(updateTimer,1000);
+  renderQuestion();
+}
+
+function updateTimer(){
+  totalSeconds--;
+  let m=Math.floor(totalSeconds/60),s=totalSeconds%60;
+  document.getElementById("timer").innerText=`${m}:${s<10?"0":""}${s}`;
+  if(totalSeconds<=0) finishQuiz();
+}
+
+function renderQuestion(){
+  const q=currentSessionQuestions[currentIndex];
+  document.getElementById("qCounter").innerText=`${currentIndex+1}/${currentSessionQuestions.length}`;
+  document.getElementById("progressBar").style.width=((currentIndex+1)/currentSessionQuestions.length*100)+"%";
+  document.getElementById("questionText").innerText=q.q;
+  document.getElementById("scoreBox").innerText=score;
+  const box=document.getElementById("optionsBox");
+  const fb=document.getElementById("feedbackBox");
+  box.innerHTML=""; fb.classList.add("hidden"); fb.innerHTML="";
+
+  q.o.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.innerText=opt;
+    btn.onclick=()=>selectAnswer(opt);
+    if(userAnswers[currentIndex]){
+      btn.disabled=true;
+      if(opt===q.a) btn.classList.add("correct");
+      if(opt===userAnswers[currentIndex].selected && opt!==q.a) btn.classList.add("wrong");
+    }
+    box.appendChild(btn);
+  });
+
+  if(userAnswers[currentIndex]) showFeedback();
+}
+
+function selectAnswer(opt){
+  if(userAnswers[currentIndex]) return;
+  const q=currentSessionQuestions[currentIndex];
+  const correct=opt===q.a;
+  userAnswers[currentIndex]={selected:opt,correct,skipped:false};
+  if(correct){score++;beep("correct")}else beep("wrong");
+  renderQuestion();
+}
+
+function showFeedback(){
+  const q=currentSessionQuestions[currentIndex];
+  const ans=userAnswers[currentIndex];
+  const fb=document.getElementById("feedbackBox");
+  fb.classList.remove("hidden");
+  if(ans.skipped){
+    fb.innerHTML=`<b>Skipped</b><br>Correct Answer: <b>${q.a}</b><br>${q.rule}<br>Tip: ${q.trick}`;
+  }else if(ans.correct){
+    fb.innerHTML=`✅ <b>Correct</b><br>${q.rule}<br>Tip: ${q.trick}`;
+  }else{
+    fb.innerHTML=`❌ <b>Wrong</b><br>Your Answer: <b>${ans.selected}</b><br>Correct Answer: <b>${q.a}</b><br><br><b>Mistake:</b> Tumne tense clue ko ignore kiya.<br><b>Why wrong:</b> Selected tense sentence ke time expression se match nahi karta.<br><b>Rule:</b> ${q.rule}<br><b>Trick:</b> ${q.trick}`;
+  }
+}
+
+function nextQuestion(){
+  beep();
+  ifSECTION 1: REGISTRATION / USER SETUP SCREEN -->
     <div id="setupScreen" class="fade-in max-w-2xl w-full mx-auto my-6 bg-white dark:bg-slate-900/80 rounded-3xl p-6 sm:p-10 shadow-xl border border-indigo-100/50 dark:border-slate-800/80 glass">
       <div class="text-center mb-8">
         <span class="px-4 py-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-bold uppercase tracking-wider">Premium Exam Prep</span>
