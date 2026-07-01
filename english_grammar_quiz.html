@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTET English Grammar Quiz: Phrase & Clause</title>
+    <!-- Tailwind CSS CDN for elegant modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+        }
+        /* Custom smooth progress transitions */
+        .progress-bar-fill {
+            transition: width 0.4s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-md py-4 px-6">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="text-center sm:text-left">
+                <h1 class="text-xl sm:text-2xl font-bold tracking-tight">CTET Master Quiz</h1>
+                <p class="text-xs sm:text-sm text-blue-100 font-light">Topic: The Phrase and The Clause</p>
+            </div>
+            <div class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold">
+                Target Score: 15+/20
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6">
+        <div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden min-h-[500px] flex flex-col justify-between">
+            
+            <!-- ====== START / INTRO SCREEN ====== -->
+            <div id="intro-screen" class="p-6 sm:p-10 text-center flex flex-col items-center justify-center my-auto">
+                <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner animate-bounce">
+                    📝
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">Are you ready for CTET?</h2>
+                <p class="text-gray-600 max-w-md mx-auto mb-8 text-sm sm:text-base">
+                    Test your understanding of <span class="font-semibold text-blue-600">Phrases</span> and <span class="font-semibold text-indigo-600">Clauses</span> with these 20 selected questions designed strictly according to the CTET syllabus.
+                </p>
+                
+                <div class="w-full max-w-md bg-amber-50 border border-amber-200 rounded-xl p-4 text-left mb-8 text-xs sm:text-sm text-amber-800">
+                    <p class="font-bold mb-1">💡 Instructions:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>You must answer <strong>all</strong> 20 questions to submit the quiz.</li>
+                        <li>You can navigate back and forth to change your answers anytime.</li>
+                        <li>Detailed Hinglish explanations are provided at the end for your mistakes!</li>
+                    </ul>
+                </div>
+
+                <button id="start-btn" class="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition duration-200 transform hover:-translate-y-0.5">
+                    Start Quiz Now
+                </button>
+            </div>
+
+            <!-- ====== QUIZ PLAYING SCREEN ====== -->
+            <div id="quiz-screen" class="hidden p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                
+                <!-- Progress & Score Indicators -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">Progress</span>
+                        <span id="question-counter" class="text-sm font-bold text-gray-500">1/20</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-gray-200 h-2.5 rounded-full mb-6 overflow-hidden">
+                        <div id="progress-bar" class="progress-bar-fill bg-gradient-to-r from-blue-500 to-indigo-600 h-full w-[5%]"></div>
+                    </div>
+
+                    <!-- Custom Alert Message Container -->
+                    <div id="warning-box" class="hidden mb-4 p-3.5 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs sm:text-sm flex items-center gap-2">
+                        <span>⚠️</span>
+                        <span id="warning-text">Please select an option to proceed.</span>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div class="mb-6">
+                        <h3 id="question-text" class="text-base sm:text-lg font-semibold text-gray-900 leading-relaxed">
+                            Loading question...
+                        </h3>
+                    </div>
+
+                    <!-- Options Container -->
+                    <div id="options-container" class="space-y-3.5">
+                        <!-- Options dynamically loaded here -->
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex items-center justify-between mt-8 pt-4 border-t border-gray-100 gap-4">
+                    <button id="prev-btn" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition duration-150">
+                        ← Prev
+                    </button>
+                    
+                    <button id="next-btn" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow transition duration-150">
+                        Next →
+                    </button>
+                </div>
+            </div>
+
+            <!-- ====== RESULTS SCREEN ====== -->
+            <div id="result-screen" class="hidden p-6 sm:p-10 flex-grow flex flex-col">
+                <div class="text-center mb-8">
+                    <span class="text-5xl">🏆</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-3">Your Performance Card</h2>
+                    <p class="text-gray-500 text-xs sm:text-sm mt-1">CTET English Grammar: Phrases & Clauses Assessment</p>
+                </div>
+
+                <!-- Score Dashboard -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-blue-50 p-4 rounded-2xl text-center border border-blue-100">
+                        <p class="text-2xl sm:text-3xl font-black text-blue-700" id="res-score">0/20</p>
+                        <p class="text-xs text-blue-600 font-medium mt-1">Total Score</p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-2xl text-center border border-indigo-100">
+                        <p class="text-2xl sm:text-3xl font-black text-indigo-700" id="res-percentage">0%</p>
+                        <p class="text-xs text-indigo-600 font-medium mt-1">Percentage</p>
+                    </div>
+                    <div class="bg-emerald-50 p-4 rounded-2xl text-center border border-emerald-100">
+                        <p class="text-2xl sm:text-3xl font-black text-emerald-700" id="res-correct">0</p>
+                        <p class="text-xs text-emerald-600 font-medium mt-1">Correct Answers</p>
+                    </div>
+                    <div class="bg-rose-50 p-4 rounded-2xl text-center border border-rose-100">
+                        <p class="text-2xl sm:text-3xl font-black text-rose-700" id="res-wrong">0</p>
+                        <p class="text-xs text-rose-600 font-medium mt-1">Wrong Answers</p>
+                    </div>
+                </div>
+
+                <!-- Mistakes Review Section -->
+                <div class="flex-grow">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        🔍 <span>Incorrect Questions Review</span>
+                        <span id="mistake-count-badge" class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-1 rounded-full">0 Mistakes</span>
+                    </h3>
+
+                    <!-- No Mistakes placeholder -->
+                    <div id="perfect-score-msg" class="hidden p-6 bg-emerald-50 border border-emerald-100 text-emerald-800 rounded-xl text-center">
+                        <p class="font-semibold text-lg">Amazing! 🎉 Double Out of Double!</p>
+                        <p class="text-sm mt-1">You got all 20 answers correct. Excellent understanding of Phrases & Clauses.</p>
+                    </div>
+
+                    <!-- Scrollable Review List -->
+                    <div id="review-list" class="space-y-6 max-h-[450px] overflow-y-auto pr-2 mb-8">
+                        <!-- Wrong questions will be rendered here with details and hindi explanations -->
+                    </div>
+                </div>
+
+                <!-- Footer Restart Buttons -->
+                <div class="border-t border-gray-100 pt-6 flex flex-col sm:flex-row justify-center gap-4 mt-auto">
+                    <button id="restart-btn" class="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition duration-150">
+                        Restart Quiz 🔄
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs text-gray-500 bg-white border-t border-gray-200">
+        <p>© 2026 CTET Preparation Hub. Built with care for aspiring educators.</p>
+    </footer>
+
+    <!-- Quiz Data & Logic JS Code -->
+    <script>
+        // Comprehensive List of 20 CTET-focused Quiz Questions
+        const quizQuestions = [
+            {
+                id: 1,
+                question: "Which of the following best defines a 'Phrase'?",
+                options: [
+                    "A group of words with a subject and a predicate that gives complete meaning",
+                    "A group of words that makes sense but does not have a finite verb and subject",
+                    "A single word representing a complete action",
+                    "A group of words containing a subordinating conjunction"
+                ],
+                correctIndex: 1,
+                explanation: "Phrase (वाक्यांश) शब्दों का वह समूह है जिसका कुछ अर्थ तो होता है, लेकिन इसमें न तो कोई finite verb (सीमित क्रिया) होती है और न ही कोई subject (कर्ता) होता है। इसलिए इसका अपना पूर्ण अर्थ अकेले नहीं बन पाता।"
+            },
+            {
+                id: 2,
+                question: "Identify the primary difference between a Phrase and a Clause.",
+                options: [
+                    "A phrase always ends with a punctuation, while a clause does not",
+                    "A phrase contains a subject and a verb combination, while a clause does not",
+                    "A clause contains a subject and a finite verb combination, while a phrase does not",
+                    "A phrase is always longer than a clause"
+                ],
+                correctIndex: 2,
+                explanation: "दोनों में मुख्य अंतर यही है कि Clause (उपवाक्य) के पास अपना खुद का Subject और Finite Verb (सकर्मक/अकर्मक क्रिया) होता है, जबकि Phrase में ये दोनों एक साथ मौजूद नहीं होते।"
+            },
+            {
+                id: 3,
+                question: "In the sentence, 'She wants to buy a house with a large garden', the underlined part 'with a large garden' is a/an:",
+                options: [
+                    "Noun Phrase",
+                    "Adjective Phrase",
+                    "Adverb Phrase",
+                    "Subordinate Clause"
+                ],
+                correctIndex: 1,
+                explanation: "यह 'Adjective Phrase' है क्योंकि 'with a large garden' शब्द समूह 'house' (जो कि एक संज्ञा यानी Noun है) की विशेषता बता रहा है।"
+            },
+            {
+                id: 4,
+                question: "In the sentence, 'They walked as fast as they could', the underlined segment 'as fast as they could' is an example of a/an:",
+                options: [
+                    "Noun Clause",
+                    "Adverb Clause",
+                    "Adjective Phrase",
+                    "Prepositional Phrase"
+                ],
+                correctIndex: 1,
+                explanation: "यह 'Adverb Clause' है। इसमें 'they' (subject) और 'could' (verb) है, और यह क्रिया 'walked' के तरीके (manner/speed) को दर्शा रहा है।"
+            },
+            {
+                id: 5,
+                question: "Identify the 'Subordinate Clause' in the sentence: 'Although he worked hard, he could not pass the exam.'",
+                options: [
+                    "Although he worked hard",
+                    "He could not pass the exam",
+                    "Although he worked",
+                    "He worked hard"
+                ],
+                correctIndex: 0,
+                explanation: "Subordinate Clause (आश्रित उपवाक्य) हमेशा किसी subordinator (जैसे Although, because, if) से शुरू होता है और अपने अर्थ के लिए Main Clause पर निर्भर होता है। यहाँ 'Although he worked hard' आश्रित उपवाक्य है।"
+            },
+            {
+                id: 6,
+                question: "What type of phrase is underlined in: 'The boy in the blue shirt is my cousin.'?",
+                options: [
+                    "Adjective Phrase",
+                    "Adverb Phrase",
+                    "Noun Phrase",
+                    "Verb Phrase"
+                ],
+                correctIndex: 0,
+                explanation: "'in the blue shirt' यहाँ 'The boy' (noun) का वर्णन कर रहा है। चूंकि यह संज्ञा की विशेषता बता रहा है, इसलिए यह Adjective Phrase (विशेषण वाक्यांश) है।"
+            },
+            {
+                id: 7,
+                question: "An Independent Clause is also known as a/an:",
+                options: [
+                    "Relative Clause",
+                    "Main Clause",
+                    "Adjective Clause",
+                    "Dependent Clause"
+                ],
+                correctIndex: 1,
+                explanation: "Independent Clause को ही Main Clause (प्रधान उपवाक्य) कहा जाता है क्योंकि यह स्वतंत्र रूप से पूरा अर्थ व्यक्त कर सकता है और इसे किसी दूसरे वाक्य की आवश्यकता नहीं होती।"
+            },
+            {
+                id: 8,
+                question: "In the sentence, 'To win the first prize is my ultimate goal', what function does the phrase 'To win the first prize' perform?",
+                options: [
+                    "Subject of the verb 'is' (Noun Phrase)",
+                    "Object of the verb 'is'",
+                    "Adjective modifying 'goal'",
+                    "Adverb modifying 'is'"
+                ],
+                correctIndex: 0,
+                explanation: "यहाँ 'To win the first prize' वाक्य के कर्ता (Subject) की तरह काम कर रहा है। 'is' verb का subject होने के कारण यह एक Noun Phrase है।"
+            },
+            {
+                id: 9,
+                question: "Identify the bolded segment: 'I expect that I shall get a prize.'",
+                options: [
+                    "Noun Phrase",
+                    "Noun Clause",
+                    "Adjective Clause",
+                    "Adverb Clause"
+                ],
+                correctIndex: 1,
+                explanation: "'that I shall get a prize' यहाँ verb 'expect' के direct object के रूप में काम कर रहा है। इसमें 'I' (subject) और 'shall get' (verb) है, इसलिए यह Noun Clause (संज्ञा उपवाक्य) है।"
+            },
+            {
+                id: 10,
+                question: "Which of the following is a 'Verb Phrase'?",
+                options: [
+                    "The incredibly smart student",
+                    "has been teaching English",
+                    "in the corner of the room",
+                    "very quickly and efficiently"
+                ],
+                correctIndex: 1,
+                explanation: "Verb Phrase में मुख्य क्रिया (main verb) और उसके सहायक क्रियाएं (helping verbs) शामिल होती हैं। 'has been teaching English' एक Verb Phrase है।"
+            },
+            {
+                id: 11,
+                question: "Choose the sentence that contains an 'Adverb Phrase of Place'.",
+                options: [
+                    "He slept during the day.",
+                    "She spoke in a very sweet voice.",
+                    "They found the lost keys under the heavy wooden desk.",
+                    "The teacher explained the concept with great patience."
+                ],
+                correctIndex: 2,
+                explanation: "'under the heavy wooden desk' स्थान (Place) को दर्शाता है कि चाबियाँ कहाँ मिलीं। इसलिए यह Adverb Phrase of Place है।"
+            },
+            {
+                id: 12,
+                question: "What is the function of the underlined 'Noun Clause' in: 'How he solved the puzzle remains a mystery.'?",
+                options: [
+                    "Object of the transitive verb",
+                    "Subject of the sentence",
+                    "Complement of a verb of incomplete predication",
+                    "Object of a preposition"
+                ],
+                correctIndex: 1,
+                explanation: "'How he solved the puzzle' वाक्य का subject है, जो verb 'remains' से पहले आकर कर्ता का कार्य कर रहा है।"
+            },
+            {
+                id: 13,
+                question: "A Subordinate Clause is always introduced by:",
+                options: [
+                    "Coordinating conjunctions",
+                    "Subordinating conjunctions or Relative pronouns",
+                    "Interjections",
+                    "Auxiliary verbs"
+                ],
+                correctIndex: 1,
+                explanation: "Subordinate Clause की शुरुआत हमेशा Subordinating Conjunctions (जैसे because, after, although) या Relative Pronouns (जैसे who, which, that) से होती है।"
+            },
+            {
+                id: 14,
+                question: "What type of phrase is underlined: 'She finished her CTET assignments with extreme speed.'?",
+                options: [
+                    "Adjective Phrase",
+                    "Adverb Phrase of Manner",
+                    "Noun Phrase",
+                    "Prepositional Phrase acting as Noun"
+                ],
+                correctIndex: 1,
+                explanation: "'with extreme speed' यह बताता है कि कार्य कैसे किया गया (how the action was performed), इसलिए यह Adverb Phrase of Manner (रीतिवाचक क्रियाविशेषण वाक्यांश) है।"
+            },
+            {
+                id: 15,
+                question: "'The house which is made of red bricks belongs to my uncle.' The underlined part is a/an:",
+                options: [
+                    "Adjective Clause",
+                    "Noun Clause",
+                    "Adverb Clause",
+                    "Adjective Phrase"
+                ],
+                correctIndex: 0,
+                explanation: "'which is made of red bricks' में Subject (which) और Verb (is) है और यह 'The house' (noun) की व्याख्या कर रहा है। इसलिए यह Adjective Clause (विशेषण उपवाक्य) है।"
+            },
+            {
+                id: 16,
+                question: "Which of the following is a simple phrase, NOT a clause?",
+                options: [
+                    "While he was playing guitar",
+                    "Because of her dedication to study",
+                    "If you arrive on time",
+                    "Since the rain has stopped"
+                ],
+                correctIndex: 1,
+                explanation: "'Because of her dedication to study' में कोई finite verb नहीं है, इसलिए यह एक Phrase है। बाकी तीनों विकल्पों में verb मौजूद हैं (was playing, arrive, has stopped), जिससे वे Clauses हैं।"
+            },
+            {
+                id: 17,
+                question: "Identify the Adverb Clause of Condition in the options below:",
+                options: [
+                    "He ran because he was getting late.",
+                    "If you clear the CTET exam, you will get a certificate.",
+                    "The girl who won the match is extremely happy.",
+                    "She sings beautifully whenever she is relaxed."
+                ],
+                correctIndex: 1,
+                explanation: "Adverb Clause of Condition शर्त दिखाता है। 'If you clear the CTET exam' एक शर्त है, इसलिए यह Adverb Clause of Condition है।"
+            },
+            {
+                id: 18,
+                question: "In the sentence, 'Honesty is the best policy', the word 'Honesty' represents:",
+                options: [
+                    "A noun phrase consisting of a single noun",
+                    "A subordinate clause",
+                    "A relative clause",
+                    "A prepositional phrase"
+                ],
+                correctIndex: 0,
+                explanation: "एक अकेला Noun भी वाक्य में Noun Phrase का काम कर सकता है जब वह subject या object की जगह लेता है।"
+            },
+            {
+                id: 19,
+                question: "The clause 'when the bell rang' in 'The children rushed out when the bell rang' is an:",
+                options: [
+                    "Adverb Clause of Time",
+                    "Adjective Clause of Reason",
+                    "Noun Clause as Object",
+                    "Independent Clause"
+                ],
+                correctIndex: 0,
+                explanation: "'when the bell rang' यह बताता है कि बच्चे कब भागे (time of action), इसलिए यह Adverb Clause of Time (समय सूचक उपवाक्य) है।"
+            },
+            {
+                id: 20,
+                question: "Which component is missing from a dependent clause that prevents it from expressing a complete thought?",
+                options: [
+                    "It has no subject",
+                    "It has no verb",
+                    "It is attached to a subordinating conjunction which leaves the meaning incomplete without an independent clause",
+                    "It is too short to be considered an independent sentence"
+                ],
+                correctIndex: 2,
+                explanation: "Dependent clause में subject और verb तो होते हैं, लेकिन Subordinating Conjunction (जैसे because, although) के होने के कारण यह अपने आप में अधूरा रहता है जब तक इसे Independent clause से न जोड़ा जाए।"
+            }
+        ];
+
+        // App State
+        let currentQuestionIdx = 0;
+        let userAnswers = Array(quizQuestions.length).fill(null); // stores index of selected option
+
+        // DOM elements
+        const introScreen = document.getElementById('intro-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const startBtn = document.getElementById('start-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        const questionCounter = document.getElementById('question-counter');
+        const progressBar = document.getElementById('progress-bar');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const warningBox = document.getElementById('warning-box');
+        const warningText = document.getElementById('warning-text');
+
+        // Results DOM
+        const resScore = document.getElementById('res-score');
+        const resPercentage = document.getElementById('res-percentage');
+        const resCorrect = document.getElementById('res-correct');
+        const resWrong = document.getElementById('res-wrong');
+        const mistakeCountBadge = document.getElementById('mistake-count-badge');
+        const perfectScoreMsg = document.getElementById('perfect-score-msg');
+        const reviewList = document.getElementById('review-list');
+
+        // Event Listeners
+        startBtn.addEventListener('click', startQuiz);
+        prevBtn.addEventListener('click', handlePrev);
+        nextBtn.addEventListener('click', handleNext);
+        restartBtn.addEventListener('click', resetQuiz);
+
+        // Core Functions
+        function startQuiz() {
+            introScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            currentQuestionIdx = 0;
+            userAnswers.fill(null);
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            // Clear warnings
+            hideWarning();
+
+            const currentQuestion = quizQuestions[currentQuestionIdx];
+            
+            // Update counter text & progress bar
+            questionCounter.innerText = `${currentQuestionIdx + 1}/${quizQuestions.length}`;
+            const progressPercent = ((currentQuestionIdx + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            // Set question text safely
+            questionText.innerHTML = `<span class="text-blue-600 font-bold mr-1">Q${currentQuestionIdx + 1}.</span> ${currentQuestion.question}`;
+
+            // Render options
+            optionsContainer.innerHTML = '';
+            currentQuestion.options.forEach((option, idx) => {
+                const isSelected = userAnswers[currentQuestionIdx] === idx;
+                
+                const optionBtn = document.createElement('div');
+                optionBtn.className = `group flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition duration-150 ${
+                    isSelected 
+                        ? 'border-blue-600 bg-blue-50/70 text-blue-900 font-medium' 
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700'
+                }`;
+                
+                // Option badge (A, B, C, D)
+                const badgeLetters = ['A', 'B', 'C', 'D'];
+                const badge = document.createElement('div');
+                badge.className = `w-7 h-7 flex items-center justify-center rounded-lg text-xs font-bold transition duration-150 ${
+                    isSelected 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'
+                }`;
+                badge.innerText = badgeLetters[idx];
+
+                const textSpan = document.createElement('span');
+                textSpan.className = 'text-sm sm:text-base pointer-events-none';
+                textSpan.innerText = option;
+
+                optionBtn.appendChild(badge);
+                optionBtn.appendChild(textSpan);
+
+                // Option select handler
+                optionBtn.addEventListener('click', () => {
+                    selectOption(idx);
+                });
+
+                optionsContainer.appendChild(optionBtn);
+            });
+
+            // Adjust navigation button text/disabled status
+            prevBtn.disabled = currentQuestionIdx === 0;
+
+            if (currentQuestionIdx === quizQuestions.length - 1) {
+                nextBtn.innerText = "Submit Assessment 🚀";
+                nextBtn.className = "flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow transition duration-150";
+            } else {
+                nextBtn.innerText = "Next →";
+                nextBtn.className = "flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow transition duration-150";
+            }
+        }
+
+        function selectOption(index) {
+            userAnswers[currentQuestionIdx] = index;
+            hideWarning();
+            loadQuestion(); // re-renders to apply selection styling
+        }
+
+        function handleNext() {
+            // Validate if option selected before going to the next question
+            if (userAnswers[currentQuestionIdx] === null) {
+                showWarning("Please select one of the options below to move forward!");
+                return;
+            }
+
+            if (currentQuestionIdx < quizQuestions.length - 1) {
+                currentQuestionIdx++;
+                loadQuestion();
+            } else {
+                // Safeguard check: make sure all questions are indeed answered
+                const unansweredIdx = userAnswers.indexOf(null);
+                if (unansweredIdx !== -1) {
+                    currentQuestionIdx = unansweredIdx;
+                    loadQuestion();
+                    showWarning("It looks like you missed answering this question!");
+                    return;
+                }
+                submitQuiz();
+            }
+        }
+
+        function handlePrev() {
+            if (currentQuestionIdx > 0) {
+                currentQuestionIdx--;
+                loadQuestion();
+            }
+        }
+
+        function showWarning(message) {
+            warningText.innerText = message;
+            warningBox.classList.remove('hidden');
+        }
+
+        function hideWarning() {
+            warningBox.classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            // Calculations
+            let correctCount = 0;
+            let wrongQuestions = [];
+
+            quizQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                if (userAns === q.correctIndex) {
+                    correctCount++;
+                } else {
+                    wrongQuestions.push({
+                        qNum: idx + 1,
+                        questionText: q.question,
+                        options: q.options,
+                        userSelection: userAns !== null ? q.options[userAns] : "No Answer Selected",
+                        correctSelection: q.options[q.correctIndex],
+                        explanation: q.explanation
+                    });
+                }
+            });
+
+            const totalScore = correctCount;
+            const percentage = Math.round((correctCount / quizQuestions.length) * 100);
+            const wrongCount = quizQuestions.length - correctCount;
+
+            // Display values
+            resScore.innerText = `${totalScore}/${quizQuestions.length}`;
+            resPercentage.innerText = `${percentage}%`;
+            resCorrect.innerText = correctCount;
+            resWrong.innerText = wrongCount;
+
+            // Render Review Section
+            mistakeCountBadge.innerText = `${wrongCount} Mistakes`;
+            
+            if (wrongCount === 0) {
+                perfectScoreMsg.classList.remove('hidden');
+                reviewList.innerHTML = '';
+            } else {
+                perfectScoreMsg.classList.add('hidden');
+                renderMistakesReview(wrongQuestions);
+            }
+        }
+
+        function renderMistakesReview(wrongQuestions) {
+            reviewList.innerHTML = '';
+
+            wrongQuestions.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = "bg-gray-50 border border-gray-200 rounded-xl p-5 shadow-sm space-y-3.5";
+
+                card.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <span class="bg-rose-100 text-rose-700 font-bold text-xs px-2.5 py-1 rounded-full shrink-0">Q. ${item.qNum}</span>
+                        <h4 class="text-sm sm:text-base font-bold text-gray-900 leading-snug">${item.questionText}</h4>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                        <div class="bg-rose-50 border border-rose-200 text-rose-900 p-3 rounded-lg text-xs sm:text-sm">
+                            <span class="font-bold text-rose-700 block mb-1">❌ Your Answer:</span>
+                            <p>${item.userSelection}</p>
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-200 text-emerald-900 p-3 rounded-lg text-xs sm:text-sm">
+                            <span class="font-bold text-emerald-700 block mb-1">✅ Correct Answer:</span>
+                            <p>${item.correctSelection}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-lg text-xs sm:text-sm leading-relaxed">
+                        <span class="font-bold text-amber-800 block mb-1">💡 Explanation (Hinglish):</span>
+                        <p>${item.explanation}</p>
+                    </div>
+                `;
+                reviewList.appendChild(card);
+            });
+        }
+
+        function resetQuiz() {
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.add('hidden');
+            introScreen.classList.remove('hidden');
+            userAnswers.fill(null);
+            currentQuestionIdx = 0;
+            hideWarning();
+        }
+    </script>
+</body>
+</html>
