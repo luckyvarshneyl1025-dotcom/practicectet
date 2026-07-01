@@ -1,0 +1,3060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTET Tenses Master Quiz</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-brand {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        .glow-success {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        .glow-error {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+        .timer-warning {
+            animation: pulse-ring 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-tr from-indigo-950 via-slate-900 to-purple-950 text-slate-100 min-h-screen selection:bg-brand-500 selection:text-white overflow-x-hidden">
+
+    <!-- Floating Sound and Theme Controllers -->
+    <div class="fixed top-4 right-4 z-50 flex items-center space-x-2">
+        <!-- Sound Toggle -->
+        <button id="soundToggleBtn" onclick="toggleMute()" class="w-10 h-10 rounded-full glass flex items-center justify-center text-slate-200 hover:text-brand-400 hover:scale-115 transition-all focus:outline-none" title="Mute/Unmute Sounds">
+            <i id="soundIcon" class="fas fa-volume-up"></i>
+        </button>
+        <!-- Dark Mode Toggle -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="w-10 h-10 rounded-full glass flex items-center justify-center text-slate-200 hover:text-brand-400 hover:scale-115 transition-all focus:outline-none" title="Toggle Theme">
+            <i id="themeIcon" class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8 max-w-5xl min-h-screen flex flex-col justify-between">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-6">
+            <div class="inline-flex items-center space-x-3 mb-2">
+                <span class="p-2 bg-gradient-to-br from-brand-400 to-indigo-600 rounded-xl shadow-lg glow-brand">
+                    <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                </span>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-wide bg-gradient-to-r from-brand-300 via-purple-200 to-indigo-300 bg-clip-text text-transparent">
+                    CTET Tenses Master
+                </h1>
+            </div>
+            <p class="text-xs md:text-sm text-indigo-200 font-medium tracking-wide uppercase">
+                🎯 Complete Conceptual Pedagogy & Practice Sandbox (bilingual हिन्दी-English)
+            </p>
+        </header>
+
+        <!-- Dynamic Screen Render Area -->
+        <main class="flex-grow flex items-center justify-center">
+            
+            <!-- 1. START SCREEN -->
+            <div id="startScreen" class="w-full max-w-3xl glass rounded-3xl p-6 md:p-10 shadow-2xl transition-all duration-300 transform scale-100">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-3 text-slate-100">Welcome to Tenses Masterclass</h2>
+                    <p class="text-slate-300 text-sm md:text-base">
+                        Master English Tenses targeted specifically for CTET Paper I & II. Practice with real exam pattern scenarios, exhaustive instant rules & diagnostic insights.
+                    </p>
+                </div>
+
+                <!-- Input Zone -->
+                <div class="max-w-md mx-auto mb-8">
+                    <label for="studentNameInput" class="block text-sm font-semibold text-brand-300 mb-2">
+                        <i class="fas fa-user-circle mr-1"></i> Enter Your Name to Register Session:
+                    </label>
+                    <input type="text" id="studentNameInput" placeholder="e.g., Rajesh Kumar" 
+                        class="w-full px-5 py-3 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all shadow-inner text-center font-semibold text-lg">
+                </div>
+
+                <!-- Live Historical Highlights -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-900/50 text-center">
+                        <p class="text-xs text-indigo-300 uppercase font-semibold">Total Sessions</p>
+                        <p id="statTotalSessions" class="text-2xl font-black text-white mt-1">0</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-900/50 text-center">
+                        <p class="text-xs text-indigo-300 uppercase font-semibold">Highest Score</p>
+                        <p id="statHighScore" class="text-2xl font-black text-emerald-400 mt-1">0/15</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-900/50 text-center">
+                        <p class="text-xs text-indigo-300 uppercase font-semibold">Avg. Accuracy</p>
+                        <p id="statAvgAccuracy" class="text-2xl font-black text-brand-400 mt-1">0%</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-900/50 text-center">
+                        <p class="text-xs text-indigo-300 uppercase font-semibold">Mistakes Retain</p>
+                        <p id="statWrongPool" class="text-2xl font-black text-red-400 mt-1">0</p>
+                    </div>
+                </div>
+
+                <!-- Launch Options -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
+                    <button onclick="startQuizSession(false)" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-lg transition-all shadow-lg glow-brand hover:scale-[1.02] active:scale-95 flex items-center justify-center space-x-2">
+                        <i class="fas fa-play"></i>
+                        <span>Start Standard Quiz</span>
+                    </button>
+                    <button id="practiceMistakesBtn" onclick="startQuizSession(true)" disabled class="w-full py-4 px-6 rounded-2xl bg-slate-800 border border-red-900/50 text-red-400 font-bold text-lg transition-all flex items-center justify-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-750">
+                        <i class="fas fa-redo-alt"></i>
+                        <span>Practice Mistakes (<span id="wrongBtnCount">0</span>)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. QUIZ SCREEN -->
+            <div id="quizScreen" class="w-full max-w-4xl glass rounded-3xl p-5 md:p-8 shadow-2xl hidden flex-col">
+                
+                <!-- HUD / Progress Status Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-700/50 text-sm">
+                    <div class="flex items-center space-x-2 text-slate-300">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="font-semibold text-brand-300" id="hudNameDisplay">Student</span>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center text-slate-300">
+                            <i class="fas fa-trophy mr-1.5 text-yellow-400"></i>
+                            <span>Score: <strong class="text-white" id="hudScoreDisplay">0</strong> / 15</span>
+                        </div>
+                        <div id="hudTimer" class="flex items-center px-3 py-1 rounded-full bg-slate-800 text-brand-300 font-bold border border-brand-500/20">
+                            <i class="far fa-clock mr-1.5"></i>
+                            <span id="hudTimerValue">20:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Progress Bar -->
+                <div class="w-full bg-slate-800/80 rounded-full h-2.5 mb-6 overflow-hidden">
+                    <div id="progressBarFill" class="bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-500 h-full w-[0%] transition-all duration-300"></div>
+                </div>
+
+                <!-- Question Header Context -->
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs md:text-sm font-bold text-brand-400 uppercase tracking-wider">
+                        <i class="fas fa-question-circle mr-1"></i> Question <span id="currentQuestionNum">1</span> of 15
+                    </span>
+                    <div class="flex gap-2">
+                        <span id="badgeTopic" class="px-3 py-0.5 rounded-full text-xs font-semibold bg-indigo-950 text-indigo-300 border border-indigo-800/40">Topic</span>
+                        <span id="badgeDifficulty" class="px-3 py-0.5 rounded-full text-xs font-semibold">Difficulty</span>
+                    </div>
+                </div>
+
+                <!-- Question Text -->
+                <div class="mb-6">
+                    <h3 id="questionText" class="text-lg md:text-xl font-bold text-white leading-relaxed">Loading question details...</h3>
+                </div>
+
+                <!-- Answer Options Selection Grid -->
+                <div id="optionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <!-- Dynamic buttons injected here -->
+                </div>
+
+                <!-- Interactive Explanation Panel (Revealed immediately post-answer submission) -->
+                <div id="instantFeedbackBox" class="p-5 rounded-2xl hidden mb-6 transition-all duration-300 transform scale-95 opacity-0">
+                    <div class="flex items-start space-x-3">
+                        <span id="feedbackIcon" class="p-2 rounded-xl text-white"></span>
+                        <div class="flex-1">
+                            <h4 id="feedbackHeading" class="font-bold text-lg mb-1">Feedback</h4>
+                            <p id="feedbackExpl" class="text-slate-200 text-sm mb-3"></p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 border-t border-slate-700/30 pt-3 text-xs text-slate-300">
+                                <div><strong class="text-brand-300"><i class="fas fa-gavel"></i> Grammar Rule:</strong> <span id="feedbackRule"></span></div>
+                                <div><strong class="text-emerald-400"><i class="fas fa-lightbulb"></i> Memory Trick:</strong> <span id="feedbackTrick"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Control Buttons Deck -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mt-auto pt-4 border-t border-slate-700/50">
+                    <button id="prevBtn" onclick="handlePrev()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-semibold transition-all flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Previous</span>
+                    </button>
+                    
+                    <div class="flex items-center space-x-2">
+                        <button id="skipBtn" onclick="handleSkip()" class="px-5 py-2.5 rounded-xl bg-amber-950/40 border border-amber-900/60 text-amber-300 font-semibold transition-all hover:bg-amber-950/60">
+                            <i class="fas fa-forward"></i>
+                            <span>Skip / Answer Later</span>
+                        </button>
+                        <button id="nextBtn" onclick="handleNext()" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <span>Next Question</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <button id="finishBtn" onclick="confirmFinishQuiz()" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold transition-all shadow-md glow-error flex items-center space-x-2">
+                        <i class="fas fa-check-double"></i>
+                        <span>Finish Quiz</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. RESULT & ANALYTICS DASHBOARD -->
+            <div id="resultScreen" class="w-full max-w-5xl glass rounded-3xl p-5 md:p-8 shadow-2xl hidden flex-col">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white">🏆 Performance Scorecard</h2>
+                    <p class="text-slate-300 text-sm mt-1">Comprehensive Pedagogical Analytics Sandbox</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    
+                    <!-- Left Score Ring Gauge Card -->
+                    <div class="p-6 rounded-3xl bg-indigo-950/30 border border-indigo-900/50 flex flex-col items-center justify-center text-center">
+                        <h3 class="text-brand-300 font-bold mb-4 uppercase text-xs tracking-wider">Overall Competency</h3>
+                        
+                        <!-- SVG Radial Dial Gauge -->
+                        <div class="relative w-36 h-36 flex items-center justify-center mb-4">
+                            <svg class="absolute inset-0 w-full h-full transform -rotate-90">
+                                <circle cx="72" cy="72" r="64" stroke-width="8" stroke="rgba(255,255,255,0.05)" fill="transparent" />
+                                <circle id="gaugeProgressCircle" cx="72" cy="72" r="64" stroke-width="10" stroke="url(#brandGrad)" stroke-dasharray="402" stroke-dashoffset="402" stroke-linecap="round" fill="transparent" class="transition-all duration-1000" />
+                                <defs>
+                                    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#8b5cf6" />
+                                        <stop offset="100%" stop-color="#3b82f6" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="text-center">
+                                <p id="resultScore" class="text-4xl font-black text-white">0/15</p>
+                                <p id="resultPercentage" class="text-xs text-brand-300 font-bold mt-0.5">0% Score</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <h4 id="perfRating" class="text-xl font-bold text-emerald-400">Grandmaster</h4>
+                            <p id="motivationalMsg" class="text-xs text-slate-300 px-3 mt-1.5 leading-relaxed italic">Superb understanding of grammar tenses!</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Stats Summary Deck -->
+                    <div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-900/40 flex items-center space-x-3">
+                            <span class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                                <i class="fas fa-check-circle text-lg"></i>
+                            </span>
+                            <div>
+                                <p class="text-[11px] uppercase text-emerald-400 font-semibold tracking-wider">Correct</p>
+                                <p id="statsCorrect" class="text-xl font-bold text-white">0</p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-red-950/20 border border-red-900/40 flex items-center space-x-3">
+                            <span class="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400">
+                                <i class="fas fa-times-circle text-lg"></i>
+                            </span>
+                            <div>
+                                <p class="text-[11px] uppercase text-red-400 font-semibold tracking-wider">Incorrect</p>
+                                <p id="statsWrong" class="text-xl font-bold text-white">0</p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-amber-950/20 border border-amber-900/40 flex items-center space-x-3">
+                            <span class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+                                <i class="fas fa-forward text-lg"></i>
+                            </span>
+                            <div>
+                                <p class="text-[11px] uppercase text-amber-400 font-semibold tracking-wider">Skipped</p>
+                                <p id="statsSkipped" class="text-xl font-bold text-white">0</p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-blue-950/20 border border-blue-900/40 flex items-center space-x-3">
+                            <span class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                <i class="fas fa-bullseye text-lg"></i>
+                            </span>
+                            <div>
+                                <p class="text-[11px] uppercase text-blue-300 font-semibold tracking-wider">Accuracy</p>
+                                <p id="statsAccuracy" class="text-xl font-bold text-white">0%</p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-purple-950/20 border border-purple-900/40 flex items-center space-x-3">
+                            <span class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-hourglass-half text-lg"></i>
+                            </span>
+                            <div>
+                                <p class="text-[11px] uppercase text-purple-300 font-semibold tracking-wider">Time Taken</p>
+                                <p id="statsTime" class="text-xl font-bold text-white">0m 0s</p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-indigo-950/20 border border-indigo-900/40 flex items-center space-x-3">
+                            <span class="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                <i class="fas fa-user-graduate text-lg"></i>
+                            </span>
+                            <div>
+                                <p class="text-[11px] uppercase text-indigo-300 font-semibold tracking-wider">Candidate</p>
+                                <p id="statsStudent" class="text-xl font-bold text-white truncate max-w-[120px]">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Interactive Results Navigation Tabs -->
+                <div class="mb-6 flex border-b border-slate-700/60">
+                    <button onclick="switchResultTab('mistakesTab')" id="btnTabMistakes" class="py-2.5 px-4 text-xs md:text-sm font-bold border-b-2 border-brand-500 text-brand-300 transition-all flex items-center space-x-2">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Mistake Diagnostics</span>
+                    </button>
+                    <button onclick="switchResultTab('topicsTab')" id="btnTabTopics" class="py-2.5 px-4 text-xs md:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-all flex items-center space-x-2">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Topic Profiling</span>
+                    </button>
+                </div>
+
+                <!-- Tabs Output Containers -->
+                <div>
+                    <!-- TAB 1: MISTAKE DIAGNOSTICS -->
+                    <div id="tabContentMistakes" class="block space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                        <!-- Dynamic mistake/skipped review blocks appended via JS -->
+                    </div>
+
+                    <!-- TAB 2: TOPIC PROFILING -->
+                    <div id="tabContentTopics" class="hidden space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Left: Score breakdown -->
+                            <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+                                <h4 class="font-bold text-base text-brand-300 mb-4"><i class="fas fa-sliders mr-1"></i> Grammar Category Distribution</h4>
+                                <div id="topicScoresContainer" class="space-y-4">
+                                    <!-- Populated via JS -->
+                                </div>
+                            </div>
+
+                            <!-- Right: Category Diagnostics & Advice -->
+                            <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="font-bold text-base text-brand-300 mb-3"><i class="fas fa-notes-medical mr-1"></i> Adaptive Tutoring Recommendations</h4>
+                                    
+                                    <div class="mb-4">
+                                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Strongest Skill Domain:</p>
+                                        <p id="topicStrongest" class="text-emerald-400 font-semibold text-sm flex items-center mt-1">
+                                            <i class="fas fa-check-circle mr-1.5"></i> Present Tense
+                                        </p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Critical Attention Required:</p>
+                                        <p id="topicWeakest" class="text-red-400 font-semibold text-sm flex items-center mt-1">
+                                            <i class="fas fa-times-circle mr-1.5"></i> Past Perfect Continuous
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-brand-950/20 rounded-xl border border-brand-800/30 text-xs text-brand-300 leading-relaxed mt-4">
+                                    <i class="fas fa-lightbulb mr-1"></i> <strong>CTET Revision Formula:</strong> Target the <strong>Time Clues</strong> (like <em>since, for, by the time, always</em>) while answering error detection questions. CTET focuses heavily on action duration!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Command Controls -->
+                <div class="flex flex-wrap gap-4 items-center justify-between mt-8 pt-4 border-t border-slate-700/50">
+                    <button onclick="restartWithSameQuestions()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-brand-300 font-semibold transition-all flex items-center space-x-2">
+                        <i class="fas fa-history"></i>
+                        <span>Retry Same Set</span>
+                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="clearSystemData()" class="px-5 py-2.5 rounded-xl bg-slate-950 text-red-400 hover:bg-red-950/30 hover:text-red-300 border border-slate-800 font-semibold transition-all text-xs">
+                            <i class="fas fa-trash-alt mr-1"></i> Reset Progress
+                        </button>
+                        <button onclick="resetToStartScreen()" class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold transition-all shadow-md glow-brand flex items-center space-x-2">
+                            <i class="fas fa-home"></i>
+                            <span>Start New Session</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Dynamic Global Confirmation Drawer (Non-blocking Alert fallback) -->
+        <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+            <div class="w-full max-w-md glass border border-slate-700 rounded-3xl p-6 shadow-2xl transition-all scale-95 opacity-0 transform" id="confirmModalBox">
+                <div class="text-center mb-6">
+                    <span class="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-exclamation-triangle text-xl"></i>
+                    </span>
+                    <h3 class="text-lg font-bold text-white mb-2" id="confirmModalTitle">Are you sure?</h3>
+                    <p class="text-slate-300 text-sm" id="confirmModalDesc">Do you want to exit the quiz early and generate your scorecard?</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button id="confirmCancelBtn" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-semibold transition-all">Cancel</button>
+                    <button id="confirmActionBtn" class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold transition-all shadow-md">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Info -->
+        <footer class="mt-6 text-center text-[11px] text-indigo-300/60 flex items-center justify-center gap-1">
+            <span>Powered by</span>
+            <span class="text-brand-400 font-semibold">Gemini Architecture</span>
+            <span>&bull; Designed for CTET Pedagogy Excellence</span>
+        </footer>
+
+    </div>
+
+    <!-- Script Zone containing Quiz Logic & Questions -->
+    <script>
+        /=========================================
+         * 1. 100 CTET TENSES QUESTION BANK
+         ========================================*/
+        const questionBank = [
+            {
+                id: 1,
+                question: "Which of the following sentences correctly utilizes the Simple Present tense for a universal law?",
+                options: [
+                    "The Sun is rising in the East.",
+                    "The Sun rises in the East.",
+                    "The Sun will rise in the East.",
+                    "The Sun rose in the East."
+                ],
+                correctAnswer: 1,
+                topic: "Present Simple",
+                difficulty: "Easy",
+                explanation: "Scientific facts, general truth, and universal laws are always written in the Simple Present tense to state permanent states.",
+                mistakeExplanation: "Universal truth with continuous form indicates temporary action, which is factually invalid.",
+                rule: "S + V1 (s/es) for singular subject expressing permanent truths.",
+                trick: "Whenever talking about astronomical movements, laws of nature, or geographic facts, blindly pick Simple Present.",
+                ctetTrap: "CTET often tries to use continuous form to make it sound active like 'is boiling at 100°C'. Do not choose continuous for laws."
+            },
+            {
+                id: 2,
+                question: "Choose the grammatically correct option to fill the gap:\n\"My father _______ newspaper daily in the morning.\"",
+                options: [
+                    "read",
+                    "reads",
+                    "is reading",
+                    "has read"
+                ],
+                correctAnswer: 1,
+                topic: "Present Simple",
+                difficulty: "Easy",
+                explanation: "The time expression 'daily in the morning' represents a habitual action, requiring the Simple Present form 'reads' with singular subject 'My father'.",
+                mistakeExplanation: "'read' is for plural subjects, and 'is reading' indicates a temporary current action, not a habitual one.",
+                rule: "Singular Subject (He/She/It/Father) + Verb + -s/es.",
+                trick: "Look for clues like daily, usually, every day, normally, often. They signal Simple Present habit pattern.",
+                ctetTrap: "Watch the subject's number! Plural versus singular conjugation confuses candidates in tense selection."
+            },
+            {
+                id: 3,
+                question: "Identify the tense: \"He rarely goes out on weekends.\"",
+                options: [
+                    "Present Continuous",
+                    "Simple Present",
+                    "Simple Past",
+                    "Present Perfect"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The verb 'goes' is in its base form with '-es' representing habitual frequency indicated by 'rarely'. Hence, it is Simple Present.",
+                mistakeExplanation: "No auxiliary 'be' or ending '-ing' for it to be continuous, and no past markers.",
+                rule: "Subject + Adverb of Frequency (rarely/always) + V1(s/es).",
+                trick: "Adverbs of frequency almost always tag with Simple Present or Simple Past.",
+                ctetTrap: "Students think 'goes' is present, but get confused with 'rarely' and think it could be present continuous."
+            },
+            {
+                id: 4,
+                question: "Find the correction for the bold section: \"The train **leaves** at 9:00 PM tomorrow according to the revised schedule.\"",
+                options: [
+                    "is leaving",
+                    "leaves (No correction needed)",
+                    "will have left",
+                    "left"
+                ],
+                correctAnswer: 1,
+                topic: "Sentence correction",
+                difficulty: "Medium",
+                explanation: "For official schedules, itineraries, or predetermined future timetables, Simple Present is the most formal and grammatically correct option.",
+                mistakeExplanation: "'Will leave' can be used but 'leaves' is the primary choice for official fixed timetables.",
+                rule: "Simple Present is used for fixed scheduled future events.",
+                trick: "Official time + Future day = Simple Present is standard for official announcements.",
+                ctetTrap: "You see 'tomorrow' and automatically seek future tense 'will', forgetting that timetabled schedules favor the simple present."
+            },
+            {
+                id: 5,
+                question: "Complete the sentence: \"If you ______ hard, you will clear the CTET examination.\"",
+                options: [
+                    "study",
+                    "will study",
+                    "are studying",
+                    "studied"
+                ],
+                correctAnswer: 0,
+                topic: "Fill in the blanks",
+                difficulty: "Medium",
+                explanation: "In conditional sentences of Type 1, the 'if-clause' is formulated in the Simple Present tense, and the main clause in Future Simple.",
+                mistakeExplanation: "Using 'will study' in the if-clause is a classic redundancy error. Double future verbs in a condition is incorrect.",
+                rule: "If + Simple Present, Future Simple.",
+                trick: "If you see 'will + verb' in the secondary clause, pick 'Simple Present' for the conditional clause.",
+                ctetTrap: "Using 'will' in both parts is the most common translation-based error done by Indian language learners."
+            },
+            {
+                id: 6,
+                question: "Choose the correct sentence regarding a proverb structure:",
+                options: [
+                    "A rolling stone gathers no moss.",
+                    "A rolling stone is gathering no moss.",
+                    "A rolling stone will gather no moss.",
+                    "A rolling stone has gathered no moss."
+                ],
+                correctAnswer: 0,
+                topic: "Present Simple",
+                difficulty: "Easy",
+                explanation: "All classic idioms, proverbs, and wise sayings are fundamentally stated in Simple Present because they denote timeless wisdom.",
+                mistakeExplanation: "Idioms are static semantic structures and changing them to continuous or perfect destroys their idiomatic validity.",
+                rule: "Idiomatic expressions & proverbs = Simple Present.",
+                trick: "Always identify the proverb and keep it in the base third-person present tense.",
+                ctetTrap: "Changing verb states in standard idioms is used in error-spotting questions to test memory."
+            },
+            {
+                id: 7,
+                question: "Which of the following does NOT use the simple present tense correctly?",
+                options: [
+                    "The match starts next week.",
+                    "I am knowing the answer to this question.",
+                    "She loves classical music.",
+                    "Water freezes at 0°C."
+                ],
+                correctAnswer: 1,
+                topic: "Error spotting",
+                difficulty: "Medium",
+                explanation: "'Know' is a stative verb. Stative verbs describing mental state cannot be used in continuous tenses. It should be 'I know the answer'.",
+                mistakeExplanation: "'Knowing' represents a temporary state which violates the stative classification of verbs of perception.",
+                rule: "Stative verbs (know, love, hate, understand, believe, etc.) do not take continuous forms.",
+                trick: "Mental actions or feelings = No '-ing'. Use Simple Present instead.",
+                ctetTrap: "CTET likes to slip 'is knowing' or 'am understanding' into sentences to see if you catch stative verb violations."
+            },
+            {
+                id: 8,
+                question: "Complete the blank with the correct aspect of simple present:\n\"Whenever it rains, the roof _______.\"",
+                options: [
+                    "leaks",
+                    "is leaking",
+                    "leaked",
+                    "has leaked"
+                ],
+                correctAnswer: 0,
+                topic: "Fill in the blanks",
+                difficulty: "Easy",
+                explanation: "The word 'whenever' signals a repeated state or condition under a specific trigger, which calls for Simple Present.",
+                mistakeExplanation: "Using past tense 'leaked' breaks the tense alignment established by 'rains'.",
+                rule: "Dependent conditional real-time reaction = matching simple present in both clauses.",
+                trick: "Whenever [Verb in Simple Present], [Main verb also in Simple Present].",
+                ctetTrap: "Don't mismatch present 'rains' with past 'leaked' or future continuous."
+            },
+            {
+                id: 9,
+                question: "Choose the correct tense form:\n\"Look! The birds _______ south for winter.\"",
+                options: [
+                    "fly",
+                    "are flying",
+                    "have flown",
+                    "flew"
+                ],
+                correctAnswer: 1,
+                topic: "Present Continuous",
+                difficulty: "Easy",
+                explanation: "The command word 'Look!' grabs immediate attention for an action happening live right now. This requires Present Continuous.",
+                mistakeExplanation: "Simple present 'fly' would denote habitual flight, whereas the visual cue demands immediate action.",
+                rule: "Subject + is/am/are + V4 (V-ing) for real-time actions.",
+                trick: "Exclamations like 'Look!', 'Listen!', 'Shh!' indicate present ongoing situations.",
+                ctetTrap: "Do not choose habitual simple present when visual triggers demand immediate present action."
+            },
+            {
+                id: 10,
+                question: "In which of the following is the Present Continuous used to express a planned future arrangement?",
+                options: [
+                    "She is writing a book these days.",
+                    "I am meeting the school Principal tomorrow morning.",
+                    "The fan is rotating very fast.",
+                    "Why are you shouting at me?"
+                ],
+                correctAnswer: 1,
+                topic: "Present Continuous",
+                difficulty: "Medium",
+                explanation: "Present Continuous is standardly used for personal future arrangements and predetermined plans with a specified future time clue ('tomorrow').",
+                mistakeExplanation: "Options A, C, and D are descriptions of current ongoing or temporary states, not planned future arrangements.",
+                rule: "S + is/am/are + V-ing + Future Time Indicator (tomorrow/next week).",
+                trick: "If you have personal plans with a date/time tag, Present Continuous works just like Simple Future.",
+                ctetTrap: "CTET candidates assume Present Continuous is only for current live actions and fail to spot its future arrangement usage."
+            },
+            {
+                id: 11,
+                question: "Identify the error in the sentence:\n\"These days, my sister is teaching English, but she is also writing her own novel.\"",
+                options: [
+                    "is teaching",
+                    "writing her own",
+                    "These days",
+                    "No error"
+                ],
+                correctAnswer: 3,
+                topic: "Error spotting",
+                difficulty: "Hard",
+                explanation: "The sentence is completely correct. Present continuous is accurately used here for a temporary situation ('these days') that is happening around now, but not necessarily at the exact moment of speaking.",
+                mistakeExplanation: "None of the parts are incorrect; both represent temporary parallel situations.",
+                rule: "Present Continuous can represent temporary states active *around* the present moment.",
+                trick: "'These days' or 'currently' strongly indicate temporary continuous structures.",
+                ctetTrap: "Students often mistake 'these days' as habitual requiring simple present. However, 'teaching' and 'writing' are temporary shifts, so continuous is perfect."
+            },
+            {
+                id: 12,
+                question: "Fill in the blank: \"Be quiet! The class _______ a test.\"",
+                options: [
+                    "takes",
+                    "is taking",
+                    "taken",
+                    "will take"
+                ],
+                correctAnswer: 1,
+                topic: "Fill in the blanks",
+                difficulty: "Easy",
+                explanation: "The imperative command 'Be quiet!' indicates that the action is actively taking place at the moment of speaking.",
+                mistakeExplanation: "'takes' would imply the class always takes tests whenever someone speaks, which makes no contextual sense.",
+                rule: "Imperative markers suggest immediate ongoing activity (Present Continuous).",
+                trick: "Command expression ('Be quiet') = immediate tense aspect ('is taking').",
+                ctetTrap: "Be careful not to assume static actions when imperatively ordered."
+            },
+            {
+                id: 13,
+                question: "Which of the following is a grammatically incorrect sentence due to stative verb usage?",
+                options: [
+                    "I prefer tea to coffee.",
+                    "She is owning three luxury cars.",
+                    "They believe in traditional values.",
+                    "This box weighs five kilograms."
+                ],
+                correctAnswer: 1,
+                topic: "Sentence correction",
+                difficulty: "Hard",
+                explanation: "'Own' is a stative verb representing possession. Stative verbs cannot be used in continuous aspect. The correct form is 'She owns'.",
+                mistakeExplanation: "Stative continuous 'is owning' violates grammatical structure rules.",
+                rule: "Verbs of possession (own, belong, possess) do not take progressive aspect.",
+                trick: "Possession is fixed, so never put it in the dynamic '-ing' form.",
+                ctetTrap: "Stative verbs are a gold mine for CTET examiners. They frequently test 'is possessing', 'is owning', 'is appearing' to trap candidates."
+            },
+            {
+                id: 14,
+                question: "Fill in the blank:\n\"The climate of the Earth _______ warmer due to greenhouse gases.\"",
+                options: [
+                    "gets",
+                    "is getting",
+                    "has got",
+                    "will get"
+                ],
+                correctAnswer: 1,
+                topic: "Fill in the blanks",
+                difficulty: "Medium",
+                explanation: "For developing, changing, or evolving situational trends, we use the Present Continuous tense.",
+                mistakeExplanation: "'gets' is for general fact, but progressive warming trend is better expressed via dynamic 'is getting'.",
+                rule: "Changing states or trends require Progressive/Continuous structures.",
+                trick: "Words indicating change (getting, becoming, growing) signal Present Continuous.",
+                ctetTrap: "Warming is a permanent fact now, so candidates get confused and pick simple present instead of progressive trend."
+            },
+            {
+                id: 15,
+                question: "Complete the sentence:\n\"Why _______ you always _______? You are never happy!\"",
+                options: [
+                    "do, complain",
+                    "are, complaining",
+                    "have, complained",
+                    "did, complain"
+                ],
+                correctAnswer: 1,
+                topic: "Present Continuous",
+                difficulty: "Hard",
+                explanation: "When expressing annoyance, irritation, or critical feedback with 'always' or 'constantly', we use the Present Continuous rather than Simple Present.",
+                mistakeExplanation: "'do, complain' would be a simple query, but the emotional feedback 'never happy' dictates annoyed progressive.",
+                rule: "S + is/am/are + always + V-ing = expressing complaint or irritation.",
+                trick: "If the speaker sounds highly annoyed and 'always' is present, use continuous tense.",
+                ctetTrap: "Students see 'always' and default to Simple Present, ignoring the functional grammar rule for complaining."
+            },
+            {
+                id: 16,
+                question: "Identify the tense: \"They are constantly discussing pedagogic theories in their room.\"",
+                options: [
+                    "Simple Present",
+                    "Present Continuous",
+                    "Present Perfect",
+                    "Present Perfect Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structural compound 'are discussing' is built of the present form of 'to be' + present participle (-ing), making it Present Continuous.",
+                mistakeExplanation: "No has/have auxiliary to suggest perfect states.",
+                rule: "to be (are) + V-ing = Continuous.",
+                trick: "Look at the auxiliary and participle base structure directly.",
+                ctetTrap: "Adverbs of frequency like 'constantly' can deflect attention away from the simple progressive structure."
+            },
+            {
+                id: 17,
+                question: "Fill in the blank with correct aspect:\n\"She _______ her homework, so she can go out to play now.\"",
+                options: [
+                    "finished",
+                    "has finished",
+                    "is finishing",
+                    "had finished"
+                ],
+                correctAnswer: 1,
+                topic: "Present Perfect",
+                difficulty: "Medium",
+                explanation: "The action of completing homework happened in the immediate past, and its result is relevant to the active present moment ('can go out now'). This indicates Present Perfect.",
+                mistakeExplanation: "'finished' focuses only on past, while 'has finished' links past action to present play.",
+                rule: "Subject + has/have + V3 for past actions with current relevance.",
+                trick: "When the second part of the sentence shows a current permission or state ('so now she can...'), connect it with Present Perfect.",
+                ctetTrap: "Differentiating simple past and present perfect is a major pedagogical block for bilingual learners."
+            },
+            {
+                id: 18,
+                question: "Which of the following sentences has a correct use of time expressions with Present Perfect?",
+                options: [
+                    "I have seen him yesterday.",
+                    "We have already discussed this lesson.",
+                    "She has graduated in 2018.",
+                    "They have finished the class two hours ago."
+                ],
+                correctAnswer: 1,
+                topic: "Time expressions",
+                difficulty: "Hard",
+                explanation: "Present Perfect tense cannot be paired with absolute past time markers (yesterday, in 2018, ago). It can only be used with non-specific time markers (already, yet, since, for, so far).",
+                mistakeExplanation: "Yesterday, in 2018, and hours ago violate Present Perfect constraints because they are closed past times.",
+                rule: "Present Perfect + Non-specific time marker (already, yet, ever, never, just).",
+                trick: "Never use 'has/have + V3' with specific past terms like 'yesterday', 'ago', or 'last year'.",
+                ctetTrap: "CTET error-detection questions regularly pair 'have/has + V3' with 'yesterday' or 'last week' to catch careless readers."
+            },
+            {
+                id: 19,
+                question: "Complete the sentence:\n\"This is the most challenging CTET question I _______ ever _______.\"",
+                options: [
+                    "did, encounter",
+                    "have, encountered",
+                    "was, encountering",
+                    "had, encountered"
+                ],
+                correctAnswer: 1,
+                topic: "Fill in the blanks",
+                difficulty: "Medium",
+                explanation: "We use Present Perfect with superlative phrases ('the most...', 'the first time...') to state life-experience occurrences.",
+                mistakeExplanation: "Past perfect 'had encountered' would mean you are no longer in that state, which is wrong as the comparison is happening now.",
+                rule: "It is the [Superlative] + Present Perfect.",
+                trick: "Superlative degree + 'ever' pattern always requires Present Perfect.",
+                ctetTrap: "Students often pick Simple Past ('encountered') because it feels like an event that is over."
+            },
+            {
+                id: 21,
+                question: "Fill in the blank: \"We _______ each other since our childhood days.\"",
+                options: [
+                    "know",
+                    "are knowing",
+                    "have known",
+                    "had known"
+                ],
+                correctAnswer: 2,
+                topic: "Fill in the blanks",
+                difficulty: "Medium",
+                explanation: "'Know' is a stative verb. Even though 'since childhood' suggests a duration of time (where we usually use present perfect continuous), stative verbs cannot take '-ing'. Therefore, we use Present Perfect.",
+                mistakeExplanation: "'Are knowing' is grammatically incorrect, and 'know' ignores the time span 'since'.",
+                rule: "Stative Verbs + Since/For = Present Perfect (not Present Perfect Continuous).",
+                trick: "If you see 'since/for' but the verb is stative (know, love, believe, possess), pick the 'have/has + V3' form.",
+                ctetTrap: "Candidates see 'since' and blindly look for 'have been knowing', falling into the progressive stative trap."
+            },
+            {
+                id: 22,
+                question: "Identify the correct negative sentence structure in Present Perfect:",
+                options: [
+                    "She has finished not yet her assignment.",
+                    "She has not finished her assignment yet.",
+                    "She has yet not finished her assignment.",
+                    "She not yet has finished her assignment."
+                ],
+                correctAnswer: 1,
+                topic: "Sentence correction",
+                difficulty: "Easy",
+                explanation: "In Present Perfect, the adverb 'yet' is traditionally positioned at the end of a negative sentence or question.",
+                mistakeExplanation: "Other placements of 'yet' disrupt standard English syntax.",
+                rule: "Subject + has/have + not + V3 + ... + yet.",
+                trick: "'Yet' goes at the very end of negative sentences and questions.",
+                ctetTrap: "Placing 'yet' in internal syntax structures is a common bilingual sentence construct error."
+            },
+            {
+                id: 23,
+                question: "Explain the difference between:\n1) 'He has been to Delhi.' \n2) 'He has gone to Delhi.'",
+                options: [
+                    "They mean the exact same thing.",
+                    "1 means he visited Delhi and returned; 2 means he is still there.",
+                    "1 means he is currently in Delhi; 2 means he returned.",
+                    "1 is grammatically incorrect; only 2 is correct."
+                ],
+                correctAnswer: 1,
+                topic: "Simple to Complex tense usage",
+                difficulty: "Hard",
+                explanation: "'Has been to' indicates a completed visit (experience of visiting and returning), while 'has gone to' indicates that the person went there and is still in that place.",
+                mistakeExplanation: "Saying 'He has gone to Delhi' means he is physically not here at the moment of speaking.",
+                rule: "has/have been to = visit & return; has/have gone to = left and hasn't returned yet.",
+                trick: "If the person is talking to you face-to-face here, they have 'been to' that place, not 'gone to' it.",
+                ctetTrap: "CTET tests this semantic nuance of 'been to' vs 'gone to' to check deep conceptual understanding of English grammar."
+            },
+            {
+                id: 24,
+                question: "Complete the sentence:\n\"Up to now, the team _______ five chapters of the English Pedagogy syllabus.\"",
+                options: [
+                    "completed",
+                    "has completed",
+                    "is completing",
+                    "has been completing"
+                ],
+                correctAnswer: 1,
+                topic: "Present Perfect",
+                difficulty: "Medium",
+                explanation: "The phrase 'Up to now' (meaning so far) indicates a cumulative status up to the present moment, which requires the Present Perfect.",
+                mistakeExplanation: "'completed' is simple past, ignoring the present connection. 'has been completing' focuses on active continuous duration, not finished status count.",
+                rule: "Up to now / So far + Present Perfect.",
+                trick: "Quantifying results ('five chapters') usually blocks continuous tense; use present perfect instead.",
+                ctetTrap: "Don't confuse progressive action with absolute results count."
+            },
+            {
+                id: 25,
+                question: "Choose the correct tense form to emphasize the duration of an ongoing action:\n\"I _______ for this exam since morning.\"",
+                options: [
+                    "study",
+                    "am studying",
+                    "have been studying",
+                    "had studied"
+                ],
+                correctAnswer: 2,
+                topic: "Present Perfect Continuous",
+                difficulty: "Easy",
+                explanation: "An action that started in the past ('since morning') and is still continuing into the present requires the Present Perfect Continuous tense.",
+                mistakeExplanation: "'am studying' is present continuous, which does not incorporate past duration marked by 'since'.",
+                rule: "S + has/have + been + V-ing + since/for.",
+                trick: "If you see 'since/for' with a dynamic action verb, select 'have/has been + V-ing'.",
+                ctetTrap: "Using simple present continuous with 'since/for' (e.g. 'I am studying since morning') is the most common native language interference error."
+            },
+            {
+                id: 26,
+                question: "Fill in the blank with the correct preposition of duration:\n\"The students have been waiting for the results _______ three weeks.\"",
+                options: [
+                    "since",
+                    "for",
+                    "from",
+                    "during"
+                ],
+                correctAnswer: 1,
+                topic: "Time expressions",
+                difficulty: "Medium",
+                explanation: "'For' is used to define a total period/duration of time ('three weeks'), whereas 'since' is used for a specific starting point in time.",
+                mistakeExplanation: "Using 'since' here is incorrect because 'three weeks' is a block of time, not a starting point.",
+                rule: "Since + Point of time (Monday, 5 PM, childhood); For + Period of time (5 hours, 3 weeks, a long time).",
+                trick: "If the time expression is a number + time unit (3 weeks, 10 days, 2 hours), use 'for'.",
+                ctetTrap: "CTET frequently tests 'since' vs 'for' in fill-in-the-blank questions because of translation errors in Indian languages where both mean 'से'."
+            },
+            {
+                id: 27,
+                question: "Identify the tense: \"Why have you been crying? Your eyes are completely red.\"",
+                options: [
+                    "Present Continuous",
+                    "Present Perfect",
+                    "Present Perfect Continuous",
+                    "Past Continuous"
+                ],
+                correctAnswer: 2,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'have been crying' consists of 'have' + 'been' + present participle (-ing). This makes it Present Perfect Continuous, used here for an action that has just stopped but has visible present results.",
+                mistakeExplanation: "It is not standard continuous because of the 'have been' component.",
+                rule: "has/have + been + V-ing = Present Perfect Continuous.",
+                trick: "Look at the auxiliary block 'have been' followed directly by '-ing' verb.",
+                ctetTrap: "Even if there is no 'since' or 'for' in the sentence, an action with immediate visible physical evidence uses this tense."
+            },
+            {
+                id: 28,
+                question: "Correct the following sentence:\n\"She is working in this school since 2015.\"",
+                options: [
+                    "She was working in this school since 2015.",
+                    "She has been working in this school since 2015.",
+                    "She has worked in this school from 2015.",
+                    "She worked in this school since 2015."
+                ],
+                correctAnswer: 1,
+                topic: "Sentence correction",
+                difficulty: "Medium",
+                explanation: "Using Present Continuous ('is working') with a starting point in time ('since 2015') is grammatically incorrect. It must be converted to Present Perfect Continuous.",
+                mistakeExplanation: "'is working' cannot take a 'since' temporal clause.",
+                rule: "Cannot use Present Continuous with point-of-origin time markers.",
+                trick: "Whenever a sentence ends with 'since [year/time]', check if the verb is 'has/have been -ing'.",
+                ctetTrap: "This is a standard error-spotting sentence in almost every teaching exam."
+            },
+            {
+                id: 29,
+                question: "Find the error in the sentence:\n\"The teacher (A) is lecturing (B) the classroom (C) for forty minutes now (D).\"",
+                options: [
+                    "The teacher",
+                    "is lecturing",
+                    "the classroom",
+                    "for forty minutes now"
+                ],
+                correctAnswer: 1,
+                topic: "Error spotting",
+                difficulty: "Medium",
+                explanation: "The presence of 'for forty minutes now' indicates duration of an action up to the present. The progressive auxiliary 'is lecturing' should be 'has been lecturing'.",
+                mistakeExplanation: "Using present continuous instead of perfect continuous is the error here.",
+                rule: "Action spanning from past to present with duration marker = Perfect Continuous.",
+                trick: "Look for 'for + time duration' and match it with perfect continuous.",
+                ctetTrap: "Indian bilingual students often read 'is lecturing ... for' and translate it as 'पढ़ा रहे हैं' and think it is correct."
+            },
+            {
+                id: 30,
+                question: "Complete the sentence:\n\"It _______ all day long, and the streets are starting to flood.\"",
+                options: [
+                    "is raining",
+                    "rains",
+                    "has been raining",
+                    "rained"
+                ],
+                correctAnswer: 2,
+                topic: "Present Perfect Continuous",
+                difficulty: "Easy",
+                explanation: "'All day long' represents a continuous duration starting in the past and still happening now, calling for the Present Perfect Continuous.",
+                mistakeExplanation: "'is raining' misses the past continuity aspect implied by 'all day long'.",
+                rule: "All day / All week duration indicators dictate Present Perfect Continuous.",
+                trick: "Look for 'all [time block]' as a duration indicator.",
+                ctetTrap: "Don't fall for simple continuous just because the action is currently active."
+            },
+            {
+                id: 31,
+                question: "Choose the correct sentence to express an ongoing process that is temporary:",
+                options: [
+                    "I have been writing a research paper this afternoon.",
+                    "I am writing a research paper this afternoon.",
+                    "I write a research paper this afternoon.",
+                    "I have written a research paper this afternoon."
+                ],
+                correctAnswer: 0,
+                topic: "Simple to Complex tense usage",
+                difficulty: "Hard",
+                explanation: "Present Perfect Continuous is used when emphasizing the ongoing physical effort/activity of writing throughout the afternoon.",
+                mistakeExplanation: "Option B is correct if stating immediate current action, but Option A is more complete to highlight the duration of work over the afternoon segment.",
+                rule: "Emphasis on activity duration = Present Perfect Continuous.",
+                trick: "If you want to explain why you are exhausted or what you spent your time doing, use perfect continuous.",
+                ctetTrap: "Over-analyzing the differences between continuous and perfect continuous can be confusing. Look for duration of energy spent."
+            },
+            {
+                id: 32,
+                question: "Fill in the blank: \"They _______ for the bus for an hour before it finally arrived.\"",
+                options: [
+                    "have been waiting",
+                    "are waiting",
+                    "had been waiting",
+                    "were waiting"
+                ],
+                correctAnswer: 2,
+                topic: "Past Perfect Continuous",
+                difficulty: "Hard",
+                explanation: "The sentence describes an action that was ongoing in the past up to a specific point when another past event occurred ('arrived'). This requires the Past Perfect Continuous.",
+                mistakeExplanation: "'have been waiting' is incorrect because the bus already arrived in the past.",
+                rule: "S + had + been + V-ing + for/since + past event.",
+                trick: "If the second clause has a past tense action ('arrived'), the prior ongoing action must be in Past Perfect Continuous ('had been waiting').",
+                ctetTrap: "Candidates ignore the past marker 'arrived' and choose present perfect continuous 'have been waiting' by habit."
+            },
+            {
+                id: 33,
+                question: "Complete the sentence:\n\"India _______ independence in the year 1947.\"",
+                options: [
+                    "wins",
+                    "won",
+                    "has won",
+                    "had won"
+                ],
+                correctAnswer: 1,
+                topic: "Past Simple",
+                difficulty: "Easy",
+                explanation: "When a sentence contains a specific completed time in the past ('in the year 1947'), we must use the Simple Past tense.",
+                mistakeExplanation: "Using 'has won' (Present Perfect) with a closed past date is a structural violation of grammar.",
+                rule: "Completed action at a specific past time = Simple Past (V2).",
+                trick: "If you see a historical year, past date, or 'ago', immediately choose V2 past simple.",
+                ctetTrap: "CTET often uses historical facts with present perfect ('India has won...') to see if you can spot the date-tense mismatch."
+            },
+            {
+                id: 34,
+                question: "Choose the correct verb form: \"While walking in the park, I _______ my old friend yesterday.\"",
+                options: [
+                    "meet",
+                    "met",
+                    "was meeting",
+                    "have met"
+                ],
+                correctAnswer: 1,
+                topic: "Past Simple",
+                difficulty: "Medium",
+                explanation: "An ongoing past action ('while walking') was interrupted by a short, completed past event, which must be in the Simple Past ('met').",
+                mistakeExplanation: "'was meeting' is incorrect as the meeting was sudden, not an ongoing action.",
+                rule: "Ongoing past action (Past Continuous) + Interruption (Simple Past).",
+                trick: "The pattern is: While I was [V-ing], I [V2].",
+                ctetTrap: "Understanding the difference between background actions and brief, sudden actions in a narrative is critical for pedagogy tests."
+            },
+            {
+                id: 35,
+                question: "Fill in the blank: \"She _______ to the market, bought vegetables, and returned home.\"",
+                options: [
+                    "went",
+                    "has gone",
+                    "had gone",
+                    "was going"
+                ],
+                correctAnswer: 0,
+                topic: "Fill in the blanks",
+                difficulty: "Easy",
+                explanation: "For a sequence of completed past actions in a story, we use Simple Past for all actions in the sequence.",
+                mistakeExplanation: "Using different tenses disrupts the parallel structure established by 'bought' and 'returned'.",
+                rule: "Parallel narrative actions in the past = Simple Past + Simple Past + Simple Past.",
+                trick: "Look at the other verbs in the sequence ('bought', 'returned'). They are in V2, so the first verb must also be V2 ('went').",
+                ctetTrap: "Breaking narrative verb parallelism is a common error pattern tested in sentence correction."
+            },
+            {
+                id: 36,
+                question: "Identify the tense: \"They lived in Delhi for ten years, but now they live in Mumbai.\"",
+                options: [
+                    "Past Perfect",
+                    "Simple Past",
+                    "Present Perfect",
+                    "Past Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Medium",
+                explanation: "The verb 'lived' is in Simple Past (V2). It represents a state that started and finished in the past and is no longer true.",
+                mistakeExplanation: "Though 'for ten years' is used, it represents a closed past period, not an ongoing present one, hence 'lived' (V2) is correct.",
+                rule: "V2 used for closed past periods of time.",
+                trick: "If the state is completely finished and no longer true ('now they live elsewhere'), use Simple Past, even with 'for'.",
+                ctetTrap: "Students think 'for' always requires perfect tenses, forgetting that simple past is used for finished situations."
+            },
+            {
+                id: 37,
+                question: "Complete the sentence:\n\"I _______ English when I was in secondary school, but I have forgotten most of it now.\"",
+                options: [
+                    "have studied",
+                    "studied",
+                    "was studying",
+                    "had studied"
+                ],
+                correctAnswer: 1,
+                topic: "Past Simple",
+                difficulty: "Medium",
+                explanation: "'When I was in school' is a completed past time period. Thus, the action of studying is a closed past habit requiring the Simple Past.",
+                mistakeExplanation: "Using Present Perfect 'have studied' is incorrect because the time period is entirely in the past and disconnected from today.",
+                rule: "Closed life stages (childhood, school days) require Simple Past.",
+                trick: "Clauses starting with 'when I was...' usually take V2 Simple Past.",
+                ctetTrap: "Don't choose present perfect when a past time period is explicitly stated."
+            },
+            {
+                id: 38,
+                question: "Which of the following is a grammatically correct sentence using 'used to' for past habit?",
+                options: [
+                    "He used to played cricket in his childhood.",
+                    "He used to play cricket in his childhood.",
+                    "He is used to play cricket in his childhood.",
+                    "He was used to played cricket in his childhood."
+                ],
+                correctAnswer: 1,
+                topic: "Sentence correction",
+                difficulty: "Easy",
+                explanation: "'Used to' is a modal verb showing a past habit, and it is always followed by the base form of the verb (V1).",
+                mistakeExplanation: "Option A uses V2 after used to; Option C uses present state structure; Option D uses wrong passive forms.",
+                rule: "used to + V1 for past habitual actions.",
+                trick: "'Used to' already indicates the past, so the main verb must remain in the base form (V1).",
+                ctetTrap: "CTET tests 'used to + V2' to check if you understand basic modal verb structures."
+            },
+            {
+                id: 39,
+                question: "Fill in the blank with the correct verb form:\n\"Last night, I _______ a strange noise in the kitchen.\"",
+                options: [
+                    "heard",
+                    "hear",
+                    "was hearing",
+                    "have heard"
+                ],
+                correctAnswer: 0,
+                topic: "Past Simple",
+                difficulty: "Easy",
+                explanation: "'Last night' is a specific past time reference. 'Heard' is the Simple Past form of the verb 'hear'.",
+                mistakeExplanation: "'hear' is present, 'have heard' cannot be used with last night, and 'was hearing' is stative error.",
+                rule: "Past time expression + Simple Past.",
+                trick: "Look for 'last night/week/year' and immediately choose V2.",
+                ctetTrap: "Avoid using the continuous form of 'hear' as a stative verb in standard narrative contexts."
+            },
+            {
+                id: 40,
+                question: "Identify the error in the sentence:\n\"Did (A) you (B) saw (C) him at the meeting yesterday (D)?\"",
+                options: [
+                    "Did",
+                    "you",
+                    "saw",
+                    "at the meeting yesterday"
+                ],
+                correctAnswer: 2,
+                topic: "Error spotting",
+                difficulty: "Easy",
+                explanation: "In questions with 'did', the helping verb 'did' already expresses the past tense, so the main verb must be in its base form (V1) 'see', not 'saw'.",
+                mistakeExplanation: "Using a past tense verb 'saw' after 'did' is a double past tense error.",
+                rule: "Did + Subject + V1 (base form).",
+                trick: "Never use a V2 verb after 'did' or 'didn't'. It must always be V1.",
+                ctetTrap: "This is one of the most common colloquial errors made by ESL learners and a favorite for CTET error-detection."
+            },
+            {
+                id: 41,
+                question: "Choose the correct past continuous aspect:\n\"At 8:00 PM yesterday, we _______ dinner.\"",
+                options: [
+                    "had",
+                    "were having",
+                    "have had",
+                    "was having"
+                ],
+                correctAnswer: 1,
+                topic: "Past Continuous",
+                difficulty: "Easy",
+                explanation: "When describing an action that was actively in progress at a specific moment in the past, we use the Past Continuous tense.",
+                mistakeExplanation: "'had' is simple past, while 'were having' highlights the continuous process at that exact hour.",
+                rule: "Subject (Plural) + were + V-ing.",
+                trick: "Specific point in past time ('at 8 PM yesterday') indicates progressive action.",
+                ctetTrap: "Ensure subject-verb agreement! 'We' takes 'were', not 'was'."
+            },
+            {
+                id: 42,
+                question: "Fill in the blank: \"While the teacher _______ the lesson, some students were talking.\"",
+                options: [
+                    "explains",
+                    "explained",
+                    "was explaining",
+                    "has explained"
+                ],
+                correctAnswer: 2,
+                topic: "Fill in the blanks",
+                difficulty: "Easy",
+                explanation: "The conjunction 'while' is typically followed by a continuous tense to represent a longer, background action in progress in the past.",
+                mistakeExplanation: "Simple past 'explained' does not capture the ongoing background action as well as 'was explaining'.",
+                rule: "While + Past Continuous (was/were V-ing).",
+                trick: "The word 'while' usually signals a continuous action, whereas 'when' usually signals a brief, simple action.",
+                ctetTrap: "Differentiating between 'while' and 'when' clauses is a classic grammar point tested in teaching exams."
+            },
+            {
+                id: 43,
+                question: "Identify the tense: \"She was constantly studying during her college days.\"",
+                options: [
+                    "Simple Past",
+                    "Past Continuous",
+                    "Past Perfect",
+                    "Past Perfect Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The verb structure 'was studying' is composed of the past form of 'to be' (was) + present participle (-ing), identifying it as Past Continuous.",
+                mistakeExplanation: "The helper 'was' + '-ing' is the signature of Past Continuous.",
+                rule: "was/were + V-ing = Past Continuous.",
+                trick: "Look at the auxiliary 'was' and matching '-ing' ending.",
+                ctetTrap: "The adverb 'constantly' can make students think of a habitual tense like simple past."
+            },
+            {
+                id: 44,
+                question: "Complete the sentence:\n\"When the bell rang, the children _______ their books.\"",
+                options: [
+                    "packed",
+                    "were packing",
+                    "have packed",
+                    "had packed"
+                ],
+                correctAnswer: 1,
+                topic: "Past Continuous",
+                difficulty: "Medium",
+                explanation: "The sentence describes an action ('packing books') that was in progress when a sudden event ('bell rang') occurred. Therefore, the ongoing action is in Past Continuous.",
+                mistakeExplanation: "'packed' suggests they did it instantly after the bell rang, but 'were packing' highlights they were in the middle of doing it when it rang.",
+                rule: "Ongoing background action (Past Continuous) interrupted by brief event (Simple Past).",
+                trick: "If you want to show the scene at the moment of the sudden event, use Past Continuous.",
+                ctetTrap: "Candidates often struggle to visualize the overlap of actions and pick simple past."
+            },
+            {
+                id: 45,
+                question: "Which of the following sentences correctly shows two parallel actions occurring simultaneously in the past?",
+                options: [
+                    "While my mother was cooking, I was studying.",
+                    "While my mother cooked, I had studied.",
+                    "While my mother has been cooking, I studied.",
+                    "My mother cooked while I was study."
+                ],
+                correctAnswer: 0,
+                topic: "Simple to Complex tense usage",
+                difficulty: "Medium",
+                explanation: "To describe two continuous, parallel actions happening at the exact same time in the past, we use Past Continuous for both clauses.",
+                mistakeExplanation: "Mismatching the tenses in parallel actions ruins the balanced timeline of the sentence.",
+                rule: "While + Past Continuous, Past Continuous.",
+                trick: "Look for 'while' connecting two long actions; both should be in 'was/were -ing' form.",
+                ctetTrap: "Watch out for active spelling or structure errors like 'I was study' instead of 'studying'."
+            },
+            {
+                id: 46,
+                question: "Fill in the blank with the correct aspect:\n\"I _______ a book when you called me, so I didn't hear you at first.\"",
+                options: [
+                    "read",
+                    "was reading",
+                    "had read",
+                    "am reading"
+                ],
+                correctAnswer: 1,
+                topic: "Past Continuous",
+                difficulty: "Easy",
+                explanation: "The background action in progress at the time of the phone call must be in Past Continuous ('was reading').",
+                mistakeExplanation: "'read' is simple past, which doesn't convey that the action was ongoing at that moment.",
+                rule: "Past continuous shows progress of action interrupted by an event.",
+                trick: "If you couldn't do something because you were in the middle of doing something else, use Past Continuous.",
+                ctetTrap: "Make sure you don't pick present continuous 'am reading' when the context is clearly in the past ('called', 'didn't')."
+            },
+            {
+                id: 47,
+                question: "Find the error in the sentence:\n\"Yesterday at noon, (A) they was playing (B) a friendly match (C) in the school playground (D).\"",
+                options: [
+                    "Yesterday at noon,",
+                    "they was playing",
+                    "a friendly match",
+                    "in the school playground"
+                ],
+                correctAnswer: 1,
+                topic: "Error spotting",
+                difficulty: "Easy",
+                explanation: "The plural subject 'they' must agree with the plural auxiliary 'were', not singular 'was'. It should be 'they were playing'.",
+                mistakeExplanation: "'They' is a plural pronoun, so 'was' is incorrect.",
+                rule: "Plural Subject (They/We/You) + Were + V-ing.",
+                trick: "Always check the matching auxiliary verb for pronouns.",
+                ctetTrap: "Basic subject-verb agreement errors are frequently paired with past continuous questions."
+            },
+            {
+                id: 48,
+                question: "Complete the sentence:\n\"As the sun _______, we decided to pack our bags and leave.\"",
+                options: [
+                    "was setting",
+                    "set",
+                    "had set",
+                    "is setting"
+                ],
+                correctAnswer: 0,
+                topic: "Fill in the blanks",
+                difficulty: "Medium",
+                explanation: "'As' is used here to show a gradual process during which a decision was made. The gradual process is expressed in Past Continuous ('was setting').",
+                mistakeExplanation: "'set' implies the process was instantaneous, but sunset is gradual.",
+                rule: "As / While + Past Continuous for progressive atmospheric setting.",
+                trick: "Natural processes (sunset, rain, rising wind) in past narratives are usually continuous.",
+                ctetTrap: "Ensure tense consistency with the second clause 'decided' (past simple)."
+            },
+            {
+                id: 49,
+                question: "Choose the correct sentence following the past-perfect sequence rule:",
+                options: [
+                    "The patient died before the doctor arrived.",
+                    "The patient had died before the doctor arrived.",
+                    "The patient died before the doctor had arrived.",
+                    "The patient had died before the doctor had arrived."
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect",
+                difficulty: "Medium",
+                explanation: "When two actions happened in the past, the action that completed first must be written in the Past Perfect (had + V3), and the action that happened later must be in the Simple Past (V2).",
+                mistakeExplanation: "Both actions in Simple Past is colloquial, but Past Perfect is required to establish the correct sequence of events grammatically.",
+                rule: "First Past Action (Past Perfect) + Second Past Action (Simple Past).",
+                trick: "The event that happened first gets the 'had + V3' treatment.",
+                ctetTrap: "This is a legendary question template in English grammar exams. Remember: First Action = Had + V3, Second Action = V2."
+            },
+            {
+                id: 50,
+                question: "Fill in the blank: \"By the time the police arrived, the thief _______.\"",
+                options: [
+                    "escaped",
+                    "had escaped",
+                    "was escaping",
+                    "escapes"
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect",
+                difficulty: "Medium",
+                explanation: "The clause 'By the time the police arrived' sets a deadline in the past. Any action completed before that deadline must be in the Past Perfect ('had escaped').",
+                mistakeExplanation: "Simple past 'escaped' would imply they did it at the same time, which is incorrect as the thief was already gone.",
+                rule: "By the time + Simple Past, Past Perfect.",
+                trick: "Whenever you see 'By the time' followed by a V2 verb, look for 'had + V3' in the other clause.",
+                ctetTrap: "This 'By the time' construction is a top favorite of CTET grammar test developers."
+            },
+            {
+                id: 51,
+                question: "Identify the tense: \"He had already completed his training before joining the school.\"",
+                options: [
+                    "Simple Past",
+                    "Past Continuous",
+                    "Past Perfect",
+                    "Present Perfect"
+                ],
+                correctAnswer: 2,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The auxiliary 'had' combined with the past participle 'completed' clearly defines the Past Perfect tense.",
+                mistakeExplanation: "The auxiliary 'had' is the defining marker of Past Perfect.",
+                rule: "had + V3 = Past Perfect.",
+                trick: "If you see 'had' + V3, it is always Past Perfect.",
+                ctetTrap: "Do not confuse the auxiliary 'had' with the possessive past verb 'had' (e.g., 'I had a car' is simple past)."
+            },
+            {
+                id: 52,
+                question: "Complete the sentence:\n\"I _______ him because I had not met him for years.\"",
+                options: [
+                    "don't recognize",
+                    "did not recognize",
+                    "have not recognized",
+                    "had not recognized"
+                ],
+                correctAnswer: 1,
+                topic: "Fill in the blanks",
+                difficulty: "Medium",
+                explanation: "The first action is that I didn't see him for years (had not met), and as a result in the past, I didn't recognize him (Simple Past 'did not recognize').",
+                mistakeExplanation: "'had not recognized' is incorrect as that would double up the Past Perfect redundantly.",
+                rule: "Cause (Past Perfect) -> Result (Simple Past).",
+                trick: "Match the action sequence: first they were apart for years (had met), then they met and failed to recognize (Simple Past).",
+                ctetTrap: "Avoid using past perfect for both parts of a narrative sentence; one must be simple past."
+            },
+            {
+                id: 53,
+                question: "Choose the grammatically correct sentence for an unfulfilled past condition:",
+                options: [
+                    "If he would have worked hard, he would have passed.",
+                    "If he had worked hard, he would have passed.",
+                    "If he worked hard, he would have passed.",
+                    "If he had worked hard, he would pass."
+                ],
+                correctAnswer: 1,
+                topic: "Simple to Complex tense usage",
+                difficulty: "Hard",
+                explanation: "In Type 3 Conditional sentences (unfulfilled past conditions), the if-clause takes the Past Perfect (had + V3) and the main clause takes 'would have + V3'.",
+                mistakeExplanation: "Using 'would have' in the if-clause is a major structural error in English grammar.",
+                rule: "If + Past Perfect, would have + V3.",
+                trick: "Never put 'would' or 'would have' inside the 'if' clause. It belongs in the main clause.",
+                ctetTrap: "Many candidates translate 'अगर वह मेहनत करता...' literally and use 'would have' in both clauses, which is a major CTET trap."
+            },
+            {
+                id: 54,
+                question: "Identify the error in the sentence:\n\"I wished (A) that I (B) have accepted (C) the job offer last month (D).\"",
+                options: [
+                    "I wished",
+                    "that I",
+                    "have accepted",
+                    "the job offer last month"
+                ],
+                correctAnswer: 2,
+                topic: "Error spotting",
+                difficulty: "Hard",
+                explanation: "After 'wish' referring to a past regret, we use the Past Perfect tense. Therefore, 'have accepted' should be 'had accepted'.",
+                mistakeExplanation: "Present perfect 'have accepted' cannot be used for a past regret tied to last month.",
+                rule: "Subject + wish + Past Perfect (to express past regret).",
+                trick: "Wish about the past = Use 'had + V3'.",
+                ctetTrap: "Wishes are subjunctive, and their tense shifts can be confusing for ESL students."
+            },
+            {
+                id: 55,
+                question: "Complete the sentence:\n\"She was nervous because she _______ before.\"",
+                options: [
+                    "has never flown",
+                    "had never flown",
+                    "was never flying",
+                    "never flew"
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect",
+                difficulty: "Medium",
+                explanation: "The state of being nervous was in the past ('was nervous'). The reason was a lack of experience prior to that moment, requiring the Past Perfect ('had never flown').",
+                mistakeExplanation: "Present perfect 'has never flown' breaks the past tense frame set by 'was'.",
+                rule: "Reason prior to past state = Past Perfect.",
+                trick: "If the first clause is past simple ('was nervous'), the explanation clause usually requires Past Perfect ('had...').",
+                ctetTrap: "Check the main verb tense ('was') before selecting present perfect 'has'."
+            },
+            {
+                id: 56,
+                question: "Fill in the blank: \"Hardly _______ I entered the room when the lights went out.\"",
+                options: [
+                    "have",
+                    "had",
+                    "did",
+                    "was"
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect",
+                difficulty: "Hard",
+                explanation: "When a sentence starts with negative adverbs like 'Hardly', 'Scarcely', or 'No sooner', we use inversion, and the Past Perfect 'had' is typically used for the first completed action.",
+                mistakeExplanation: "'did' would require the base verb 'enter', not 'entered'.",
+                rule: "Hardly / Scarcely + had + Subject + V3 ... when + Simple Past.",
+                trick: "Look for 'entered' (V3). With 'Hardly', it pairs with 'had'. If it were 'enter' (V1), it would pair with 'did'.",
+                ctetTrap: "Sentence inversion with negative adverbs is a very common advanced structure tested in CTET Paper II."
+            },
+            {
+                id: 57,
+                question: "Choose the correct aspect of past perfect continuous:\n\"He _______ for three hours before he finally solved the mathematics puzzle.\"",
+                options: [
+                    "had been trying",
+                    "has been trying",
+                    "was trying",
+                    "tried"
+                ],
+                correctAnswer: 0,
+                topic: "Past Perfect Continuous",
+                difficulty: "Medium",
+                explanation: "An action that was ongoing in the past up to a specific moment of completion ('solved') requires the Past Perfect Continuous.",
+                mistakeExplanation: "'has been trying' is present perfect continuous, which cannot be used since the final solving action is in the past.",
+                rule: "S + had + been + V-ing + for/since + past simple action.",
+                trick: "Ongoing action + duration ('three hours') + past event ('solved') = Past Perfect Continuous.",
+                ctetTrap: "Do not use present perfect continuous when the timeline of the sentence is entirely in the past."
+            },
+            {
+                id: 58,
+                question: "Identify the tense: \"The ground was wet because it had been raining all night.\"",
+                options: [
+                    "Past Continuous",
+                    "Past Perfect",
+                    "Past Perfect Continuous",
+                    "Present Perfect Continuous"
+                ],
+                correctAnswer: 2,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'had been raining' is the past perfect continuous form, indicating an action that was ongoing in the past and had a direct effect at a point in the past.",
+                mistakeExplanation: "It is not present perfect continuous because the context starts with past simple 'was'.",
+                rule: "had + been + V-ing = Past Perfect Continuous.",
+                trick: "Look for 'had been' followed by a verb ending in '-ing'.",
+                ctetTrap: "Recognizing this tense through cause-and-effect structures is a common reading comprehension skill."
+            },
+            {
+                id: 59,
+                question: "Fill in the blank: \"She _______ Spanish for two years before she moved to Madrid.\"",
+                options: [
+                    "has been learning",
+                    "had been learning",
+                    "was learning",
+                    "learned"
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect Continuous",
+                difficulty: "Medium",
+                explanation: "The action of learning Spanish started and was ongoing before she moved to Madrid (past simple). This ongoing duration requires the Past Perfect Continuous.",
+                mistakeExplanation: "Present perfect continuous is incorrect because she already moved to Madrid in the past.",
+                rule: "S + had + been + V-ing + for/since + past event.",
+                trick: "If you see a duration ('for two years') and a past action ('moved'), use 'had been V-ing'.",
+                ctetTrap: "Watch out for the past tense marker at the end of the sentence before choosing present perfect continuous."
+            },
+            {
+                id: 60,
+                question: "Complete the sentence:\n\"By noon, the workers _______ the road for six hours under the hot sun.\"",
+                options: [
+                    "were repairing",
+                    "had been repairing",
+                    "have been repairing",
+                    "repaired"
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect Continuous",
+                difficulty: "Medium",
+                explanation: "The past deadline 'By noon' paired with a duration ('for six hours') requires the Past Perfect Continuous to show the ongoing effort.",
+                mistakeExplanation: "'were repairing' simply shows progress, but doesn't emphasize the completed duration of effort.",
+                rule: "By + past time marker + duration = Past Perfect Continuous.",
+                trick: "Look for 'By [past time]' combined with 'for [duration]'.",
+                ctetTrap: "Avoid choosing simple past or past continuous when a specific duration of work is highlighted."
+            },
+            {
+                id: 61,
+                question: "Identify the error in the sentence:\n\"When (A) I saw him, (B) he was out of breath because (C) he has been running (D).\"",
+                options: [
+                    "When I saw him,",
+                    "he was out of breath",
+                    "because",
+                    "he has been running"
+                ],
+                correctAnswer: 3,
+                topic: "Error spotting",
+                difficulty: "Hard",
+                explanation: "The sentence is set in the past ('saw', 'was'). Therefore, the prior ongoing action must be in Past Perfect Continuous ('had been running'), not present perfect continuous 'has been'.",
+                mistakeExplanation: "Using 'has been running' violates the past tense framework established in the first clause.",
+                rule: "Past state ('was out of breath') caused by prior past action = Past Perfect Continuous.",
+                trick: "Match past actions with past auxiliaries ('was' goes with 'had been', not 'has been').",
+                ctetTrap: "This indirect sequence of tenses is a common area where candidates fail to check tense consistency across clauses."
+            },
+            {
+                id: 62,
+                question: "Fill in the blank: \"We _______ for her for over an hour before she finally called.\"",
+                options: [
+                    "were waiting",
+                    "had been waiting",
+                    "have been waiting",
+                    "waited"
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect Continuous",
+                difficulty: "Medium",
+                explanation: "An ongoing action with a duration ('for over an hour') that happened before a past event ('called') must be in Past Perfect Continuous.",
+                mistakeExplanation: "Simple past and past continuous do not represent the continuous duration of an action before a past point.",
+                rule: "S + had + been + V-ing + duration + past simple action.",
+                trick: "Look for 'before + V2' to signal Past Perfect Continuous in the first clause.",
+                ctetTrap: "Do not fall for 'were waiting' when a specific duration of time ('for over an hour') is explicitly stated."
+            },
+            {
+                id: 63,
+                question: "Which of the following sentences utilizes the Past Perfect Continuous correctly?",
+                options: [
+                    "The phone had been ringing for ten minutes before anyone answered it.",
+                    "The phone was ringing for ten minutes before anyone answered it.",
+                    "The phone has been ringing for ten minutes before anyone answered it.",
+                    "The phone had been rung for ten minutes before anyone answered it."
+                ],
+                correctAnswer: 0,
+                topic: "Sentence correction",
+                difficulty: "Hard",
+                explanation: "An ongoing action ('phone ringing') with a duration ('for ten minutes') before another past event ('answered') requires the Past Perfect Continuous.",
+                mistakeExplanation: "Option B uses past continuous which doesn't capture duration. Option C uses present perfect continuous, which mismatches the past tense timeline.",
+                rule: "Continuous action before past point with duration = Past Perfect Continuous.",
+                trick: "Choose 'had been -ing' when establishing a duration of an action before a past simple action.",
+                ctetTrap: "ESL learners often use simple past continuous where past perfect continuous is required."
+            },
+            {
+                id: 64,
+                question: "Complete the sentence:\n\"They _______ the house for months before they finally bought it.\"",
+                options: [
+                    "have been renting",
+                    "had been renting",
+                    "were renting",
+                    "rented"
+                ],
+                correctAnswer: 1,
+                topic: "Past Perfect Continuous",
+                difficulty: "Medium",
+                explanation: "The action of renting was ongoing for months before a specific past event ('bought'). This requires Past Perfect Continuous.",
+                mistakeExplanation: "Present perfect continuous 'have been' is incorrect because the purchase is already completed in the past.",
+                rule: "S + had + been + V-ing + duration + V2.",
+                trick: "Match the past tense 'bought' with the past auxiliary 'had been'.",
+                ctetTrap: "Identify the final point of the action (buying) to determine whether to use present or past perfect continuous."
+            },
+            {
+                id: 65,
+                question: "Choose the correct simple future form:\n\"I think it _______ rain this afternoon.\"",
+                options: [
+                    "is going to",
+                    "will",
+                    "rains",
+                    "shall"
+                ],
+                correctAnswer: 1,
+                topic: "Future Simple",
+                difficulty: "Easy",
+                explanation: "We use 'will' for predictions based on opinions, thoughts, or beliefs (often introduced by 'I think', 'I believe', 'I hope').",
+                mistakeExplanation: "'is going to' is used for predictions based on physical evidence, whereas 'will' is for subjective opinions.",
+                rule: "I think / I believe + will + V1.",
+                trick: "Look for 'I think' or 'probably' and pair it with 'will'.",
+                ctetTrap: "Distinguishing between 'will' and 'be going to' is a key aspect of advanced future tense usage."
+            },
+            {
+                id: 66,
+                question: "Fill in the blank with the correct predictive future aspect:\n\"Look at those dark clouds! It _______ rain.\"",
+                options: [
+                    "will",
+                    "is going to",
+                    "shall",
+                    "rains"
+                ],
+                correctAnswer: 1,
+                topic: "Future Simple",
+                difficulty: "Medium",
+                explanation: "We use 'be going to' for predictions about the future that are based on clear, present physical evidence ('dark clouds').",
+                mistakeExplanation: "Using 'will' here is less precise because there is clear visual proof of an imminent event.",
+                rule: "Present evidence + be going to + V1.",
+                trick: "If there is visual or physical proof ('Look at...', 'Listen to...'), use 'is/are going to'.",
+                ctetTrap: "Students often use 'will' for all future predictions, failing to spot the evidence-based 'be going to' rule."
+            },
+            {
+                id: 67,
+                question: "Identify the tense: \"I shall call you as soon as I reach home.\"",
+                options: [
+                    "Future Simple",
+                    "Future Continuous",
+                    "Future Perfect",
+                    "Present Simple"
+                ],
+                correctAnswer: 0,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "'Shall call' is the simple future form, traditionally used with the first-person pronouns 'I' and 'We'.",
+                mistakeExplanation: "'Shall' is a modal auxiliary showing simple future tense.",
+                rule: "I/We + shall/will + V1.",
+                trick: "Look for 'shall/will' directly followed by a base verb (V1).",
+                ctetTrap: "In modern English, 'will' is often used for all persons, but traditional grammar still recognizes 'shall' for first-person future."
+            },
+            {
+                id: 68,
+                question: "Complete the sentence:\n\"As soon as she _______, we will start the meeting.\"",
+                options: [
+                    "will arrive",
+                    "arrives",
+                    "arrived",
+                    "is going to arrive"
+                ],
+                correctAnswer: 1,
+                topic: "Future Simple",
+                difficulty: "Hard",
+                explanation: "In time clauses introduced by conjunctions like 'as soon as', 'when', 'before', 'after', and 'until', we use the Simple Present tense, even when referring to a future action.",
+                mistakeExplanation: "Using 'will arrive' in a time clause is a classic grammatical error. Double future verbs are incorrect.",
+                rule: "Time Conjunction (As soon as/When) + Simple Present, Future Simple.",
+                trick: "Never use 'will' in the clause containing the time word ('when', 'as soon as', 'until').",
+                ctetTrap: "CTET heavily tests this rule because ESL learners naturally translate 'जब वह आएगी' using 'will' in both clauses."
+            },
+            {
+                id: 69,
+                question: "Choose the correct sentence for a sudden decision made at the moment of speaking:",
+                options: [
+                    "I will answer the phone.",
+                    "I am going to answer the phone.",
+                    "I answer the phone.",
+                    "I will be answering the phone."
+                ],
+                correctAnswer: 0,
+                topic: "Simple to Complex tense usage",
+                difficulty: "Medium",
+                explanation: "We use 'will' for spontaneous decisions, offers, or promises made at the exact moment of speaking.",
+                mistakeExplanation: "'be going to' implies a prior plan, but answering a ringing phone is an immediate, spontaneous decision.",
+                rule: "Spontaneous Decision = Will + V1.",
+                trick: "If the action is a sudden reaction to an event (doorbell ringing, phone call), use 'will'.",
+                ctetTrap: "Understand the subtle difference in intention between a planned action and an immediate decision."
+            },
+            {
+                id: 70,
+                question: "Fill in the blank: \"By this time next year, I _______ my degree.\"",
+                options: [
+                    "will complete",
+                    "will have completed",
+                    "shall be completing",
+                    "completed"
+                ],
+                correctAnswer: 1,
+                topic: "Future Perfect",
+                difficulty: "Medium",
+                explanation: "The future time marker 'By this time next year' sets a deadline. Any action that will be completed before a specific future deadline requires the Future Perfect.",
+                mistakeExplanation: "Simple future 'will complete' doesn't express that the action will be finished before that deadline.",
+                rule: "By + future time marker + Future Perfect (will have + V3).",
+                trick: "Whenever you see 'By [future time]', look for 'will have + V3' in the choices.",
+                ctetTrap: "This 'By + future time' construction is a top-tier favorite in teacher eligibility tests."
+            },
+            {
+                id: 71,
+                question: "Identify the error in the sentence:\n\"I will (A) wait here (B) until you (C) will return (D).\"",
+                options: [
+                    "I will",
+                    "wait here",
+                    "until you",
+                    "will return"
+                ],
+                correctAnswer: 3,
+                topic: "Error spotting",
+                difficulty: "Medium",
+                explanation: "The time clause starting with 'until' must be written in the Simple Present, not Future Simple. It should be 'until you return'.",
+                mistakeExplanation: "Using 'will' in a dependent time clause is grammatically incorrect.",
+                rule: "Until + Simple Present, Future Simple.",
+                trick: "No 'will' after 'until'. Use V1 present tense.",
+                ctetTrap: "This error-spotting pattern is consistently tested across all major comparative grammar exams."
+            },
+            {
+                id: 72,
+                question: "Complete the sentence:\n\"If it rains tomorrow, the school sports day _______ postponed.\"",
+                options: [
+                    "will be",
+                    "is",
+                    "shall",
+                    "would be"
+                ],
+                correctAnswer: 0,
+                topic: "Future Simple",
+                difficulty: "Easy",
+                explanation: "In a Type 1 conditional sentence, the condition is in Simple Present ('rains'), and the result is in Simple Future ('will be postponed').",
+                mistakeExplanation: "'would be' is used in Type 2 hypothetical conditions, not real future ones.",
+                rule: "If + Simple Present, Future Simple.",
+                trick: "Match the simple present condition ('rains') with a simple future result ('will be').",
+                ctetTrap: "Don't mismatch present real-world conditions with hypothetical past conditional verbs."
+            },
+            {
+                id: 73,
+                question: "Choose the correct future continuous aspect:\n\"At this time tomorrow, I _______ in the exam hall.\"",
+                options: [
+                    "will write",
+                    "will be writing",
+                    "will have written",
+                    "write"
+                ],
+                correctAnswer: 1,
+                topic: "Future Continuous",
+                difficulty: "Easy",
+                explanation: "When describing an action that will be actively in progress at a specific moment in the future, we use the Future Continuous.",
+                mistakeExplanation: "Simple future 'will write' does not convey the ongoing nature of the action at that specific hour.",
+                rule: "S + will be + V-ing.",
+                trick: "Specific point in future time ('At this time tomorrow') indicates future progressive.",
+                ctetTrap: "Ensure you don't pick 'will have written' unless the action is already completed by that time."
+            },
+            {
+                id: 74,
+                question: "Identify the tense: \"They will be traveling across India during their winter vacation.\"",
+                options: [
+                    "Future Simple",
+                    "Future Continuous",
+                    "Future Perfect",
+                    "Present Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'will be traveling' is the future continuous aspect, showing an action that will be ongoing in the future.",
+                mistakeExplanation: "The helper 'will be' + '-ing' is the signature of Future Continuous.",
+                rule: "will be + V-ing = Future Continuous.",
+                trick: "Look for 'will be' followed directly by a verb ending in '-ing'.",
+                ctetTrap: "Identify the tense from the structure of the auxiliary verbs."
+            },
+            {
+                id: 75,
+                question: "Fill in the blank: \"Don't call me between 2 PM and 4 PM tomorrow because I _______.\"",
+                options: [
+                    "will sleep",
+                    "will be sleeping",
+                    "will have slept",
+                    "am sleeping"
+                ],
+                correctAnswer: 1,
+                topic: "Future Continuous",
+                difficulty: "Medium",
+                explanation: "The time block ('between 2 PM and 4 PM') indicates a continuous state of action in the future, requiring the Future Continuous.",
+                mistakeExplanation: "Simple future 'will sleep' does not highlight that the action will be in progress during those hours.",
+                rule: "Future time block + Future Continuous (will be + V-ing).",
+                trick: "If you want to warn someone not to interrupt you, use Future Continuous.",
+                ctetTrap: "Do not choose present continuous 'am sleeping' for a future event with a clear tomorrow indicator."
+            },
+            {
+                id: 76,
+                question: "Complete the sentence:\n\"This time next week, we _______ on a beach in Goa.\"",
+                options: [
+                    "will relax",
+                    "will be relaxing",
+                    "will have relaxed",
+                    "relax"
+                ],
+                correctAnswer: 1,
+                topic: "Future Continuous",
+                difficulty: "Easy",
+                explanation: "An ongoing future state at a specific time in the future requires the Future Continuous ('will be relaxing').",
+                mistakeExplanation: "Simple future 'will relax' does not emphasize the progressive aspect of the vacation.",
+                rule: "S + will be + V-ing for future progressive states.",
+                trick: "Look for 'This time next [week/month]' and pair it with future continuous.",
+                ctetTrap: "Make sure you understand how the future progressive sets up a future scene."
+            },
+            {
+                id: 77,
+                question: "Identify the error in the sentence:\n\"They (A) will be (B) arrive (C) at the station soon (D).\"",
+                options: [
+                    "They",
+                    "will be",
+                    "arrive",
+                    "at the station soon"
+                ],
+                correctAnswer: 2,
+                topic: "Error spotting",
+                difficulty: "Easy",
+                explanation: "After 'will be', the main verb must be in its present participle form (V-ing) 'arriving', or it should be 'will arrive' (Future Simple). 'will be arrive' is structurally incorrect.",
+                mistakeExplanation: "Using a base verb (V1) directly after 'will be' is a major structural error.",
+                rule: "will + V1 OR will be + V-ing.",
+                trick: "Check if 'be' is followed by '-ing'. If not, remove 'be' or change the verb to '-ing'.",
+                ctetTrap: "Basic future tense structural errors are tested to check editing skills."
+            },
+            {
+                id: 78,
+                question: "Fill in the blank: \"In ten years' time, most people _______ electric cars.\"",
+                options: [
+                    "will drive",
+                    "will be driving",
+                    "will have driven",
+                    "drive"
+                ],
+                correctAnswer: 1,
+                topic: "Future Continuous",
+                difficulty: "Medium",
+                explanation: "'In ten years' time' indicates a point in the future where a certain lifestyle or trend will be ongoing. This is best expressed in Future Continuous.",
+                mistakeExplanation: "Simple future 'will drive' is grammatically correct, but 'will be driving' better describes the progressive trend.",
+                rule: "Future trends and ongoing lifestyle changes use Future Continuous.",
+                trick: "Look for expressions like 'In [X] years' time' to signal a future progressive state.",
+                ctetTrap: "Understand that future continuous can describe generalized ongoing future trends."
+            },
+            {
+                id: 79,
+                question: "Complete the sentence:\n\"While you are working, I _______ around the city.\"",
+                options: [
+                    "will explore",
+                    "will be exploring",
+                    "explore",
+                    "shall explore"
+                ],
+                correctAnswer: 1,
+                topic: "Future Continuous",
+                difficulty: "Medium",
+                explanation: "The sentence describes two parallel future actions. The first is in Present Continuous ('are working'), and the parallel action in the main clause should be in Future Continuous ('will be exploring').",
+                mistakeExplanation: "Simple future 'will explore' does not match the parallel progressive nature of the time clause.",
+                rule: "While + Present Continuous, Future Continuous.",
+                trick: "Look for 'while' connecting two parallel progressive actions across present and future.",
+                ctetTrap: "Watch out for tense alignment when describing parallel future events."
+            },
+            {
+                id: 80,
+                question: "Identify the tense: \"He will be presenting his research paper at the conference.\"",
+                options: [
+                    "Future Simple",
+                    "Future Continuous",
+                    "Future Perfect",
+                    "Present Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'will be presenting' is the future continuous aspect, indicating a planned future event in progress.",
+                mistakeExplanation: "The helper 'will be' + '-ing' is the signature of Future Continuous.",
+                rule: "will be + V-ing = Future Continuous.",
+                trick: "Look for 'will be' followed directly by a verb ending in '-ing'.",
+                ctetTrap: "Ensure you can identify future continuous structures in formal statements."
+            },
+            {
+                id: 81,
+                question: "Choose the correct future perfect form:\n\"By next month, we _______ all the grammar lessons.\"",
+                options: [
+                    "will complete",
+                    "will have completed",
+                    "shall complete",
+                    "completed"
+                ],
+                correctAnswer: 1,
+                topic: "Future Perfect",
+                difficulty: "Medium",
+                explanation: "The future deadline 'By next month' requires the Future Perfect ('will have completed') to show completion before that point.",
+                mistakeExplanation: "Simple future 'will complete' doesn't express that the action will be finished before that deadline.",
+                rule: "By + future time marker + Future Perfect (will have + V3).",
+                trick: "Whenever you see 'By [future time]', look for 'will have + V3' in the choices.",
+                ctetTrap: "This 'By + future time' construction is a top-tier favorite in teacher eligibility tests."
+            },
+            {
+                id: 82,
+                question: "Identify the tense: \"They will have left before the party starts.\"",
+                options: [
+                    "Future Simple",
+                    "Future Perfect",
+                    "Future Perfect Continuous",
+                    "Present Simple"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "'Will have left' is the future perfect aspect, indicating an action that will be completed before another future action.",
+                mistakeExplanation: "The auxiliary 'will have' + V3 (left) is the signature of Future Perfect.",
+                rule: "will have + V3 = Future Perfect.",
+                trick: "Look for 'will have' followed by a past participle (V3).",
+                ctetTrap: "Ensure you don't confuse future perfect with future continuous."
+            },
+            {
+                id: 83,
+                question: "Fill in the blank: \"By 2030, scientists _______ a cure for the disease.\"",
+                options: [
+                    "will find",
+                    "will have found",
+                    "will be finding",
+                    "found"
+                ],
+                correctAnswer: 1,
+                topic: "Future Perfect",
+                difficulty: "Medium",
+                explanation: "The future deadline 'By 2030' requires the Future Perfect ('will have found') to show completion before that point.",
+                mistakeExplanation: "Simple future 'will find' doesn't express that the action will be finished before that deadline.",
+                rule: "By + future time marker + Future Perfect (will have + V3).",
+                trick: "Whenever you see 'By [future time]', look for 'will have + V3' in the choices.",
+                ctetTrap: "This 'By + future time' construction is a top-tier favorite in teacher eligibility tests."
+            },
+            {
+                id: 84,
+                question: "Complete the sentence:\n\"I _______ my project by the time you arrive.\"",
+                options: [
+                    "will finish",
+                    "will have finished",
+                    "finish",
+                    "will be finishing"
+                ],
+                correctAnswer: 1,
+                topic: "Future Perfect",
+                difficulty: "Medium",
+                explanation: "The time clause 'by the time you arrive' (present simple for future) sets a deadline. The action in the main clause must be in Future Perfect.",
+                mistakeExplanation: "Simple future 'will finish' doesn't express that the action will be finished before that deadline.",
+                rule: "By the time + Simple Present, Future Perfect (will have + V3).",
+                trick: "Look for 'by the time' + present tense, then pair it with future perfect.",
+                ctetTrap: "Watch out for tense alignment across time clauses in the future."
+            },
+            {
+                id: 85,
+                question: "Identify the error in the sentence:\n\"By next Sunday, (A) they will have (B) been in Delhi (C) for three weeks (D).\"",
+                options: [
+                    "By next Sunday,",
+                    "they will have",
+                    "been in Delhi",
+                    "No error"
+                ],
+                correctAnswer: 3,
+                topic: "Error spotting",
+                difficulty: "Hard",
+                explanation: "The sentence is completely correct. It uses the Future Perfect ('will have been') with a future deadline ('By next Sunday') and duration ('for three weeks') to show a state that will have lasted for a certain time by that point.",
+                mistakeExplanation: "None of the parts are incorrect; it is a perfectly valid future perfect sentence.",
+                rule: "By + future time + Future Perfect + duration (for/since).",
+                trick: "Use future perfect for ongoing states that will reach a certain duration by a future point.",
+                ctetTrap: "Candidates often think 'for' always requires perfect continuous, but with stative state-of-being verbs like 'be' (been), future perfect is used."
+            },
+            {
+                id: 86,
+                question: "Fill in the blank: \"By next year, they _______ here for a decade.\"",
+                options: [
+                    "will live",
+                    "will have lived",
+                    "will be living",
+                    "lived"
+                ],
+                correctAnswer: 1,
+                topic: "Future Perfect",
+                difficulty: "Medium",
+                explanation: "The future deadline 'By next year' combined with a duration 'for a decade' requires the Future Perfect ('will have lived') to show a completed duration.",
+                mistakeExplanation: "Simple future 'will live' does not convey the completed duration of the state.",
+                rule: "By + future time + Future Perfect + duration (for/since).",
+                trick: "Look for 'By [future time]' combined with 'for [duration]'.",
+                ctetTrap: "Avoid choosing simple future or future continuous when a completed duration of a state is highlighted."
+            },
+            {
+                id: 87,
+                question: "Complete the sentence:\n\"By the end of this month, she _______ here for five years.\"",
+                options: [
+                    "will work",
+                    "will have been working",
+                    "is working",
+                    "worked"
+                ],
+                correctAnswer: 1,
+                topic: "Future Perfect Continuous",
+                difficulty: "Hard",
+                explanation: "An action that will be ongoing up to a specific future point and has a duration ('for five years') is best expressed in Future Perfect Continuous ('will have been working').",
+                mistakeExplanation: "Simple future 'will work' doesn't express the ongoing duration up to that future point.",
+                rule: "By + future time + Future Perfect Continuous (will have been + V-ing).",
+                trick: "Look for 'By [future time]' combined with 'for [duration]' and an action verb.",
+                ctetTrap: "Understand the subtle difference between future perfect (completed state) and future perfect continuous (ongoing action with duration)."
+            },
+            {
+                id: 88,
+                question: "Identify the tense: \"In October, we shall have been living in this house for ten years.\"",
+                options: [
+                    "Future Perfect",
+                    "Future Perfect Continuous",
+                    "Future Continuous",
+                    "Present Perfect Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'shall have been living' is the future perfect continuous aspect, indicating an action that will be ongoing up to a future point.",
+                mistakeExplanation: "The helper 'shall have been' + '-ing' is the signature of Future Perfect Continuous.",
+                rule: "shall/will have been + V-ing = Future Perfect Continuous.",
+                trick: "Look for 'will/shall have been' followed directly by a verb ending in '-ing'.",
+                ctetTrap: "Ensure you can identify future perfect continuous structures in complex sentences."
+            },
+            {
+                id: 89,
+                question: "Identify the tense: \"The train had left before we reached the station.\"",
+                options: [
+                    "Simple Past",
+                    "Past Perfect",
+                    "Past Continuous",
+                    "Present Perfect"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The verb structure 'had left' is in the Past Perfect tense (had + V3), describing an action completed before another past action.",
+                mistakeExplanation: "It is not simple past because of the 'had' auxiliary.",
+                rule: "had + V3 = Past Perfect.",
+                trick: "Look for the auxiliary 'had' followed by a past participle.",
+                ctetTrap: "Make sure you identify the tense of the first action, not the second one ('reached')."
+            },
+            {
+                id: 90,
+                question: "Identify the tense: \"She is always losing her keys! It's so annoying.\"",
+                options: [
+                    "Simple Present",
+                    "Present Continuous",
+                    "Present Perfect",
+                    "Simple Past"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Medium",
+                explanation: "The verb structure 'is losing' is in the Present Continuous tense. It is used here with 'always' to express annoyance.",
+                mistakeExplanation: "Though it has 'always', the progressive aspect 'is losing' makes it Present Continuous.",
+                rule: "is/am/are + always + V-ing = Present Continuous (expressing annoyance).",
+                trick: "Look at the verb form 'is losing' directly rather than just the adverb 'always'.",
+                ctetTrap: "Don't assume 'always' always means Simple Present."
+            },
+            {
+                id: 91,
+                question: "Identify the tense: \"By next Friday, they will have completed the project.\"",
+                options: [
+                    "Future Simple",
+                    "Future Continuous",
+                    "Future Perfect",
+                    "Present Perfect"
+                ],
+                correctAnswer: 2,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'will have completed' is the Future Perfect tense, showing an action that will be completed by a future deadline.",
+                mistakeExplanation: "The auxiliary 'will have' + V3 is the signature of Future Perfect.",
+                rule: "will have + V3 = Future Perfect.",
+                trick: "Look for 'will have' followed by a past participle (V3).",
+                ctetTrap: "Identify the tense from the auxiliary verbs."
+            },
+            {
+                id: 92,
+                question: "Identify the tense: \"He has been teaching in this school for five years.\"",
+                options: [
+                    "Present Perfect",
+                    "Present Perfect Continuous",
+                    "Present Continuous",
+                    "Past Perfect Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'has been teaching' is the Present Perfect Continuous tense, showing an action starting in the past and continuing now.",
+                mistakeExplanation: "The auxiliary 'has been' + '-ing' is the signature of Present Perfect Continuous.",
+                rule: "has/have been + V-ing = Present Perfect Continuous.",
+                trick: "Look for 'has/have been' followed by a verb ending in '-ing'.",
+                ctetTrap: "Don't confuse present perfect continuous with present continuous."
+            },
+            {
+                id: 93,
+                question: "Identify the tense: \"They played football in the afternoon.\"",
+                options: [
+                    "Simple Present",
+                    "Simple Past",
+                    "Past Continuous",
+                    "Present Perfect"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The verb 'played' is in the Simple Past (V2). It describes a completed action in the past.",
+                mistakeExplanation: "It is a single verb in V2 form, indicating Simple Past.",
+                rule: "Subject + V2 = Simple Past.",
+                trick: "A single verb ending in '-ed' without any auxiliary is usually Simple Past.",
+                ctetTrap: "Make sure there are no auxiliary verbs before classifying it."
+            },
+            {
+                id: 94,
+                question: "Identify the tense: \"I shall be sleeping when you arrive.\"",
+                options: [
+                    "Future Simple",
+                    "Future Continuous",
+                    "Future Perfect",
+                    "Present Continuous"
+                ],
+                correctAnswer: 1,
+                topic: "Tense identification",
+                difficulty: "Easy",
+                explanation: "The structure 'shall be sleeping' is the Future Continuous tense, showing an action in progress in the future.",
+                mistakeExplanation: "The helper 'shall be' + '-ing' is the signature of Future Continuous.",
+                rule: "shall/will be + V-ing = Future Continuous.",
+                trick: "Look for 'will/shall be' followed by a verb ending in '-ing'.",
+                ctetTrap: "Identify the tense of the main clause, not the time clause ('arrive')."
+            },
+            {
+                id: 95,
+                question: "Identify the error in the sentence:\n\"Since (A) he has joined (B) this college, (C) he is not attending any lectures (D).\"",
+                options: [
+                    "Since",
+                    "he has joined",
+                    "this college,",
+                    "he is not attending any lectures"
+                ],
+                correctAnswer: 1,
+                topic: "Error spotting",
+                difficulty: "Hard",
+                explanation: "In sentences with 'since' used as a time conjunction, the verb in the 'since' clause should be in the Simple Past (V2), not Present Perfect. It should be 'Since he joined this college...'.",
+                mistakeExplanation: "Using Present Perfect 'has joined' after 'since' is a grammatical error.",
+                rule: "Since + Simple Past (V2) ... Present Perfect / Present Perfect Continuous.",
+                trick: "The clause immediately following 'since' (as a starting point in time) must be in the Simple Past.",
+                ctetTrap: "This is a highly sophisticated tense alignment rule frequently tested in Paper II."
+            },
+            {
+                id: 96,
+                question: "Choose the correct sentence to replace the error in this statement:\n\"He is having a large family with four brothers.\"",
+                options: [
+                    "He has a large family with four brothers.",
+                    "He was having a large family with four brothers.",
+                    "He has been having a large family with four brothers.",
+                    "He had had a large family with four brothers."
+                ],
+                correctAnswer: 0,
+                topic: "Sentence correction",
+                difficulty: "Medium",
+                explanation: "'Have' is a stative verb when it denotes possession or relationship. Stative verbs cannot be used in the continuous aspect. The correct form is 'He has'.",
+                mistakeExplanation: "'is having' implies a temporary action, which is incorrect for relationships.",
+                rule: "Stative 'have' (possession/relationship) = Simple Present (has/have).",
+                trick: "Relationship/possession = No '-ing' for the verb 'have'.",
+                ctetTrap: "Bilingual speakers often translate 'मेरा एक परिवार है' as 'I am having a family'. Catch this stative violation!"
+            },
+            {
+                id: 97,
+                question: "Identify the error in the sentence:\n\"I have (A) written (B) three letters (C) yesterday (D).\"",
+                options: [
+                    "I have",
+                    "written",
+                    "three letters",
+                    "yesterday"
+                ],
+                correctAnswer: 0,
+                topic: "Error spotting",
+                difficulty: "Easy",
+                explanation: "The specific past time marker 'yesterday' cannot be paired with the Present Perfect ('have written'). It must be written in the Simple Past ('wrote').",
+                mistakeExplanation: "Using Present Perfect with past time references is a structural error.",
+                rule: "Simple Past + specific past time; Present Perfect + non-specific time.",
+                trick: "Never use 'has/have + V3' if the sentence ends with 'yesterday', 'ago', or 'last week'.",
+                ctetTrap: "This is the most common tense mismatch error tested in general English sections."
+            },
+            {
+                id: 98,
+                question: "Find the error in the sentence:\n\"By the time (A) the doctor arrived (B), the patient (C) died (D).\"",
+                options: [
+                    "By the time",
+                    "the doctor arrived",
+                    "the patient",
+                    "died"
+                ],
+                correctAnswer: 3,
+                topic: "Error spotting",
+                difficulty: "Medium",
+                explanation: "The patient's death happened before the doctor's arrival (past event). Therefore, 'died' should be in the Past Perfect ('had died') to show the correct sequence.",
+                mistakeExplanation: "Using simple past for both actions fails to establish the sequence.",
+                rule: "First action in past = Past Perfect (had + V3).",
+                trick: "The action that happened first must take 'had'.",
+                ctetTrap: "Ensure you analyze the sequence of events before validating past simple verbs."
+            },
+            {
+                id: 99,
+                question: "Choose the correct sentence following conditional alignment rules:",
+                options: [
+                    "If I will see him, I will tell him.",
+                    "If I see him, I will tell him.",
+                    "If I see him, I tell him.",
+                    "If I saw him, I will tell him."
+                ],
+                correctAnswer: 1,
+                topic: "Sentence correction",
+                difficulty: "Easy",
+                explanation: "In a Type 1 conditional, the 'if' clause must be in the Simple Present ('see'), and the result clause must be in the Simple Future ('will tell').",
+                mistakeExplanation: "Using 'will' in the 'if' clause is a structural error.",
+                rule: "If + Simple Present, Future Simple.",
+                trick: "No 'will' inside the 'if' clause.",
+                ctetTrap: "Avoid double future constructions across conditional sentences."
+            },
+            {
+                id: 100,
+                question: "Identify the error in the sentence:\n\"He is (A) living (B) in this city (C) for ten years (D).\"",
+                options: [
+                    "He is",
+                    "living",
+                    "in this city",
+                    "for ten years"
+                ],
+                correctAnswer: 0,
+                topic: "Error spotting",
+                difficulty: "Easy",
+                explanation: "The presence of 'for ten years' indicates an action that has been ongoing over a period of time up to the present. The progressive auxiliary 'is living' should be 'has been living'.",
+                mistakeExplanation: "Using present continuous instead of perfect continuous with 'for' is a grammatical error.",
+                rule: "Action spanning from past to present with duration marker = Perfect Continuous.",
+                trick: "Look for 'for + time duration' and match it with perfect continuous.",
+                ctetTrap: "ESL learners often use simple continuous where perfect continuous is required."
+            }
+        ];
+
+        /=========================================
+         * 2. STATE CONFIGURATION & VARIABLES
+         ========================================*/
+        let currentSessionQuestions = [];
+        let userAnswers = []; // Elements: { selectedOptionIndex: number/null, isCorrect: boolean, isSkipped: boolean, timeSpent: number }
+        let currentQuestionIndex = 0;
+        let countdownTimerValue = 1200; // 20 minutes in seconds
+        let timerIntervalId = null;
+        let isMuted = false;
+        let studentName = "Candidate";
+        let isPracticeMode = false;
+        let activeResultTab = "mistakesTab";
+        let currentQuestionStartTime = 0;
+
+        // Sound Engine using HTML5 Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSynthTone(frequency, type, duration, volume) {
+            if (isMuted) return;
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(volume || 0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.warn("Web Audio API not supported or blocked by gesture constraints.");
+            }
+        }
+
+        function playPopSound() {
+            playSynthTone(150, 'triangle', 0.1, 0.15);
+        }
+
+        function playCorrectSound() {
+            playSynthTone(523.25, 'sine', 0.15, 0.1); // C5
+            setTimeout(() => {
+                playSynthTone(659.25, 'sine', 0.25, 0.1); // E5
+            }, 100);
+        }
+
+        function playWrongSound() {
+            playSynthTone(220, 'sawtooth', 0.15, 0.1); // A3
+            setTimeout(() => {
+                playSynthTone(147, 'sawtooth', 0.3, 0.1); // D3
+            }, 100);
+        }
+
+        function playFinishSound() {
+            const tones = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5 arpeggio
+            tones.forEach((tone, idx) => {
+                setTimeout(() => {
+                    playSynthTone(tone, 'sine', 0.3, 0.08);
+                }, idx * 120);
+            });
+        }
+
+        /=========================================
+         * 3. INITIALIZATION & STORAGE WRAPPER
+         ========================================*/
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeSystemStatistics();
+            applySavedTheme();
+        });
+
+        function getStorageData() {
+            const sessions = JSON.parse(localStorage.getItem('ctet_quiz_sessions')) || [];
+            const wrongPool = JSON.parse(localStorage.getItem('ctet_quiz_wrong_questions')) || [];
+            const highScore = parseInt(localStorage.getItem('ctet_quiz_high_score')) || 0;
+            return { sessions, wrongPool, highScore };
+        }
+
+        function initializeSystemStatistics() {
+            const data = getStorageData();
+            document.getElementById('statTotalSessions').innerText = data.sessions.length;
+            document.getElementById('statHighScore').innerText = `${data.highScore}/15`;
+            
+            // Calculating Average Accuracy
+            let avgAcc = 0;
+            if (data.sessions.length > 0) {
+                const totalAccSum = data.sessions.reduce((sum, s) => sum + (s.accuracy || 0), 0);
+                avgAcc = Math.round(totalAccSum / data.sessions.length);
+            }
+            document.getElementById('statAvgAccuracy').innerText = `${avgAcc}%`;
+            document.getElementById('statWrongPool').innerText = data.wrongPool.length;
+            
+            // Practice button state logic
+            const pracBtn = document.getElementById('practiceMistakesBtn');
+            const wrongCountBadge = document.getElementById('wrongBtnCount');
+            wrongCountBadge.innerText = data.wrongPool.length;
+            if (data.wrongPool.length >= 5) {
+                pracBtn.disabled = false;
+                pracBtn.classList.remove('bg-slate-800', 'border-red-900/50', 'text-red-400');
+                pracBtn.classList.add('bg-red-950/30', 'border-red-500/30', 'text-red-300', 'hover:bg-red-950/60');
+            } else {
+                pracBtn.disabled = true;
+                pracBtn.classList.add('bg-slate-800', 'border-red-900/50', 'text-red-400');
+                pracBtn.classList.remove('bg-red-950/30', 'border-red-500/30', 'text-red-300', 'hover:bg-red-950/60');
+            }
+        }
+
+        function saveSessionToStorage(score, accuracy, timeTakenSec) {
+            const data = getStorageData();
+            const newSession = {
+                date: new Date().toLocaleDateString(),
+                score: score,
+                total: 15,
+                accuracy: accuracy,
+                timeSpent: timeTakenSec,
+                name: studentName
+            };
+            data.sessions.push(newSession);
+            localStorage.setItem('ctet_quiz_sessions', JSON.stringify(data.sessions));
+
+            if (score > data.highScore) {
+                localStorage.setItem('ctet_quiz_high_score', score);
+            }
+
+            // Sync structural wrong pools based on current session results
+            let currentWrongPoolSet = new Set(data.wrongPool);
+            userAnswers.forEach((ans, index) => {
+                const qId = currentSessionQuestions[index].id;
+                if (ans && !ans.isCorrect && !ans.isSkipped) {
+                    currentWrongPoolSet.add(qId);
+                } else if (ans && ans.isCorrect) {
+                    currentWrongPoolSet.delete(qId);
+                }
+            });
+            localStorage.setItem('ctet_quiz_wrong_questions', JSON.stringify([...currentWrongPoolSet]));
+
+            initializeSystemStatistics();
+        }
+
+        function clearSystemData() {
+            showModal(
+                "Reset System Progress",
+                "This action will permanently delete all saved history, average score statistics, and wrong practice questions. Are you sure?",
+                () => {
+                    localStorage.removeItem('ctet_quiz_sessions');
+                    localStorage.removeItem('ctet_quiz_wrong_questions');
+                    localStorage.removeItem('ctet_quiz_high_score');
+                    initializeSystemStatistics();
+                    playWrongSound();
+                    resetToStartScreen();
+                }
+            );
+        }
+
+        /=========================================
+         * 4. FISHER-YATES SHUFFLE SYSTEM
+         ========================================*/
+        function getFisherYatesQuestions(isPractice) {
+            const data = getStorageData();
+            let basePool = [...questionBank];
+
+            if (isPractice && data.wrongPool.length >= 5) {
+                // Filter questionBank to only contain items inside the wrong pool
+                const wrongSet = new Set(data.wrongPool);
+                basePool = questionBank.filter(q => wrongSet.has(q.id));
+            }
+
+            // Fisher-Yates Shuffling Strategy
+            for (let i = basePool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [basePool[i], basePool[j]] = [basePool[j], basePool[i]];
+            }
+
+            // Slice down to exactly 15 elements
+            return basePool.slice(0, 15);
+        }
+
+        /=========================================
+         * 5. SYSTEM TRANSITION & HUD CONTROLLERS
+         ========================================*/
+        function startQuizSession(practiceModeRequest) {
+            const nameInput = document.getElementById('studentNameInput').value.trim();
+            studentName = nameInput || "CTET Candidate";
+            isPracticeMode = practiceModeRequest;
+
+            // Fetch structural test set
+            currentSessionQuestions = getFisherYatesQuestions(isPracticeMode);
+            if (currentSessionQuestions.length < 15) {
+                // Fallback guarantee: if wrong pool is requested but less than 15 items exist, backfill with random normal bank questions
+                const currentIds = new Set(currentSessionQuestions.map(q => q.id));
+                const remainingPool = questionBank.filter(q => !currentIds.has(q.id));
+                // Shuffle remaining pool
+                for (let i = remainingPool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [remainingPool[i], remainingPool[j]] = [remainingPool[j], remainingPool[i]];
+                }
+                const backfillCount = 15 - currentSessionQuestions.length;
+                currentSessionQuestions = [...currentSessionQuestions, ...remainingPool.slice(0, backfillCount)];
+            }
+
+            // Initialize answers structure
+            userAnswers = Array(15).fill(null).map(() => ({
+                selectedOptionIndex: null,
+                isCorrect: false,
+                isSkipped: false,
+                timeSpent: 0
+            }));
+
+            currentQuestionIndex = 0;
+            countdownTimerValue = 1200; // Reset 20 mins
+            
+            // HUD Update
+            document.getElementById('hudNameDisplay').innerText = studentName;
+            document.getElementById('hudScoreDisplay').innerText = "0";
+
+            // Trigger Interface Shift
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+
+            playPopSound();
+            startTimer();
+            renderQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerIntervalId);
+            updateTimerDisplay();
+            timerIntervalId = setInterval(() => {
+                countdownTimerValue--;
+                updateTimerDisplay();
+                if (countdownTimerValue <= 0) {
+                    clearInterval(timerIntervalId);
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(countdownTimerValue / 60);
+            const seconds = countdownTimerValue % 60;
+            const timerBox = document.getElementById('hudTimer');
+            const timerText = document.getElementById('hudTimerValue');
+
+            timerText.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Warn when timer drops below 2 minutes (120s)
+            if (countdownTimerValue < 120) {
+                timerBox.classList.add('bg-red-950/40', 'border-red-500/50', 'text-red-400', 'timer-warning');
+                timerBox.classList.remove('bg-slate-800', 'border-brand-500/20', 'text-brand-300');
+            } else {
+                timerBox.classList.remove('bg-red-950/40', 'border-red-500/50', 'text-red-400', 'timer-warning');
+                timerBox.classList.add('bg-slate-800', 'border-brand-500/20', 'text-brand-300');
+            }
+        }
+
+        /=========================================
+         * 6. CORE QUESTION RENDERING ENGINE
+         ========================================*/
+        function renderQuestion() {
+            currentQuestionStartTime = Date.now();
+            const currentQuestion = currentSessionQuestions[currentQuestionIndex];
+            
+            // HUD & Progression Updates
+            document.getElementById('currentQuestionNum').innerText = currentQuestionIndex + 1;
+            const progressPct = ((currentQuestionIndex + 1) / 15) * 100;
+            document.getElementById('progressBarFill').style.width = `${progressPct}%`;
+
+            // Topic & Difficulty badges configuration
+            const badgeTopic = document.getElementById('badgeTopic');
+            const badgeDifficulty = document.getElementById('badgeDifficulty');
+            badgeTopic.innerText = currentQuestion.topic;
+            badgeDifficulty.innerText = currentQuestion.difficulty;
+
+            if (currentQuestion.difficulty === 'Easy') {
+                badgeDifficulty.className = "px-3 py-0.5 rounded-full text-xs font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800/40";
+            } else if (currentQuestion.difficulty === 'Medium') {
+                badgeDifficulty.className = "px-3 py-0.5 rounded-full text-xs font-semibold bg-amber-950 text-amber-300 border border-amber-800/40";
+            } else {
+                badgeDifficulty.className = "px-3 py-0.5 rounded-full text-xs font-semibold bg-red-950 text-red-300 border border-red-800/40";
+            }
+
+            document.getElementById('questionText').innerText = currentQuestion.question;
+
+            // Generate Options Container markup dynamically
+            const optionsGrid = document.getElementById('optionsGrid');
+            optionsGrid.innerHTML = ""; // Complete wipeout of old node layouts safely
+
+            const activeAnswerObj = userAnswers[currentQuestionIndex];
+            const hasAnswered = activeAnswerObj.selectedOptionIndex !== null || activeAnswerObj.isSkipped;
+
+            currentQuestion.options.forEach((optText, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left px-5 py-4 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-slate-100 hover:bg-slate-700/80 hover:border-slate-500 transition-all font-medium flex items-center space-x-3 text-sm focus:outline-none";
+                
+                const letterBadge = document.createElement('span');
+                letterBadge.className = "w-7 h-7 flex items-center justify-center rounded-lg bg-slate-750 text-xs font-bold text-slate-300 border border-slate-600/40";
+                letterBadge.innerText = String.fromCharCode(65 + index); // A, B, C, D
+                
+                const optionTextSpan = document.createElement('span');
+                optionTextSpan.className = "flex-1";
+                optionTextSpan.innerText = optText;
+
+                btn.appendChild(letterBadge);
+                btn.appendChild(optionTextSpan);
+
+                // Styling configurations if action is already submitted
+                if (hasAnswered) {
+                    btn.disabled = true;
+                    btn.classList.remove('hover:bg-slate-700/80', 'hover:border-slate-500');
+                    
+                    if (index === currentQuestion.correctAnswer) {
+                        // Correct Option style
+                        btn.classList.add('bg-emerald-950/30', 'border-emerald-500/40', 'text-emerald-300');
+                        letterBadge.className = "w-7 h-7 flex items-center justify-center rounded-lg bg-emerald-500 text-xs font-bold text-white shadow-md glow-success";
+                    } else if (index === activeAnswerObj.selectedOptionIndex) {
+                        // Wrong Option selected style
+                        btn.classList.add('bg-red-950/30', 'border-red-500/40', 'text-red-300');
+                        letterBadge.className = "w-7 h-7 flex items-center justify-center rounded-lg bg-red-500 text-xs font-bold text-white shadow-md glow-error";
+                    } else {
+                        btn.classList.add('opacity-40');
+                    }
+                } else {
+                    // Set up click handler safely once per generation
+                    btn.onclick = () => submitAnswer(index);
+                }
+
+                optionsGrid.appendChild(btn);
+            });
+
+            // Feedback Display Controller
+            const feedbackBox = document.getElementById('instantFeedbackBox');
+            if (hasAnswered && !activeAnswerObj.isSkipped) {
+                const isCorrect = activeAnswerObj.selectedOptionIndex === currentQuestion.correctAnswer;
+                feedbackBox.className = `p-5 rounded-2xl mb-6 transition-all duration-300 transform scale-100 opacity-100 flex ${
+                    isCorrect ? 'bg-emerald-950/20 border border-emerald-900/30 text-emerald-300' : 'bg-red-950/20 border border-red-900/30 text-red-300'
+                }`;
+                
+                const iconContainer = document.getElementById('feedbackIcon');
+                iconContainer.className = `p-2 rounded-xl text-white ${isCorrect ? 'bg-emerald-500 shadow-md glow-success' : 'bg-red-500 shadow-md glow-error'}`;
+                iconContainer.innerHTML = isCorrect ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+                
+                document.getElementById('feedbackHeading').innerText = isCorrect ? "Correct Concept!" : "Incorrect Concept Choice";
+                document.getElementById('feedbackExpl').innerText = currentQuestion.explanation;
+                document.getElementById('feedbackRule').innerText = currentQuestion.rule;
+                document.getElementById('feedbackTrick').innerText = currentQuestion.trick;
+                feedbackBox.style.display = "flex";
+            } else {
+                feedbackBox.style.display = "none";
+                feedbackBox.className = "p-5 rounded-2xl hidden mb-6 transition-all duration-300 transform scale-95 opacity-0";
+            }
+
+            // Navigation Button Enablement Controls
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQuestionIndex === 14) {
+                nextBtn.innerHTML = `<span>Finish Review</span> <i class="fas fa-check-double"></i>`;
+            } else {
+                nextBtn.innerHTML = `<span>Next Question</span> <i class="fas fa-arrow-right"></i>`;
+            }
+            // Enable next/finish navigation only if answered or skipped
+            nextBtn.disabled = !hasAnswered;
+        }
+
+        /=========================================
+         * 7. ANSWER SELECTION & EVENT HANDLERS
+         ========================================*/
+        function submitAnswer(optionIdx) {
+            const currentQuestion = currentSessionQuestions[currentQuestionIndex];
+            const isCorrect = optionIdx === currentQuestion.correctAnswer;
+
+            // Log time spent
+            const elapsed = Math.round((Date.now() - currentQuestionStartTime) / 1000);
+
+            userAnswers[currentQuestionIndex] = {
+                selectedOptionIndex: optionIdx,
+                isCorrect: isCorrect,
+                isSkipped: false,
+                timeSpent: elapsed
+            };
+
+            // Play auditory feedback
+            if (isCorrect) {
+                playCorrectSound();
+            } else {
+                playWrongSound();
+            }
+
+            // Real-time HUD Score calculation
+            const currentTotalScore = userAnswers.reduce((total, ans) => {
+                return total + (ans && ans.isCorrect && !ans.isSkipped ? 1 : 0);
+            }, 0);
+            document.getElementById('hudScoreDisplay').innerText = currentTotalScore;
+
+            renderQuestion();
+        }
+
+        function handleSkip() {
+            const elapsed = Math.round((Date.now() - currentQuestionStartTime) / 1000);
+            userAnswers[currentQuestionIndex] = {
+                selectedOptionIndex: null,
+                isCorrect: false,
+                isSkipped: true,
+                timeSpent: elapsed
+            };
+
+            playPopSound();
+
+            if (currentQuestionIndex < 14) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function handleNext() {
+            playPopSound();
+            if (currentQuestionIndex < 14) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function handlePrev() {
+            playPopSound();
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function confirmFinishQuiz() {
+            showModal(
+                "Finish CTET Test Session",
+                "Are you sure you want to finish the exam early and compute your score? You will not be able to change your responses.",
+                () => {
+                    showResult();
+                }
+            );
+        }
+
+        /=========================================
+         * 8. SCORE CALCULATION & ANALYSIS LAB
+         ========================================*/
+        function showResult() {
+            clearInterval(timerIntervalId);
+            playFinishSound();
+
+            // Total time calculation
+            const timeTakenSec = 1200 - countdownTimerValue;
+            const finalMinutes = Math.floor(timeTakenSec / 60);
+            const finalSeconds = timeTakenSec % 60;
+
+            // Primary Metrics Computations
+            let correctCount = 0;
+            let wrongCount = 0;
+            let skippedCount = 0;
+
+            userAnswers.forEach((ans) => {
+                if (ans.isSkipped) {
+                    skippedCount++;
+                } else if (ans.isCorrect) {
+                    correctCount++;
+                } else {
+                    wrongCount++;
+                }
+            });
+
+            const rawAccuracy = (correctCount + wrongCount) > 0 ? Math.round((correctCount / (correctCount + wrongCount)) * 100) : 0;
+            const percentageScore = Math.round((correctCount / 15) * 100);
+
+            // Sync database profile metrics
+            saveSessionToStorage(correctCount, percentageScore, timeTakenSec);
+
+            // Push Visual elements onto Result UI Dashboard
+            document.getElementById('resultScore').innerText = `${correctCount}/15`;
+            document.getElementById('resultPercentage').innerText = `${percentageScore}% Score`;
+            
+            // Adjust Radial Gauge dial offset
+            const strokeOffset = 402 - (402 * percentageScore) / 100;
+            document.getElementById('gaugeProgressCircle').style.strokeDashoffset = strokeOffset;
+
+            // Generate qualitative performance feedback rating & motivational markers
+            const ratingText = document.getElementById('perfRating');
+            const motivText = document.getElementById('motivationalMsg');
+
+            if (correctCount >= 13) {
+                ratingText.innerText = "CTET Grandmaster 👑";
+                ratingText.className = "text-xl font-bold text-emerald-400";
+                motivText.innerText = "Outstanding concept retention! You are absolutely ready to secure full marks in CTET Pedagogy.";
+            } else if (correctCount >= 9) {
+                ratingText.innerText = "Proficient Expert ⚡";
+                ratingText.className = "text-xl font-bold text-brand-400";
+                motivText.innerText = "Strong core understanding! Revise minor weak spots highlighted in the diagnostic labs.";
+            } else {
+                ratingText.innerText = "Learning Aspirant 📚";
+                ratingText.className = "text-xl font-bold text-amber-400";
+                motivText.innerText = "Good attempt! Target the dynamic rules of action durations to avoid standard CTET traps.";
+            }
+
+            // Sync stats panel
+            document.getElementById('statsCorrect').innerText = correctCount;
+            document.getElementById('statsWrong').innerText = wrongCount;
+            document.getElementById('statsSkipped').innerText = skippedCount;
+            document.getElementById('statsAccuracy').innerText = `${rawAccuracy}%`;
+            document.getElementById('statsTime').innerText = `${finalMinutes}m ${finalSeconds}s`;
+            document.getElementById('statsStudent').innerText = studentName;
+
+            // Generate Mistake Analysis & Category Profiling
+            generateMistakeAnalysisReport();
+            generateTopicProfilingReport();
+
+            // Transition UI State
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+        }
+
+        /=========================================
+         * 9. DETAILED MISTAKE REPORT GENERATION
+         ========================================*/
+        function generateMistakeAnalysisReport() {
+            const container = document.getElementById('tabContentMistakes');
+            container.innerHTML = ""; // Clear existing
+
+            let generatedCount = 0;
+
+            userAnswers.forEach((ans, index) => {
+                const qObj = currentSessionQuestions[index];
+                
+                if (ans.isSkipped) {
+                    generatedCount++;
+                    const card = document.createElement('div');
+                    card.className = "p-5 rounded-2xl bg-amber-950/10 border border-amber-900/30 text-amber-200/90";
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-950 text-amber-400 border border-amber-800/40">SKIPPED QUESTION</span>
+                            <span class="text-xs text-slate-400">Q. Number: ${index + 1}</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-100 mb-2 leading-relaxed">${qObj.question}</h4>
+                        <p class="text-xs text-emerald-400 mb-3"><strong class="font-semibold"><i class="fas fa-check-circle"></i> Correct Choice:</strong> ${qObj.options[qObj.correctAnswer]}</p>
+                        <div class="p-3 bg-slate-900/50 rounded-xl space-y-2 text-xs text-slate-300">
+                            <div><strong class="text-brand-300"><i class="fas fa-gavel"></i> Conceptual Explanation:</strong> ${qObj.explanation}</div>
+                            <div><strong class="text-amber-400"><i class="fas fa-book-open"></i> Revision Tip:</strong> Practice identifying time contextual keywords (like <em>since, already, yesterday</em>) in English sentences to boost structural processing confidence.</div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                } else if (!ans.isCorrect) {
+                    generatedCount++;
+                    const card = document.createElement('div');
+                    card.className = "p-5 rounded-2xl bg-red-950/10 border border-red-900/30 text-slate-300";
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-950 text-red-400 border border-red-800/40">CONCEPTUAL CRASH</span>
+                            <span class="text-xs text-slate-400">Q. Number: ${index + 1}</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-100 mb-3 leading-relaxed">${qObj.question}</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs mb-4">
+                            <div class="p-2 rounded-lg bg-red-950/20 border border-red-900/20 text-red-400">
+                                <strong class="font-bold"><i class="fas fa-times-circle"></i> Your Selection:</strong> ${qObj.options[ans.selectedOptionIndex]}
+                            </div>
+                            <div class="p-2 rounded-lg bg-emerald-950/20 border border-emerald-900/20 text-emerald-400">
+                                <strong class="font-bold"><i class="fas fa-check-circle"></i> Correct Aspect:</strong> ${qObj.options[qObj.correctAnswer]}
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-900/50 rounded-xl space-y-3 text-xs leading-relaxed">
+                            <div><strong class="text-red-400"><i class="fas fa-search"></i> Specific Pitfall:</strong> ${qObj.mistakeExplanation}</div>
+                            <div><strong class="text-emerald-400"><i class="fas fa-graduation-cap"></i> Grammatical Correction:</strong> ${qObj.explanation}</div>
+                            <div><strong class="text-brand-300"><i class="fas fa-gavel"></i> Primary Rule:</strong> ${qObj.rule}</div>
+                            <div><strong class="text-blue-400"><i class="fas fa-key"></i> Time Clue:</strong> This question highlights temporal clues specific to the correct tense format.</div>
+                            <div><strong class="text-yellow-400"><i class="fas fa-lightbulb"></i> Memory Trick:</strong> ${qObj.trick}</div>
+                            <div class="pt-2 border-t border-slate-800 text-[10px] text-indigo-300/80 uppercase tracking-wider flex justify-between">
+                                <span><i class="fas fa-tags"></i> Topic: ${qObj.topic}</span>
+                                <span><i class="fas fa-signal"></i> Difficulty: ${qObj.difficulty}</span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+
+            if (generatedCount === 0) {
+                container.innerHTML = `
+                    <div class="p-8 text-center bg-emerald-950/10 border border-emerald-900/30 rounded-2xl text-emerald-400">
+                        <i class="fas fa-award text-3xl mb-2"></i>
+                        <h4 class="font-bold text-base">Perfect Score Achievement!</h4>
+                        <p class="text-xs text-slate-300 mt-1">Awesome! You answered every question flawlessly during this CTET diagnostic sandbox run.</p>
+                    </div>
+                `;
+            }
+        }
+
+        /=========================================
+         * 10. TOPIC PROFILING REPORT
+         ========================================*/
+        function generateTopicProfilingReport() {
+            // Aggregate performance per structural categories
+            const categories = {
+                "Present Tense": { attempted: 0, correct: 0, ids: ["Present Simple", "Present Continuous", "Present Perfect", "Present Perfect Continuous"] },
+                "Past Tense": { attempted: 0, correct: 0, ids: ["Past Simple", "Past Continuous", "Past Perfect", "Past Perfect Continuous"] },
+                "Future Tense": { attempted: 0, correct: 0, ids: ["Future Simple", "Future Continuous", "Future Perfect", "Future Perfect Continuous"] },
+                "Perfect Tense Aspect": { attempted: 0, correct: 0, ids: ["Present Perfect", "Present Perfect Continuous", "Past Perfect", "Past Perfect Continuous", "Future Perfect", "Future Perfect Continuous"] },
+                "Progressive Aspect": { attempted: 0, correct: 0, ids: ["Present Continuous", "Present Perfect Continuous", "Past Continuous", "Past Perfect Continuous", "Future Continuous", "Future Perfect Continuous"] },
+                "Diagnostic Error Spotting": { attempted: 0, correct: 0, ids: ["Tense identification", "Error spotting", "Sentence correction", "Fill in the blanks", "Time expressions", "Simple to Complex tense usage"] }
+            };
+
+            userAnswers.forEach((ans, index) => {
+                const q = currentSessionQuestions[index];
+                
+                Object.keys(categories).forEach((catName) => {
+                    const catObj = categories[catName];
+                    if (catObj.ids.includes(q.topic)) {
+                        catObj.attempted++;
+                        if (ans.isCorrect) {
+                            catObj.correct++;
+                        }
+                    }
+                });
+            });
+
+            // Populate HTML markup dynamically
+            const container = document.getElementById('topicScoresContainer');
+            container.innerHTML = "";
+
+            let bestCategory = "";
+            let bestRatio = -1;
+            let worstCategory = "";
+            let worstRatio = 2;
+
+            Object.keys(categories).forEach((catName) => {
+                const catObj = categories[catName];
+                const score = catObj.correct;
+                const total = catObj.attempted;
+                const ratio = total > 0 ? score / total : 0;
+                const pct = total > 0 ? Math.round(ratio * 100) : 0;
+
+                // Track extreme performance limits for dynamic advisor advice
+                if (total > 0) {
+                    if (ratio > bestRatio) {
+                        bestRatio = ratio;
+                        bestCategory = catName;
+                    }
+                    if (ratio < worstRatio) {
+                        worstRatio = ratio;
+                        worstCategory = catName;
+                    }
+                }
+
+                const item = document.createElement('div');
+                item.className = "space-y-1.5";
+                item.innerHTML = `
+                    <div class="flex justify-between text-xs font-semibold">
+                        <span class="text-slate-300">${catName}</span>
+                        <span class="text-brand-300">${score}/${total} (${pct}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                        <div class="bg-gradient-to-r from-brand-500 to-indigo-500 h-full rounded-full" style="width: ${total > 0 ? pct : 0}%"></div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+
+            // Adjust Adaptive recommendations based on dynamic performance analysis limits
+            document.getElementById('topicStrongest').innerHTML = bestCategory 
+                ? `<i class="fas fa-check-circle mr-1.5 text-emerald-400"></i> ${bestCategory}` 
+                : `<i class="fas fa-minus-circle mr-1.5 text-slate-400"></i> No data yet`;
+                
+            document.getElementById('topicWeakest').innerHTML = worstCategory && worstRatio < 1
+                ? `<i class="fas fa-times-circle mr-1.5 text-red-400"></i> ${worstCategory}`
+                : `<i class="fas fa-award mr-1.5 text-emerald-400"></i> Flawless Core`;
+        }
+
+        function switchResultTab(tabId) {
+            activeResultTab = tabId;
+            const btnMistakes = document.getElementById('btnTabMistakes');
+            const btnTopics = document.getElementById('btnTabTopics');
+            const contentMistakes = document.getElementById('tabContentMistakes');
+            const contentTopics = document.getElementById('tabContentTopics');
+
+            playPopSound();
+
+            if (tabId === 'mistakesTab') {
+                btnMistakes.className = "py-2.5 px-4 text-xs md:text-sm font-bold border-b-2 border-brand-500 text-brand-300 transition-all flex items-center space-x-2";
+                btnTopics.className = "py-2.5 px-4 text-xs md:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-all flex items-center space-x-2";
+                contentMistakes.className = "block space-y-4 max-h-[500px] overflow-y-auto pr-2";
+                contentTopics.className = "hidden space-y-6";
+            } else {
+                btnTopics.className = "py-2.5 px-4 text-xs md:text-sm font-bold border-b-2 border-brand-500 text-brand-300 transition-all flex items-center space-x-2";
+                btnMistakes.className = "py-2.5 px-4 text-xs md:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-all flex items-center space-x-2";
+                contentTopics.className = "block space-y-6";
+                contentMistakes.className = "hidden space-y-4 max-h-[500px] overflow-y-auto pr-2";
+            }
+        }
+
+        /=========================================
+         * 11. REPLAY & NAVIGATION RESETS
+         ========================================*/
+        function restartWithSameQuestions() {
+            userAnswers = Array(15).fill(null).map(() => ({
+                selectedOptionIndex: null,
+                isCorrect: false,
+                isSkipped: false,
+                timeSpent: 0
+            }));
+            currentQuestionIndex = 0;
+            countdownTimerValue = 1200;
+
+            // HUD reset
+            document.getElementById('hudScoreDisplay').innerText = "0";
+
+            // State Transition
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+
+            playPopSound();
+            startTimer();
+            renderQuestion();
+        }
+
+        function resetToStartScreen() {
+            document.getElementById('studentNameInput').value = "";
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            playPopSound();
+        }
+
+        /=========================================
+         * 12. FLOATING CONTROL HANDLERS (THEME/VOLUME)
+         ========================================*/
+        function toggleMute() {
+            isMuted = !isMuted;
+            const icon = document.getElementById('soundIcon');
+            if (isMuted) {
+                icon.className = "fas fa-volume-mute text-red-400";
+            } else {
+                icon.className = "fas fa-volume-up text-slate-200";
+                playPopSound();
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            playPopSound();
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = "fas fa-moon text-slate-200";
+                localStorage.setItem('ctet_quiz_theme', 'light');
+            } else {
+                html.classList.add('dark');
+                icon.className = "fas fa-sun text-yellow-400";
+                localStorage.setItem('ctet_quiz_theme', 'dark');
+            }
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('ctet_quiz_theme') || 'dark'; // default premium dark
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+                icon.className = "fas fa-sun text-yellow-400";
+            } else {
+                html.classList.remove('dark');
+                icon.className = "fas fa-moon text-slate-200";
+            }
+        }
+
+        /=========================================
+         * 13. GLOBAL MODAL INTERACTION DRAWER
+         ========================================*/
+        function showModal(title, desc, confirmCallback) {
+            const modal = document.getElementById('confirmModal');
+            const box = document.getElementById('confirmModalBox');
+            const cancelBtn = document.getElementById('confirmCancelBtn');
+            const actionBtn = document.getElementById('confirmActionBtn');
+
+            document.getElementById('confirmModalTitle').innerText = title;
+            document.getElementById('confirmModalDesc').innerText = desc;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                box.classList.remove('scale-95', 'opacity-0');
+                box.classList.add('scale-100', 'opacity-100');
+            }, 50);
+
+            cancelBtn.onclick = () => {
+                playPopSound();
+                box.classList.remove('scale-100', 'opacity-100');
+                box.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 150);
+            };
+
+            actionBtn.onclick = () => {
+                playPopSound();
+                box.classList.remove('scale-100', 'opacity-100');
+                box.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    confirmCallback();
+                }, 150);
+            };
+        }
+    </script>
+</body>
+</html>
